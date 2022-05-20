@@ -2,13 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Rows from "./components/RowsAndColumnSpacing"
-import GameBoard from "./components/GameBoard"
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-       {/* <GameBoard/> */}
        <Rows/>
         {/* <p>
           Edit <code>src/App.tsx</code> and save to reload.

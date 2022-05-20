@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -7,11 +7,11 @@ import Container from '@mui/material/Container';
 import aTile from '../assets/LetterTiles/Atile.png';
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    color: theme.palette.text.secondary,
-  }));
+// const Item = styled(Paper)(({ theme }) => ({
+//     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//     ...theme.typography.body2,
+//     color: theme.palette.text.secondary,
+//   }));
 
 const tileStyle = {
     width : "100%",
@@ -31,9 +31,7 @@ export default function RowAndColumnSpacing() {
             <Grid container spacing={2}>
                 {elems.map((label: number) =>
                     <Grid item xs={3}>
-                        <Item>
                         <img src={aTile} draggable="false" alt="Logo" style={tileStyle}/>
-                        </Item>
                     </Grid>
                 )}
             </Grid>
