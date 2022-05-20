@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import aTile from '../assets/LetterTiles/Atile.png';
+import './unselectable.css';
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -23,15 +24,12 @@ export default function RowAndColumnSpacing() {
   
     const elems = Array.apply(null, Array(16)).map(function (x, i) { return i+1; });
     console.log(elems)
-    const dragStartHandler = () => {
-        return false
-    }
     return (
-        <Box width='20%'>
-            <Grid container spacing={2}>
+        <Box width='20%' className="unselectable">
+            <Grid container spacing={2} className="unselectable">
                 {elems.map((label: number) =>
-                    <Grid item xs={3}>
-                        <img src={aTile} draggable="false" alt="Logo" style={tileStyle}/>
+                    <Grid item xs={3} className="unselectable">
+                        <img src={aTile} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/>
                     </Grid>
                 )}
             </Grid>
