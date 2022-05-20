@@ -24,8 +24,8 @@ export default function RowAndColumnSpacing() {
   
     const randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
     return (
-        <Box width='20%' className="unselectable">
-            <Grid container spacing={2} className="unselectable">
+        <Box width={{xs:0.6, sm:.5, md: .4, lg:.3, xl:.17}} className="unselectable">
+            <Grid container spacing={{xs:1, sm:1.25, md:1.5, lg:1.75, xl:2}} className="unselectable">
                 {randomLetterArray.map((x: number) =>
                     <Grid item xs={3} className="unselectable">
                         <img src={tileImages[x]} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/>
