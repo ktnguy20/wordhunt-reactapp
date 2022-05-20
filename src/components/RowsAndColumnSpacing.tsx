@@ -4,8 +4,8 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import aTile from '../assets/LetterTiles/Atile.png';
 import './unselectable.css';
+import tileImages from '../data/LetterImages';
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -22,15 +22,14 @@ const tileStyle = {
 
 export default function RowAndColumnSpacing() {
   
-    const elems = Array.apply(null, Array(16)).map(function (x, i) { return i+1; });
-    console.log(elems)
+    const randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
     return (
         <Box width='20%' className="unselectable">
             <Grid container spacing={2} className="unselectable">
-                {elems.map((label: number) =>
+                {randomLetterArray.map((x: number) =>
                     <Grid item xs={3} className="unselectable">
-                        <img src={aTile} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/>
-                    </Grid>
+                        <img src={tileImages[x]} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/>
+                    </Grid> 
                 )}
             </Grid>
         </Box>
