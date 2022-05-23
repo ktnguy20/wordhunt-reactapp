@@ -7,6 +7,8 @@ import tileImages from '../data/LetterImages';
 
 type TileProps = {
     value:number;
+    mouseDown: boolean;
+    setMouseDown: (a: boolean) => void;
     prevWord: string;
     setWord: (a: string) => void;
 }
@@ -18,24 +20,37 @@ const tileStyle = {
 };
 
 function Tile(props: TileProps) {
+    const letter = String.fromCharCode(65+props.value)
+    useEffect(
+        () => {
+            if (!props.mouseDown) {
+                setVisited(false);
+            }
+        }
+    )
     const [hasVisited, setVisited] = useState<boolean>(false);
     const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
         if (hasVisited) {
             return;
         }
-        else {
+        if (props.mouseDown) {
             // props.setWord((prevWord: string) => {
             //     prevWord+(String.fromCharCode(65+props.value));
             // });
-            props.setWord(props.prevWord +(String.fromCharCode(65+props.value)));
+            props.setWord(props.prevWord + letter);
             setVisited(true);
             return;
         }
     }
 
+    const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
+        props.setWord(letter);
+        setVisited(true);
+    }
+
     return(
         <Grid item xs={3} className="unselectable">
-                <div onMouseEnter = {mouseEnterHandler}>
+                <div onMouseEnter = {mouseEnterHandler} onMouseDown = {mouseDownHandler}>
                     <img src={tileImages[props.value]} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/>
                 </div>
         </Grid>

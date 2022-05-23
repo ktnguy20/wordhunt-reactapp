@@ -5,6 +5,7 @@ import TileGrid from "./components/TileGrid"
 
 function App() {
   const randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
+
   return (
     <div className="App">
       <header className="App-header">
