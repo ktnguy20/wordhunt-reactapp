@@ -1,13 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Rows from "./components/RowsAndColumnSpacing"
+import TileGrid from "./components/TileGrid"
 
 function App() {
+  const randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
   return (
     <div className="App">
       <header className="App-header">
-       <Rows/>
+       <TileGrid gridArr = {randomLetterArray}/>
         {/* <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
