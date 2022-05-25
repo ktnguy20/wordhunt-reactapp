@@ -7,10 +7,9 @@ import tileImages from '../data/LetterImages';
 
 type TileProps = {
     value:number;
-    mouseDown: boolean;
-    setMouseDown: (a: boolean) => void;
-    prevWord: string;
-    setWord: (a: string) => void;
+    tileLoc: number[];
+    callFromTile: (letter: string, isStart: boolean, tileLoc:number[]) => boolean;
+    isMouseDown: () => boolean;
 }
 
 const tileStyle = {
@@ -23,7 +22,7 @@ function Tile(props: TileProps) {
     const letter = String.fromCharCode(65+props.value)
     useEffect(
         () => {
-            if (!props.mouseDown) {
+            if (!props.isMouseDown()) {
                 setVisited(false);
             }
         }
@@ -33,19 +32,16 @@ function Tile(props: TileProps) {
         if (hasVisited) {
             return;
         }
-        if (props.mouseDown) {
-            // props.setWord((prevWord: string) => {
-            //     prevWord+(String.fromCharCode(65+props.value));
-            // });
-            props.setWord(props.prevWord + letter);
+        if (props.callFromTile(letter, false, props.tileLoc)) {
             setVisited(true);
-            return;
         }
     }
 
     const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-        props.setWord(letter);
-        setVisited(true);
+        if (props.callFromTile(letter, true, props.tileLoc)) {
+            setVisited(true);
+        }
+        return;
     }
 
     return(

@@ -21,26 +21,46 @@ type TileGridProps = {
 function TileGrid(props:TileGridProps) {
     const [currWord, setWord] = useState<string>("");
     const [mouseDown, setMouseDown] = useState<boolean>(false);
+    const [currLoc, setCurrLoc] = useState<number[]>([]);
+    
+    const isAdjacent = (currLoc: number[], tileLoc: number[]) => {
+        return ((Math.abs(currLoc[0] - tileLoc[0]) <= 1) && (Math.abs(currLoc[1] - tileLoc[1]) <= 1));
+    }
+    const callFromTile = (letter: string, isStart: boolean, tileLoc: number[]) => {
+        if (isStart) {
+            setWord(letter);
+            setMouseDown(true);
+            setCurrLoc(tileLoc);
+            return true;
+        }
+        else if (mouseDown) {
+            if (isAdjacent(currLoc, tileLoc)) {
+                setWord(currWord + letter);
+                setCurrLoc(tileLoc);
+                return true;
+            }
+        }
+        return false;
+    }
 
-    const mouseDownHandler = (event:MouseEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        setMouseDown(true);
+    const isMouseDown = () => {
+        return mouseDown;
     }
 
     const mouseUpHandler = (event:MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setWord("evaluate word here");
         setMouseDown(false);
+        setWord("evaluate word here");
     }
     return (
-        <Box width={{xs:0.6, sm:.5, md: .4, lg:.3, xl:.17}} className="unselectable">
-            <div onMouseDown={mouseDownHandler} onMouseUp = {mouseUpHandler}>
+        <Box width={{xs:0.6, sm:.5, md: .4, lg:.3, xl:.2}} className="unselectable">
+            <div onMouseUp = {mouseUpHandler}>
                 <Paper>
                     {currWord}
                 </Paper>
                 <Grid container spacing={{xs:1, sm:1.25, md:1.5, lg:1.75, xl:2}} className="unselectable">
-                    {props.gridArr.map((x: number) =>
-                        <Tile value = {x} setWord = {setWord} prevWord = {currWord} mouseDown = {mouseDown} setMouseDown = {setMouseDown}/>
+                    {props.gridArr.map((x: number, idx:number) =>
+                        <Tile value = {x} tileLoc = {[Math.floor(idx/4), idx%4]} isMouseDown = {isMouseDown} callFromTile = {callFromTile}/>
                     )}  
                 </Grid>
             </div>
