@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import TileGrid from "./components/TileGrid"
 
 function App() {
-  let randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
+  const randomLetterArray = Array.from({length: 16}, () => Math.floor(Math.random() * 26));
+  
   return (
     <div className="App-header">
        <TileGrid gridArr = {randomLetterArray}/>
