@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, MouseEvent} from 'react';
+import React, {useState, useEffect, useRef, useCallback, MouseEvent} from 'react';
 // import { styled } from '@mui/material/styles';
 import Tile from './Tile'
 import Grid from '@mui/material/Grid';
@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 
 
 // const Item = styled(Paper)(({ theme }) => ({
-//     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
 //     ...theme.typography.body2,
 //     color: theme.palette.text.secondary,
 //   }));
@@ -23,19 +23,24 @@ type TileGridProps = {
 }
 
 function TileGrid(props:TileGridProps) {
-    const [currWord, setWord] = useState<string>("");
+    const [currWord, setWord] = useState<string>("begin");
     const [mouseDown, setMouseDown] = useState<boolean>(false);
+    const [path, setPath] = useState<number[]>([]);
     const [currLoc, setCurrLoc] = useState<number[]>([]);
-    const [wordHistory, setWordHistory] = useState<string[]>([])
+    const [wordHistory, setWordHistory] = useState<string[]>([]);
+    const [tileStatus, setTileStatus] = useState<string>("");
     const scrollRef = useRef<null | HTMLLIElement>(null);
-    
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView();
         }
     });
 
-
+    const isMouseDown = useCallback(
+        () => {
+            return mouseDown;
+        }, [mouseDown]
+    )
     const isAdjacent = (currLoc: number[], tileLoc: number[]) => {
         return ((Math.abs(currLoc[0] - tileLoc[0]) <= 1) && (Math.abs(currLoc[1] - tileLoc[1]) <= 1));
     }
@@ -44,27 +49,46 @@ function TileGrid(props:TileGridProps) {
             setWord(letter);
             setMouseDown(true);
             setCurrLoc(tileLoc);
+            setPath([tileLoc[0]*4 + tileLoc[1]])
+            setTileStatus("white");
             return true;
         }
         else if (mouseDown) {
             if (isAdjacent(currLoc, tileLoc)) {
-                setWord(currWord + letter);
+                const newWord = currWord+letter;
                 setCurrLoc(tileLoc);
-                return true;
+                setPath([...path, tileLoc[0]*4 + tileLoc[1]]);
+                if (newWord.length < 3) {
+                    setTileStatus("white");
+                }
+                else if (wordHistory.includes(newWord)) {
+                    setTileStatus("yellow")
+                }
+                else if (validWords[newWord.length-3].includes(newWord)) {
+                    setTileStatus("green");
+                }
+                else {
+                    setTileStatus("white");
+                }
+                setWord(newWord);
             }
         }
-        return false;
+        else {
+            return false;
+        }
+        console.log(currWord);
+        return true;
     }
 
-    const isMouseDown = () => {
-        return mouseDown;
-    }
+    // const isMouseDown = () => {
+    //     return mouseDown;
+    // }
 
     const mouseUpHandler = (event:MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         setMouseDown(false);
-        console.log(wordHistory)
-        console.log(currWord)
+        // console.log(wordHistory)
+        // console.log(currWord)
         if (currWord.length < 3) {
             setWord("invalid length");
         }
@@ -78,6 +102,7 @@ function TileGrid(props:TileGridProps) {
         else {
             setWord("invalid word");
         }
+        setPath([]);
     }
     return (
         <Box width={{xs:0.6, sm:.5, md: .4, lg:.3, xl:.2}} className="unselectable">
@@ -87,8 +112,10 @@ function TileGrid(props:TileGridProps) {
                 </Paper>
                 <Grid container spacing={{xs:1, sm:1.25, md:1.5, lg:1.75, xl:2}} className="unselectable">
                     {props.gridArr.map((x: number, idx:number) => {
+                        
                         return(
-                            <Tile value = {x} tileLoc = {[Math.floor(idx/4), idx%4]} isMouseDown = {isMouseDown} callFromTile = {callFromTile}/>
+                            path.includes(idx) ? <Tile value = {x} tileLoc = {[Math.floor(idx/4), idx%4]} isMouseDown = {isMouseDown} callFromTile = {callFromTile} tileStatus = {tileStatus}/> 
+                            : <Tile value = {x} tileLoc = {[Math.floor(idx/4), idx%4]} isMouseDown = {isMouseDown} callFromTile = {callFromTile}/>
                         );
                     })}  
                 </Grid>
