@@ -107,7 +107,7 @@ function TileGrid(props:TileGridProps) {
     return (
         <Box width={{xs:0.6, sm:.5, md: .4, lg:.3, xl:.2}} className="unselectable">
             <div onMouseUp = {mouseUpHandler}>
-                <Paper>
+                <Paper style = {{marginBottom: '2vh'}}>
                     {currWord}
                 </Paper>
                 <Grid container spacing={{xs:1, sm:1.25, md:1.5, lg:1.75, xl:2}} className="unselectable">
@@ -119,7 +119,7 @@ function TileGrid(props:TileGridProps) {
                         );
                     })}  
                 </Grid>
-                <Paper style={{height: 100, overflow: 'auto'}}>
+                <Paper style={{height: 100, overflow: 'auto', marginTop: '2vh'}}>
                 <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                     Word Bank
                 </Typography>
