@@ -55,12 +55,12 @@ function Tile(props: TileProps) {
 
     return(
         <Grid item xs={3} className="unselectable">
-                <div onMouseEnter = {mouseEnterHandler} onMouseDown = {mouseDownHandler}>
+                <div onMouseDown = {mouseDownHandler}>
                     {/* <img src={tileImages[props.value]} draggable="false" alt="Logo" style={tileStyle} className="unselectable"/> */}
                     <Item style = {{position: "relative", height: "0", width: "100%", paddingBottom: "100%"}}>
-                        <div style = {{position: "absolute", display: "flex", justifyContent: "center", alignItems: "center", height: "100%", width: "100%", top: "0", bottom: "0"}}>
+                            <div style = {{position: "absolute", display: "flex", justifyContent: "center", alignItems: "center", height: "100%", width: "100%", top: "0", bottom: "0", borderRadius: "50%"}} onMouseEnter = {mouseEnterHandler}>
                             {letter}
-                        </div>
+                            </div>
                     </Item>
                 </div>
         </Grid>
