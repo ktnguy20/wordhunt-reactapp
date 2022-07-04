@@ -35,6 +35,7 @@ function TileGrid({gridArr}:TileGridProps) {
   const [path, setPath] = useState<number[]>([]);
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<string>('');
+  const [score, setScore] = useState<number>(0);
   const scrollRef = useRef<null | HTMLLIElement>(null);
 
 
@@ -81,10 +82,14 @@ function TileGrid({gridArr}:TileGridProps) {
     event.preventDefault();
     setMouseDown(false);
     if (tileStatus === 'green') {
-      setWordHistory([...wordHistory, currWord]);
+      setWordHistory((wordHistory) => wordHistory.concat([currWord]));
+      const scores = [100, 400, 800, 1400, 1800, 2200, 2600, 3000, 3600];
+      const wordValue = scores[currWord.length-3];
+      setScore((score) => score+wordValue);
     }
     setWord('');
     setPath([]);
+    setTileStatus('aliceblue');
   };
   return (
     <Box
@@ -93,6 +98,13 @@ function TileGrid({gridArr}:TileGridProps) {
     >
       <div onMouseUp = {mouseUpHandler}>
         <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
+          {`Score: ${score}`}
+        </Paper>
+        <Paper style = {{
+          marginBottom: '2vh',
+          height: '1.3em',
+          backgroundColor: `${tileStatus}`}}
+        >
           {currWord}
         </Paper>
         <Grid container

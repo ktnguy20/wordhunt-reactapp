@@ -1,16 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import TileGrid from './components/TileGrid';
+import Timer from './components/Timer';
 
 function App() {
-  const randomLetterArray = Array.from(
-      {length: 16}, () => Math.floor(Math.random() * 26),
-  );
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [gridArr, setGridArr] = useState<number[]>([]);
 
+  const generateGrid = (): number[] => {
+    return (
+      Array.from(
+          {length: 16}, () => Math.floor(Math.random() * 26),
+      )
+    );
+  };
+
+  const handleGameStart = () => {
+    setGridArr(generateGrid());
+    setIsActive((isActive) => !isActive);
+  };
+
+  const onTimeout = () => {
+    setIsActive((isActive) => !isActive);
+  };
 
   return (
     <div className="App-header">
-      <TileGrid gridArr = {randomLetterArray}/>
+      {isActive ?
+          <>
+            <Timer onTimeout = {onTimeout}/>
+            <TileGrid gridArr = {gridArr}/>
+          </>:
+          <button onClick={handleGameStart}> start game </button>
+      }
       {/* <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
