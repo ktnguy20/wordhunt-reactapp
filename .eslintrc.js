@@ -20,7 +20,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   'rules': {
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style':
+      ['error', process.platform === 'win32'? 'windows': 'unix'],
     'require-jsdoc': 0,
   },
 };
