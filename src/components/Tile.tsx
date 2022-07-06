@@ -10,7 +10,7 @@ import './unselectable.css';
 type TileProps = {
     tileId: number;
     tileValue:number;
-    setMouseDown: (bool: boolean) => void;
+    onTileDown: () => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     tileStatus: string;
 }
@@ -18,12 +18,11 @@ type TileProps = {
 function Tile({
   tileId,
   tileValue,
-  setMouseDown,
+  onTileDown,
   onTileEnter,
   tileStatus,
 }: TileProps) {
   const letter = String.fromCharCode(65+tileValue);
-
   const TileContainer = styled(Paper)(() => ({
     backgroundColor: tileStatus,
     position: 'relative',
@@ -50,16 +49,18 @@ function Tile({
   };
 
   const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-    setMouseDown(true);
+    onTileDown();
     onTileEnter(tileId, letter);
   };
 
   return (
     <Grid item xs={3} className="unselectable">
-      <div onMouseDown = {mouseDownHandler}>
+      <div onMouseDown = {mouseDownHandler} id = {`${tileId}`}>
         <TileContainer>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
-            {letter}
+            <div>
+              {letter}
+            </div>
           </LetterContainer>
         </TileContainer>
       </div>

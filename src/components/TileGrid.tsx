@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 
 // import { styled } from '@mui/material/styles';
+import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -56,6 +57,10 @@ function TileGrid({gridArr}:TileGridProps) {
     const isHorizAdj: boolean= Math.abs(prevCoords[0] - currCoords[0]) <= 1;
     const isVertAdj: boolean = Math.abs(prevCoords[1] - currCoords[1]) <= 1;
     return (isHorizAdj && isVertAdj);
+  };
+
+  const onTileDown = () => {
+    setMouseDown((isMouseDown) => !isMouseDown);
   };
 
   const onTileEnter = (tileId: number, tileLetter: string) => {
@@ -111,16 +116,22 @@ function TileGrid({gridArr}:TileGridProps) {
           spacing={{xs: 1, sm: 1.25, md: 1.5, lg: 1.75, xl: 2}}
           className="unselectable"
         >
-          {gridArr.map((x: number, idx:number) => (
-            <Tile
-              key = {idx}
-              tileId = {idx}
-              tileValue = {x}
-              setMouseDown = {setMouseDown}
-              onTileEnter = {onTileEnter}
-              tileStatus = {path.includes(idx) ? tileStatus : 'aliceblue'}
-            />
-          ))}
+          <Xwrapper>
+            {gridArr.map((x: number, idx:number) => (
+              <Tile
+                key = {idx}
+                tileId = {idx}
+                tileValue = {x}
+                onTileDown = {onTileDown}
+                onTileEnter = {onTileEnter}
+                tileStatus = {path.includes(idx) ? tileStatus : 'aliceblue'}
+              />
+            ))}
+            {path.map((value: number, idx: number) => {
+              if (idx == path.length-1) return;
+              return (<Xarrow start={`${value}`} end = {`${path[idx+1]}`} showHead={false} path={'straight'} startAnchor={"middle"} endAnchor = {"middle"}/>);
+            })}
+          </Xwrapper>
         </Grid>
         <Paper style={{height: 100, overflow: 'auto', marginTop: '2vh'}}>
           <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
