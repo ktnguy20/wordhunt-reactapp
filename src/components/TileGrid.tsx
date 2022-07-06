@@ -129,7 +129,14 @@ function TileGrid({gridArr}:TileGridProps) {
             ))}
             {path.map((value: number, idx: number) => {
               if (idx == path.length-1) return;
-              return (<Xarrow start={`${value}`} end = {`${path[idx+1]}`} showHead={false} path={'straight'} startAnchor={"middle"} endAnchor = {"middle"}/>);
+              return (<Xarrow
+                key = {idx}
+                start={`${value}`}
+                end = {`${path[idx+1]}`}
+                showHead={false}
+                path={'straight'}
+                startAnchor={'middle'}
+                endAnchor = {'middle'}/>);
             })}
           </Xwrapper>
         </Grid>
