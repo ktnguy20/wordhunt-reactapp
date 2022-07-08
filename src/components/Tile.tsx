@@ -9,7 +9,7 @@ import './unselectable.css';
 
 type TileProps = {
     tileId: number;
-    tileValue:number;
+    tileValue:string;
     onTileDown: () => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     tileStatus: string;
@@ -22,7 +22,6 @@ function Tile({
   onTileEnter,
   tileStatus,
 }: TileProps) {
-  const letter = String.fromCharCode(65+tileValue);
   const TileContainer = styled(Paper)(() => ({
     backgroundColor: tileStatus,
     position: 'relative',
@@ -45,12 +44,12 @@ function Tile({
 
 
   const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
-    onTileEnter(tileId, letter);
+    onTileEnter(tileId, tileValue);
   };
 
   const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
     onTileDown();
-    onTileEnter(tileId, letter);
+    onTileEnter(tileId, tileValue);
   };
 
   return (
@@ -59,7 +58,7 @@ function Tile({
         <TileContainer>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
             <div>
-              {letter}
+              {tileValue}
             </div>
           </LetterContainer>
         </TileContainer>

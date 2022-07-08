@@ -7,7 +7,7 @@ type TimerProps = {
 
 function Timer({onTimeout}: TimerProps) {
   const [clockTime, isPlaying, setIsPlaying] = useCountdown(
-      parseInt('60', 10), true, onTimeout,
+      parseInt('10', 10), true, onTimeout,
   );
 
 
