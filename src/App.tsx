@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef, MouseEvent} from 'react';
+import useCountdown from './hooks/useCountdown';
 import './App.css';
 import diceArray from './assets/LetterDice/DiceArray';
 import Paper from '@mui/material/Paper';
@@ -22,8 +23,14 @@ function App() {
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<string>('');
   const [score, setScore] = useState<number>(0);
+  const [gameLength, setGameLength] = useState<number>(60);
   const scrollRef = useRef<null | HTMLLIElement>(null);
-
+  const onTimeout = (): void => {
+    setIsActive((isActive) => false);
+  };
+  const [clockTime, setTime, isPlaying, setIsPlaying] = useCountdown(
+      gameLength, false, onTimeout,
+  );
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView();
@@ -71,10 +78,13 @@ function App() {
     setWord('');
     setGridArr(generateGrid());
     setIsActive((isActive) => true);
+    setTime(gameLength+1);
+    setIsPlaying(true);
   };
 
-  const onTimeout = (): void => {
-    setIsActive((isActive) => false);
+  const handleGameRestart = (): void => {
+    setIsPlaying(false);
+    setTimeout(handleGameStart);
   };
 
   const getCoords = (tileId: number): number[] => {
@@ -129,7 +139,6 @@ function App() {
 
   return (
     <div className="App-header" onMouseUp = {mouseUpHandler}>
-      <Timer onTimeout = {onTimeout}/>
       <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
         {`Score: ${score}`}
       </Paper>
@@ -140,8 +149,10 @@ function App() {
       >
         {currWord}
       </Paper>
-      {isActive ?
+      {
+      isActive ?
         <>
+          <Timer clockTime={clockTime}/>
           <TileGrid
             gridArr = {gridArr}
             onTileDown = {onTileDown}
@@ -150,7 +161,12 @@ function App() {
             tileStatus = {tileStatus}
           />
         </>:
-        <button onClick={handleGameStart}> start game </button>
+        <button
+          onClick={handleGameStart}
+          style = {{height: '4vh', backgroundColor: 'green'}}
+        >
+          start game
+        </button>
       }
       <Paper style={{height: 100, overflow: 'auto', marginTop: '2vh'}}>
         <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
@@ -168,6 +184,15 @@ function App() {
           })}
         </List>
       </Paper>
+      {
+      isActive ?
+        <div style = {{marginTop: '2vh'}}>
+          <button onClick={handleGameRestart}> Restart game </button>
+          <button onClick={onTimeout}> Back to landing page </button>
+        </div>:
+        null
+      }
+
     </div>
   );
 }

@@ -5,16 +5,25 @@ const useCountdown = (
     initialPlaying: boolean,
     onTimeout: () => void,
 ):
-[timer: number, isPlaying: boolean, setIsPlaying: (bool:boolean) => void] => {
+[
+  timer: number,
+  setTime: (time:number) => void,
+  isPlaying: boolean,
+  setIsPlaying: (bool:boolean) => void
+] => {
   const milisecond = useRef<number>(initialTimer * 1000);
   const previous = useRef<number>(milisecond.current);
   const [timer, setTimer] = useState<number>(initialTimer);
   const [isPlaying, setIsPlaying] = useState<boolean>(initialPlaying);
 
+  const setTime = (time: number) => {
+    milisecond.current = time * 1000;
+    previous.current = milisecond.current;
+  };
+
   useEffect(() => {
     if (!isPlaying) return;
     if (milisecond.current <= 0) {
-      setIsPlaying(false);
       return;
     }
     const effectInitialMs = milisecond.current;
@@ -39,6 +48,7 @@ const useCountdown = (
         previous.current = milisecond.current;
 
         if (isUpdate) {
+          console.log(milisecond.current);
           setTimer(seconds);
         }
         if (isPlaying) {
@@ -53,7 +63,7 @@ const useCountdown = (
       cancelAnimationFrame(handle);
     };
   }, [isPlaying, initialTimer]);
-  return [timer, isPlaying, setIsPlaying];
+  return [timer, setTime, isPlaying, setIsPlaying];
 };
 
 export default useCountdown;

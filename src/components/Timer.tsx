@@ -1,16 +1,10 @@
 import React from 'react';
-import useCountdown from '../hooks/useCountdown';
 
 type TimerProps = {
-  onTimeout: () => void;
+  clockTime: number;
 }
 
-function Timer({onTimeout}: TimerProps) {
-  const [clockTime, isPlaying, setIsPlaying] = useCountdown(
-      parseInt('10', 10), true, onTimeout,
-  );
-
-
+function Timer({clockTime}: TimerProps) {
   return (
     <div>
       {clockTime}
