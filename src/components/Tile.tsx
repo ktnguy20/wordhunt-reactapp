@@ -1,31 +1,27 @@
 import React, {MouseEvent} from 'react';
 import {styled} from '@mui/material/styles';
+import styles from '../styles/Tile.module.scss';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import './unselectable.css';
-// import tileImages from '../data/LetterImages';
-// import TileStatus from '../data/TileStatus';
 
 type TileProps = {
     tileId: number;
-    tileValue:number;
-    setMouseDown: (bool: boolean) => void;
+    tileValue:string;
+    onTileDown: () => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
-    tileStatus: string;
+    tileStatus?: string;
 }
 
 function Tile({
   tileId,
   tileValue,
-  setMouseDown,
+  onTileDown,
   onTileEnter,
   tileStatus,
 }: TileProps) {
-  const letter = String.fromCharCode(65+tileValue);
-
   const TileContainer = styled(Paper)(() => ({
-    backgroundColor: tileStatus,
+    backgroundColor: tileStatus !== undefined ? tileStatus : '#E3CFAA',
     position: 'relative',
     height: '0',
     width: '100%',
@@ -46,20 +42,26 @@ function Tile({
 
 
   const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
-    onTileEnter(tileId, letter);
+    onTileEnter(tileId, tileValue);
   };
 
   const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-    setMouseDown(true);
-    onTileEnter(tileId, letter);
+    onTileDown();
+    onTileEnter(tileId, tileValue);
   };
 
   return (
-    <Grid item xs={3} className="unselectable">
-      <div onMouseDown = {mouseDownHandler}>
-        <TileContainer>
+    <Grid item xs={3}>
+      <div
+        className={tileStatus !== undefined ? styles.animation : ''}
+        onMouseDown = {mouseDownHandler}
+        id = {`${tileId}`}
+      >
+        <TileContainer elevation = {16}>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
-            {letter}
+            <div>
+              {tileValue}
+            </div>
           </LetterContainer>
         </TileContainer>
       </div>

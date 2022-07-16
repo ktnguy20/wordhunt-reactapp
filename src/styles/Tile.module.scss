@@ -1,0 +1,14 @@
+.animation {
+  animation: onTileEnter ease-in-out;
+  animation-duration: 0.05s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes onTileEnter {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}

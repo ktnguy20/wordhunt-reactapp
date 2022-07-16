@@ -1,21 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  MouseEvent,
-} from 'react';
-
-// import { styled } from '@mui/material/styles';
+import React from 'react';
+import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import './unselectable.css';
-import validWords from '../data/ValidWords';
-import Typography from '@mui/material/Typography';
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -25,109 +12,59 @@ import Typography from '@mui/material/Typography';
 //   }));
 
 type TileGridProps = {
-    gridArr: number[];
+    gridArr: string[];
+    onTileDown: () => void;
+    onTileEnter: (tileId: number, tileLetter: string) => void;
+    path: number[];
+    tileStatus: string;
 }
 
 
-function TileGrid({gridArr}:TileGridProps) {
-  const [currWord, setWord] = useState<string>('');
-  const [mouseDown, setMouseDown] = useState<boolean>(false);
-  const [path, setPath] = useState<number[]>([]);
-  const [wordHistory, setWordHistory] = useState<string[]>([]);
-  const [tileStatus, setTileStatus] = useState<string>('');
-  const scrollRef = useRef<null | HTMLLIElement>(null);
-
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView();
-    }
-  });
-
-
-  const getCoords = (tileId: number): number[] => {
-    return [Math.floor(tileId/4), tileId%4];
-  };
-
-  const isAdjacent = (prevTileId: number, currTileId: number): boolean => {
-    const prevCoords = getCoords(prevTileId);
-    const currCoords = getCoords(currTileId);
-    const isHorizAdj: boolean= Math.abs(prevCoords[0] - currCoords[0]) <= 1;
-    const isVertAdj: boolean = Math.abs(prevCoords[1] - currCoords[1]) <= 1;
-    return (isHorizAdj && isVertAdj);
-  };
-
-  const onTileEnter = (tileId: number, tileLetter: string) => {
-    if (mouseDown && ((path.length === 0) ||
-    ((!path.includes(tileId)) && isAdjacent(path[path.length-1], tileId)))) {
-      setWord((word) => {
-        const newWord = word + tileLetter;
-        if (newWord.length < 3) {
-          setTileStatus('aliceblue');
-        } else if (wordHistory.includes(newWord)) {
-          setTileStatus('yellow');
-        } else if (validWords[newWord.length-3].includes(newWord)) {
-          setTileStatus('green');
-        } else {
-          setTileStatus('aliceblue');
-        }
-        return (word + tileLetter);
-      });
-      setPath((path) => path.concat([tileId]));
-    }
-  };
-
-  const mouseUpHandler = (event:MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setMouseDown(false);
-    if (tileStatus === 'green') {
-      setWordHistory([...wordHistory, currWord]);
-    }
-    setWord('');
-    setPath([]);
-  };
+function TileGrid({
+  gridArr,
+  onTileDown,
+  onTileEnter,
+  path,
+  tileStatus,
+}:TileGridProps) {
   return (
-    <Box
-      width={{xs: 0.6, sm: .5, md: .4, lg: .3, xl: .2}}
-      className="unselectable"
+    <div
+      style={{justifyContent: 'center', display: 'flex'}}
     >
-      <div onMouseUp = {mouseUpHandler}>
-        <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
-          {currWord}
-        </Paper>
+      <Box
+        width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
+      >
         <Grid container
-          spacing={{xs: 1, sm: 1.25, md: 1.5, lg: 1.75, xl: 2}}
+          spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
           className="unselectable"
         >
-          {gridArr.map((x: number, idx:number) => (
-            <Tile
-              key = {idx}
-              tileId = {idx}
-              tileValue = {x}
-              setMouseDown = {setMouseDown}
-              onTileEnter = {onTileEnter}
-              tileStatus = {path.includes(idx) ? tileStatus : 'aliceblue'}
-            />
-          ))}
-        </Grid>
-        <Paper style={{height: 100, overflow: 'auto', marginTop: '2vh'}}>
-          <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-                    Word Bank
-          </Typography>
-          <List>
-            {wordHistory.map((word: string, idx: number) => {
-              return (
-                <ListItem key = {idx} ref={scrollRef}>
-                  <ListItemText>
-                    {word + '\n'}
-                  </ListItemText>
-                </ListItem>
-              );
+          <Xwrapper>
+            {gridArr.map((letter: string, idx:number) => (
+              <Tile
+                key = {idx}
+                tileId = {idx}
+                tileValue = {letter}
+                onTileDown = {onTileDown}
+                onTileEnter = {onTileEnter}
+                tileStatus = {path.includes(idx) ? tileStatus : undefined}
+              />
+            ))}
+            {path.map((value: number, idx: number) => {
+              if (idx == path.length-1) return;
+              return (<Xarrow
+                key = {idx}
+                start={`${value}`}
+                end = {`${path[idx+1]}`}
+                showHead={false}
+                path={'straight'}
+                startAnchor={'middle'}
+                endAnchor = {'middle'}
+              />);
             })}
-          </List>
-        </Paper>
-      </div>
-    </Box>
+          </Xwrapper>
+        </Grid>
+      </Box>
+    </div>
   );
 }
 
