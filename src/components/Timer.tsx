@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../styles/Timer.module.scss';
 
 type TimerProps = {
   clockTime: number;
@@ -6,7 +7,7 @@ type TimerProps = {
 
 function Timer({clockTime}: TimerProps) {
   return (
-    <div>
+    <div className = {styles.timer}>
       {clockTime}
     </div>
   );

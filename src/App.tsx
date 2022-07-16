@@ -1,7 +1,8 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState, MouseEvent, useEffect} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import diceArray from './assets/LetterDice/DiceArray';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import validWords from './data/ValidWords';
 import TileGrid from './components/TileGrid';
@@ -10,6 +11,8 @@ import WordHistory from './components/WordHistory';
 import InfoModal from './components/modals/InfoModal';
 import SettingsModal from './components/modals/SettingsModal';
 import ResultsModal from './components/modals/ResultsModal';
+import NavBar from './components/NavBar';
+
 
 function App() {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -23,10 +26,11 @@ function App() {
   const [tileStatus, setTileStatus] = useState<string>('');
   const [score, setScore] = useState<number>(0);
   const [gameLength, setGameLength] = useState<number>(10);
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [isResultsModalOpen, setIsResultsModalOpen] = useState<boolean>(false);
+
 
   const onTimeout = (): void => {
     setIsActive((isActive) => false);
@@ -138,31 +142,30 @@ function App() {
 
   return (
     <div className={styles.header} onMouseUp = {mouseUpHandler}>
-      <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
-        {`Score: ${score}`}
-      </Paper>
-
-      <button
-        onClick={() => setIsInfoModalOpen(true)}
-      > Open Info Modal </button>
-      <button
-        onClick={() => setIsSettingsModalOpen(true)}
-      > Open Settings Modal </button>
-      <button
-        onClick={() => setIsResultsModalOpen(true)}
-      > Open Results Modal </button>
-
-      <Paper style = {{
-        marginBottom: '2vh',
-        height: '1.3em',
-        backgroundColor: `${tileStatus}`}}
-      >
-        {currWord}
-      </Paper>
+      <NavBar
+        handleOpenInfoModal={() => setIsInfoModalOpen(true)}
+        handleOpenSettingsModal = {() => setIsSettingsModalOpen(true)}
+      />
       {
       isActive ?
         <>
+          <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
+            {`Score: ${score}`}
+          </Paper>
           <Timer clockTime={clockTime}/>
+          <Box
+            display = 'inline-block'
+            style = {{height: '1.3em', marginBottom: '2vh'}}
+          >
+            <Paper style = {{
+              display: 'inline-block',
+              paddingLeft: '5px',
+              paddingRight: '5px',
+              backgroundColor: `${tileStatus}`}}
+            >
+              {currWord}
+            </Paper>
+          </Box>
           <TileGrid
             gridArr = {gridArr}
             onTileDown = {onTileDown}
@@ -170,25 +173,15 @@ function App() {
             path = {path}
             tileStatus = {tileStatus}
           />
+          <WordHistory wordHistory = {wordHistory}/>
         </>:
-        <button
-          onClick={handleGameStart}
-          style = {{height: '4vh', backgroundColor: 'green'}}
-        >
-          start game
-        </button>
-      }
-      <WordHistory wordHistory = {wordHistory}/>
-      {
-      isActive ?
-        <div style = {{marginTop: '2vh'}}>
-          <button onClick={handleGameRestart}> Restart game </button>
-        </div>:
         null
       }
       <InfoModal
         isOpen = {isInfoModalOpen}
         handleClose = {() => setIsInfoModalOpen(false)}
+        handleStart = {() => handleGameStart()}
+        isActive = {isActive}
       />
       <SettingsModal
         isOpen = {isSettingsModalOpen}
@@ -197,7 +190,10 @@ function App() {
       <ResultsModal
         isOpen = {isResultsModalOpen}
         handleClose = {() => setIsResultsModalOpen(false)}
+        handleRestart = {() => handleGameRestart()}
+        score = {score}
         wordHistory = {wordHistory}
+        setIsInfoModalOpen = {setIsInfoModalOpen}
       />
     </div>
   );

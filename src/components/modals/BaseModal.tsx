@@ -37,10 +37,11 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
   return (
     <div>
       <Modal
-        open={isOpen}
+        open= {isOpen}
+        onClose= {handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
+        BackdropComponent= {Backdrop}
+        BackdropProps= {{
           timeout: 500,
         }}
       >

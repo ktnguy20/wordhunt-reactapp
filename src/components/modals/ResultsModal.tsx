@@ -4,21 +4,39 @@ import BaseModal from './BaseModal';
 type ResultsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
+  score: number;
   wordHistory: string[];
+  handleRestart: () => void;
+  setIsInfoModalOpen: (bool: boolean) => void;
 }
 
-function ResultsModal({isOpen, handleClose, wordHistory}: ResultsModalProps) {
+function ResultsModal({
+  isOpen,
+  handleClose,
+  handleRestart,
+  score,
+  wordHistory,
+  setIsInfoModalOpen,
+}: ResultsModalProps) {
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {handleClose}
+      handleClose = {() => {
+        handleClose();
+        setIsInfoModalOpen(true);
+      }}
     >
       Results
       <div>
+        You scored {score} points
         {wordHistory.map((word: string, idx: number) =>
           <div key = {idx}>{word}</div>,
         )}
       </div>
+      <button onClick = {() => {
+        handleRestart();
+        handleClose();
+      }}> Play Again </button>
     </BaseModal>
   );
 }

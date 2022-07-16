@@ -32,10 +32,10 @@ function TileGrid({
       style={{justifyContent: 'center', display: 'flex'}}
     >
       <Box
-        width={{xs: 0.6, sm: .5, md: .4, lg: .3, xl: .2}}
+        width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
       >
         <Grid container
-          spacing={{xs: 1, sm: 1.25, md: 1.5, lg: 1.75, xl: 2}}
+          spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
           className="unselectable"
         >
           <Xwrapper>

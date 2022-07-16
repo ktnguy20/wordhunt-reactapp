@@ -21,7 +21,7 @@ function Tile({
   tileStatus,
 }: TileProps) {
   const TileContainer = styled(Paper)(() => ({
-    backgroundColor: tileStatus !== undefined ? tileStatus : 'aliceblue',
+    backgroundColor: tileStatus !== undefined ? tileStatus : '#E3CFAA',
     position: 'relative',
     height: '0',
     width: '100%',
@@ -57,7 +57,7 @@ function Tile({
         onMouseDown = {mouseDownHandler}
         id = {`${tileId}`}
       >
-        <TileContainer>
+        <TileContainer elevation = {16}>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
             <div>
               {tileValue}
