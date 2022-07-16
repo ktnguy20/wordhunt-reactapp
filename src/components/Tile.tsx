@@ -1,18 +1,16 @@
-import React, {MouseEvent, useEffect} from 'react';
+import React, {MouseEvent} from 'react';
 import {styled} from '@mui/material/styles';
+import styles from '../styles/Tile.module.scss';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import './unselectable.css';
-// import tileImages from '../data/LetterImages';
-// import TileStatus from '../data/TileStatus';
 
 type TileProps = {
     tileId: number;
     tileValue:string;
     onTileDown: () => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
-    tileStatus: string;
+    tileStatus?: string;
 }
 
 function Tile({
@@ -23,7 +21,7 @@ function Tile({
   tileStatus,
 }: TileProps) {
   const TileContainer = styled(Paper)(() => ({
-    backgroundColor: tileStatus,
+    backgroundColor: tileStatus !== undefined ? tileStatus : 'aliceblue',
     position: 'relative',
     height: '0',
     width: '100%',
@@ -53,8 +51,12 @@ function Tile({
   };
 
   return (
-    <Grid item xs={3} className="unselectable">
-      <div onMouseDown = {mouseDownHandler} id = {`${tileId}`}>
+    <Grid item xs={3}>
+      <div
+        className={tileStatus !== undefined ? styles.animation : ''}
+        onMouseDown = {mouseDownHandler}
+        id = {`${tileId}`}
+      >
         <TileContainer>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
             <div>

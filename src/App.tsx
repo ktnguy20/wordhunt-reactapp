@@ -1,16 +1,15 @@
-import React, {useState, useEffect, useRef, MouseEvent} from 'react';
+import React, {useState, MouseEvent} from 'react';
 import useCountdown from './hooks/useCountdown';
-import './App.css';
+import styles from './styles/App.module.scss';
 import diceArray from './assets/LetterDice/DiceArray';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import validWords from './data/ValidWords';
-import Typography from '@mui/material/Typography';
 import TileGrid from './components/TileGrid';
 import Timer from './components/Timer';
+import WordHistory from './components/WordHistory';
+import InfoModal from './components/modals/InfoModal';
+import SettingsModal from './components/modals/SettingsModal';
+import ResultsModal from './components/modals/ResultsModal';
 
 function App() {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -23,19 +22,19 @@ function App() {
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<string>('');
   const [score, setScore] = useState<number>(0);
-  const [gameLength, setGameLength] = useState<number>(60);
-  const scrollRef = useRef<null | HTMLLIElement>(null);
+  const [gameLength, setGameLength] = useState<number>(10);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
+  // eslint-disable-next-line max-len
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
+  const [isResultsModalOpen, setIsResultsModalOpen] = useState<boolean>(false);
+
   const onTimeout = (): void => {
     setIsActive((isActive) => false);
+    setIsResultsModalOpen(true);
   };
   const [clockTime, setTime, isPlaying, setIsPlaying] = useCountdown(
       gameLength, false, onTimeout,
   );
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView();
-    }
-  });
 
   // end of tileGrid hooks
   // Fisher-Yates randomization
@@ -79,12 +78,12 @@ function App() {
     setGridArr(generateGrid());
     setIsActive((isActive) => true);
     setTime(gameLength+1);
-    setIsPlaying(true);
+    setTimeout(() => setIsPlaying(true), 2);
   };
 
   const handleGameRestart = (): void => {
     setIsPlaying(false);
-    setTimeout(handleGameStart);
+    handleGameStart();
   };
 
   const getCoords = (tileId: number): number[] => {
@@ -138,10 +137,21 @@ function App() {
   };
 
   return (
-    <div className="App-header" onMouseUp = {mouseUpHandler}>
+    <div className={styles.header} onMouseUp = {mouseUpHandler}>
       <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
         {`Score: ${score}`}
       </Paper>
+
+      <button
+        onClick={() => setIsInfoModalOpen(true)}
+      > Open Info Modal </button>
+      <button
+        onClick={() => setIsSettingsModalOpen(true)}
+      > Open Settings Modal </button>
+      <button
+        onClick={() => setIsResultsModalOpen(true)}
+      > Open Results Modal </button>
+
       <Paper style = {{
         marginBottom: '2vh',
         height: '1.3em',
@@ -168,31 +178,27 @@ function App() {
           start game
         </button>
       }
-      <Paper style={{height: 100, overflow: 'auto', marginTop: '2vh'}}>
-        <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-              Word Bank
-        </Typography>
-        <List>
-          {wordHistory.map((word: string, idx: number) => {
-            return (
-              <ListItem key = {idx} ref={scrollRef}>
-                <ListItemText>
-                  {word + '\n'}
-                </ListItemText>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Paper>
+      <WordHistory wordHistory = {wordHistory}/>
       {
       isActive ?
         <div style = {{marginTop: '2vh'}}>
           <button onClick={handleGameRestart}> Restart game </button>
-          <button onClick={onTimeout}> Back to landing page </button>
         </div>:
         null
       }
-
+      <InfoModal
+        isOpen = {isInfoModalOpen}
+        handleClose = {() => setIsInfoModalOpen(false)}
+      />
+      <SettingsModal
+        isOpen = {isSettingsModalOpen}
+        handleClose = {() => setIsSettingsModalOpen(false)}
+      />
+      <ResultsModal
+        isOpen = {isResultsModalOpen}
+        handleClose = {() => setIsResultsModalOpen(false)}
+        wordHistory = {wordHistory}
+      />
     </div>
   );
 }

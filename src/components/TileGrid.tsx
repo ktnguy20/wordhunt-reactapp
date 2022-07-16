@@ -1,11 +1,8 @@
 import React from 'react';
-
-// import { styled } from '@mui/material/styles';
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import './unselectable.css';
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -32,7 +29,6 @@ function TileGrid({
 }:TileGridProps) {
   return (
     <div
-      className="unselectable"
       style={{justifyContent: 'center', display: 'flex'}}
     >
       <Box
@@ -50,7 +46,7 @@ function TileGrid({
                 tileValue = {letter}
                 onTileDown = {onTileDown}
                 onTileEnter = {onTileEnter}
-                tileStatus = {path.includes(idx) ? tileStatus : 'aliceblue'}
+                tileStatus = {path.includes(idx) ? tileStatus : undefined}
               />
             ))}
             {path.map((value: number, idx: number) => {
