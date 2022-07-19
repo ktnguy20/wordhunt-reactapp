@@ -167,7 +167,9 @@ function App() {
             </Paper>
           </Box>
           <div className = {styles.gameLayout}>
-            <div style = {{width: '15vw', marginRight: 'auto'}}/>
+            <div
+              style={{width: '15vw', marginRight: 'auto', paddingRight: '5vw'}}
+            />
             <WordHistory wordHistory = {wordHistory}/>
             <TileGrid
               gridArr = {gridArr}
@@ -176,8 +178,12 @@ function App() {
               path = {path}
               tileStatus = {tileStatus}
             />
-            <div style = {{width: '15vw', marginLeft: 'auto'}}/>
-            <div style = {{width: '15vw', marginLeft: 'auto'}}/>
+            <div
+              style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
+            />
+            <div
+              style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
+            />
           </div>
         </>:
         null
