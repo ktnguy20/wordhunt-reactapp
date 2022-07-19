@@ -167,10 +167,10 @@ function App() {
             </Paper>
           </Box>
           <div className = {styles.gameLayout}>
-            <div
+            {/* <div
               style={{width: '15vw', marginRight: 'auto', paddingRight: '5vw'}}
             />
-            <WordHistory wordHistory = {wordHistory}/>
+            <WordHistory wordHistory = {wordHistory}/> */}
             <TileGrid
               gridArr = {gridArr}
               onTileDown = {onTileDown}
@@ -178,12 +178,12 @@ function App() {
               path = {path}
               tileStatus = {tileStatus}
             />
-            <div
+            {/* <div
               style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
             />
             <div
               style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
-            />
+            /> */}
           </div>
         </>:
         null

@@ -1,6 +1,7 @@
 import React from 'react';
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
+import {createTheme} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import styles from '../styles/TileGrid.module.scss';
@@ -31,10 +32,10 @@ function TileGrid({
   return (
     <Box
       className = {styles.grid}
-      width={{xs: 1, sm: .5, md: .25, lg: .2, xl: .15}}
+      width={{xs: .6, sm: .5, md: .25, lg: .2, xl: .15}}
     >
       <Grid container
-        spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
+        spacing={{xs: 1.00, sm: 1.25, md: 1.0, lg: 1.25, xl: 1.50}}
         className="unselectable"
       >
         <Xwrapper>
