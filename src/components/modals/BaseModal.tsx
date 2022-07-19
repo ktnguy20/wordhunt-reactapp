@@ -24,7 +24,6 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     borderRadius: '16px',
     boxShadow: 24,
     p: 4,
@@ -32,6 +31,7 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
     alignItems: 'center',
     alignContent: 'center',
     justifyItems: 'center',
+    outline: 'none',
   };
 
   return (

@@ -3,6 +3,7 @@ import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import styles from '../styles/TileGrid.module.scss';
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -28,43 +29,40 @@ function TileGrid({
   tileStatus,
 }:TileGridProps) {
   return (
-    <div
-      style={{justifyContent: 'center', display: 'flex'}}
+    <Box
+      className = {styles.grid}
+      width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
     >
-      <Box
-        width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
+      <Grid container
+        spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
+        className="unselectable"
       >
-        <Grid container
-          spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
-          className="unselectable"
-        >
-          <Xwrapper>
-            {gridArr.map((letter: string, idx:number) => (
-              <Tile
-                key = {idx}
-                tileId = {idx}
-                tileValue = {letter}
-                onTileDown = {onTileDown}
-                onTileEnter = {onTileEnter}
-                tileStatus = {path.includes(idx) ? tileStatus : undefined}
-              />
-            ))}
-            {path.map((value: number, idx: number) => {
-              if (idx == path.length-1) return;
-              return (<Xarrow
-                key = {idx}
-                start={`${value}`}
-                end = {`${path[idx+1]}`}
-                showHead={false}
-                path={'straight'}
-                startAnchor={'middle'}
-                endAnchor = {'middle'}
-              />);
-            })}
-          </Xwrapper>
-        </Grid>
-      </Box>
-    </div>
+        <Xwrapper>
+          {gridArr.map((letter: string, idx:number) => (
+            <Tile
+              key = {idx}
+              tileId = {idx}
+              tileValue = {letter}
+              onTileDown = {onTileDown}
+              onTileEnter = {onTileEnter}
+              tileStatus = {path.includes(idx) ? tileStatus : undefined}
+            />
+          ))}
+          {path.map((value: number, idx: number) => {
+            if (idx == path.length-1) return;
+            return (<Xarrow
+              key = {idx}
+              start={`${value}`}
+              end = {`${path[idx+1]}`}
+              showHead={false}
+              path={'straight'}
+              startAnchor={'middle'}
+              endAnchor = {'middle'}
+            />);
+          })}
+        </Xwrapper>
+      </Grid>
+    </Box>
   );
 }
 

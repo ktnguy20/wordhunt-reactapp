@@ -25,7 +25,7 @@ function App() {
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<string>('');
   const [score, setScore] = useState<number>(0);
-  const [gameLength, setGameLength] = useState<number>(10);
+  const [gameLength, setGameLength] = useState<number>(6000);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
@@ -166,14 +166,19 @@ function App() {
               {currWord}
             </Paper>
           </Box>
-          <TileGrid
-            gridArr = {gridArr}
-            onTileDown = {onTileDown}
-            onTileEnter = {onTileEnter}
-            path = {path}
-            tileStatus = {tileStatus}
-          />
-          <WordHistory wordHistory = {wordHistory}/>
+          <div className = {styles.gameLayout}>
+            <div style = {{width: '15vw', marginRight: 'auto'}}/>
+            <WordHistory wordHistory = {wordHistory}/>
+            <TileGrid
+              gridArr = {gridArr}
+              onTileDown = {onTileDown}
+              onTileEnter = {onTileEnter}
+              path = {path}
+              tileStatus = {tileStatus}
+            />
+            <div style = {{width: '15vw', marginLeft: 'auto'}}/>
+            <div style = {{width: '15vw', marginLeft: 'auto'}}/>
+          </div>
         </>:
         null
       }

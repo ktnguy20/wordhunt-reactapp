@@ -21,11 +21,12 @@ function Tile({
   tileStatus,
 }: TileProps) {
   const TileContainer = styled(Paper)(() => ({
-    backgroundColor: tileStatus !== undefined ? tileStatus : '#E3CFAA',
+    backgroundColor: tileStatus !== undefined ? tileStatus : '#FFF',
     position: 'relative',
     height: '0',
     width: '100%',
     paddingBottom: '100%',
+    borderRadius: '15%',
   }));
 
   const LetterContainer = styled(Box)(() => ({
@@ -57,9 +58,9 @@ function Tile({
         onMouseDown = {mouseDownHandler}
         id = {`${tileId}`}
       >
-        <TileContainer elevation = {16}>
+        <TileContainer elevation = {12}>
           <LetterContainer onMouseEnter = {mouseEnterHandler}>
-            <div>
+            <div color = {'white'}>
               {tileValue}
             </div>
           </LetterContainer>
