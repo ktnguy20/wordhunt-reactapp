@@ -31,7 +31,7 @@ function TileGrid({
   return (
     <Box
       className = {styles.grid}
-      width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
+      width={{xs: 1, sm: .5, md: .25, lg: .2, xl: .15}}
     >
       <Grid container
         spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
