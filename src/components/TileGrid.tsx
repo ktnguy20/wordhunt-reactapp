@@ -14,7 +14,8 @@ import styles from '../styles/TileGrid.module.scss';
 //   }));
 
 type TileGridProps = {
-    gridArr: string[];
+    gridArr: string[][];
+    size: number;
     onTileDown: () => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     path: number[];
@@ -24,6 +25,7 @@ type TileGridProps = {
 
 function TileGrid({
   gridArr,
+  size,
   onTileDown,
   onTileEnter,
   path,
@@ -32,22 +34,32 @@ function TileGrid({
   return (
     <Box
       className = {styles.grid}
-      width={{xs: .75, sm: .5, md: .25, lg: .2, xl: .15}}
+      width={{xs: .75, sm: .5, md: .3, lg: .25, xl: .2}}
     >
       <Grid container
         spacing={{xs: 1.2, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
         className="unselectable"
+        paddingLeft={'5%'}
+        paddingRight={'5%'}
+        paddingTop={'5%'}
+        paddingBottom={'5%'}
       >
         <Xwrapper>
-          {gridArr.map((letter: string, idx:number) => (
-            <Tile
-              key = {idx}
-              tileId = {idx}
-              tileValue = {letter}
-              onTileDown = {onTileDown}
-              onTileEnter = {onTileEnter}
-              tileStatus = {path.includes(idx) ? tileStatus : undefined}
-            />
+          {gridArr.map((row: string[], rowIdx:number) => (
+            row.map((letter: string, idx: number) => {
+              const id: number = (size*rowIdx)+idx;
+              return (
+                <Grid item key = {id} xs={3}>
+                  <Tile
+                    tileId = {id}
+                    tileValue = {letter}
+                    onTileDown = {onTileDown}
+                    onTileEnter = {onTileEnter}
+                    tileStatus = {path.includes(id) ? tileStatus : undefined}
+                  />
+                </Grid>
+              );
+            })
           ))}
           {path.map((value: number, idx: number) => {
             if (idx == path.length-1) return;

@@ -2,22 +2,23 @@ import React, {useState, MouseEvent, useEffect} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import diceArray from './assets/LetterDice/DiceArray';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import {Box, Paper} from '@mui/material';
 import validWords from './data/ValidWords';
-import TileGrid from './components/TileGrid';
+import NavBar from './components/NavBar';
 import Timer from './components/Timer';
+import Score from './components/Score';
+import CurrentWord from './components/CurrentWord';
+import TileGrid from './components/TileGrid';
 import WordHistory from './components/WordHistory';
 import InfoModal from './components/modals/InfoModal';
 import SettingsModal from './components/modals/SettingsModal';
 import ResultsModal from './components/modals/ResultsModal';
-import NavBar from './components/NavBar';
 
 
 function App() {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [gridArr, setGridArr] = useState<string[]>([]);
-
+  const [gridArr, setGridArr] = useState<string[][]>([]);
+  const [size, setSize] = useState<number>(4);
   // previously in tileGrid component hooks
   const [currWord, setWord] = useState<string>('');
   const [mouseDown, setMouseDown] = useState<boolean>(false);
@@ -64,21 +65,25 @@ function App() {
     return die[Math.floor(Math.random()*die.length)];
   };
 
-  const generateGrid = (): string[] => {
-    return (
-      shuffleDice(diceArray).map(
-          (die: string[]): string => {
-            return rollDie(die);
-          },
-      )
-    );
+  const generateGrid = (): string[][] => {
+    const grid: string[][] = [];
+    const letters = shuffleDice(diceArray)
+        .map(
+            (die: string[]): string => {
+              return rollDie(die);
+            },
+        );
+    for (let i = 0; i < letters.length; i+=size) {
+      grid.push(letters.slice(i, i+size));
+    }
+    return grid;
   };
 
   const handleGameStart = (): void => {
     setWordHistory([]);
     setPath([]);
     setScore(0);
-    setWord('');
+    setWord('hello');
     setGridArr(generateGrid());
     setIsActive((isActive) => true);
     setTime(gameLength+1);
@@ -90,15 +95,15 @@ function App() {
     handleGameStart();
   };
 
-  const getCoords = (tileId: number): number[] => {
-    return [Math.floor(tileId/4), tileId%4];
+  const getCoords = (tileId: number): {x: number, y: number} => {
+    return ({x: Math.floor(tileId/size), y: tileId%size});
   };
 
   const isAdjacent = (prevTileId: number, currTileId: number): boolean => {
-    const prevCoords = getCoords(prevTileId);
-    const currCoords = getCoords(currTileId);
-    const isHorizAdj: boolean= Math.abs(prevCoords[0] - currCoords[0]) <= 1;
-    const isVertAdj: boolean = Math.abs(prevCoords[1] - currCoords[1]) <= 1;
+    const prevCoords: {x: number, y: number} = getCoords(prevTileId);
+    const currCoords: {x: number, y: number} = getCoords(currTileId);
+    const isHorizAdj: boolean= Math.abs(prevCoords.x - currCoords.x) <= 1;
+    const isVertAdj: boolean = Math.abs(prevCoords.y - currCoords.y) <= 1;
     return (isHorizAdj && isVertAdj);
   };
 
@@ -107,8 +112,12 @@ function App() {
   };
 
   const onTileEnter = (tileId: number, tileLetter: string): void => {
-    if (mouseDown && ((path.length === 0) ||
-    ((!path.includes(tileId)) && isAdjacent(path[path.length-1], tileId)))) {
+    if (mouseDown &&
+      (
+        (path.length === 0) ||
+        ((!path.includes(tileId)) && (isAdjacent(path[path.length-1], tileId)))
+      )
+    ) {
       setWord((word) => {
         const newWord = word + tileLetter;
         if (newWord.length < 3) {
@@ -126,7 +135,7 @@ function App() {
     }
   };
 
-  const mouseUpHandler = (event:MouseEvent<HTMLDivElement>) => {
+  const mouseUpHandler = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     setMouseDown(false);
     if (tileStatus === 'green') {
@@ -149,41 +158,18 @@ function App() {
       {
       isActive ?
         <>
-          <Paper style = {{marginBottom: '2vh', height: '1.3em'}}>
-            {`Score: ${score}`}
-          </Paper>
+          <Score score={score}/>
           <Timer clockTime={clockTime}/>
-          <Box
-            display = 'inline-block'
-            style = {{height: '1.3em', marginBottom: '2vh'}}
-          >
-            <Paper style = {{
-              display: 'inline-block',
-              paddingLeft: '5px',
-              paddingRight: '5px',
-              backgroundColor: `${tileStatus}`}}
-            >
-              {currWord}
-            </Paper>
-          </Box>
+          <CurrentWord currentWord = {currWord} tileStatus = {tileStatus}/>
           <div className = {styles.gameLayout}>
-            {/* <div
-              style={{width: '15vw', marginRight: 'auto', paddingRight: '5vw'}}
-            />
-            <WordHistory wordHistory = {wordHistory}/> */}
             <TileGrid
               gridArr = {gridArr}
+              size = {size}
               onTileDown = {onTileDown}
               onTileEnter = {onTileEnter}
               path = {path}
               tileStatus = {tileStatus}
             />
-            {/* <div
-              style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
-            />
-            <div
-              style = {{width: '15vw', marginLeft: 'auto', paddingLeft: '5vw'}}
-            /> */}
           </div>
         </>:
         null

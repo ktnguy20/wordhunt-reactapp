@@ -52,21 +52,19 @@ function Tile({
   };
 
   return (
-    <Grid item xs={3}>
-      <div
-        className={tileStatus !== undefined ? styles.animation : ''}
-        onMouseDown = {mouseDownHandler}
-        id = {`${tileId}`}
-      >
-        <TileContainer elevation = {12}>
-          <LetterContainer onMouseEnter = {mouseEnterHandler}>
-            <div color = {'white'}>
-              {tileValue}
-            </div>
-          </LetterContainer>
-        </TileContainer>
-      </div>
-    </Grid>
+    <div
+      className={tileStatus !== undefined ? styles.animation : ''}
+      onMouseDown = {mouseDownHandler}
+      id = {`${tileId}`}
+    >
+      <TileContainer elevation = {12}>
+        <LetterContainer onMouseEnter = {mouseEnterHandler}>
+          <div color = {'white'}>
+            {tileValue}
+          </div>
+        </LetterContainer>
+      </TileContainer>
+    </div>
   );
 }
 export default Tile;

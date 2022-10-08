@@ -2,6 +2,7 @@
   animation: onTileEnter ease-in-out;
   animation-duration: 0.05s;
   animation-fill-mode: forwards;
+  cursor: grabbing;
 }
 
 @keyframes onTileEnter {
