@@ -21,10 +21,6 @@ function ResultsModal({
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {() => {
-        handleClose();
-        setIsInfoModalOpen(true);
-      }}
     >
       Results
       <div>

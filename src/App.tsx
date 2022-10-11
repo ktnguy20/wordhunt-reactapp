@@ -17,6 +17,7 @@ import ResultsModal from './components/modals/ResultsModal';
 
 
 function App() {
+  const [isStart, setIsStart] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [gridArr, setGridArr] = useState<string[][]>([]);
   const [size, setSize] = useState<number>(4);
@@ -35,7 +36,6 @@ function App() {
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [isResultsModalOpen, setIsResultsModalOpen] = useState<boolean>(false);
-
 
   const onTimeout = (): void => {
     setIsActive((isActive) => false);
@@ -84,6 +84,9 @@ function App() {
   };
 
   const handleGameStart = (): void => {
+    if (isStart) {
+      setIsStart(false);
+    }
     setWordHistory([]);
     setPath([]);
     setScore(0);
@@ -195,6 +198,7 @@ function App() {
         handleClose = {() => setIsInfoModalOpen(false)}
         handleStart = {() => handleGameStart()}
         isActive = {isActive}
+        isStart = {isStart}
       />
       <SettingsModal
         isOpen = {isSettingsModalOpen}

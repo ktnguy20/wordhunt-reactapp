@@ -6,6 +6,7 @@ type InfoModalProps = {
   handleClose: () => void;
   handleStart: () => void;
   isActive: boolean;
+  isStart: boolean;
 }
 
 function InfoModal({
@@ -13,11 +14,12 @@ function InfoModal({
   handleClose,
   handleStart,
   isActive,
+  isStart,
 }: InfoModalProps) {
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {handleClose}
+      handleClose = {!isStart ? handleClose : undefined}
     >
       <p> Hello</p>
       <div>
@@ -25,7 +27,7 @@ function InfoModal({
           This is how you play the game
         </p>
       </div>
-      {!isActive ?
+      {isStart ?
         <button onClick = {() => {
           handleStart();
           handleClose();

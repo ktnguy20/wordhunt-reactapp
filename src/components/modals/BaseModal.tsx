@@ -10,7 +10,7 @@ import styles from '../../styles/BaseModal.module.scss';
 
 type BaseModalProps = {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose?: () => void;
   children: React.ReactNode;
 }
 
@@ -47,10 +47,12 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
       >
         <Fade in={isOpen}>
           <Box sx={style}>
-            <HighlightOffIcon
-              className = {styles.closeIcon}
-              onClick = {handleClose}
-            />
+            {handleClose &&
+              <HighlightOffIcon
+                className = {styles.closeIcon}
+                onClick = {handleClose}
+              />
+            }
             {children}
           </Box>
         </Fade>
