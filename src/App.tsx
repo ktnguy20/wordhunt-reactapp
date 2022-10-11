@@ -145,17 +145,19 @@ function App() {
 
   const mouseUpHandler = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setMouseDown(false);
-    if (tileStatus === 'green') {
-      setWordHistory((wordHistory) => wordHistory.concat([currWord]));
-      const wordValue = scores[currWord.length-3];
-      setScore((score) => score+wordValue);
-      setCurrWordAnim('animationValid');
-    } else {
-      setCurrWordAnim('animationInvalid');
+    if (mouseDown) {
+      setMouseDown(false);
+      if (tileStatus === 'green') {
+        setWordHistory((wordHistory) => wordHistory.concat([currWord]));
+        const wordValue = scores[currWord.length-3];
+        setScore((score) => score+wordValue);
+        setCurrWordAnim('animationValid');
+      } else {
+        setCurrWordAnim('animationInvalid');
+      }
+      setPath([]);
+      setTileStatus('aliceblue');
     }
-    setPath([]);
-    setTileStatus('aliceblue');
   };
 
   return (
