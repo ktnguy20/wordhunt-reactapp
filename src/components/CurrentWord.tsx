@@ -5,26 +5,35 @@ import styles from '../styles/CurrentWord.module.scss';
 type CurrentWordProps = {
   currentWord: string,
   tileStatus: string,
+  score?: number,
+  animation?: string,
 }
 function CurrentWord({
   currentWord,
   tileStatus,
+  score,
+  animation,
 }: CurrentWordProps) {
   return (
     <Box
-      style = {{height: '1.3em', marginBottom: '2vh'}}
+      style = {{height: '1.3em', marginBottom: '.5em', paddingBottom: '20px'}}
     >
       <Paper
         square
         elevation = {12}
-        className = {styles.wordContainer}
+        className = {
+          `${styles.wordContainer} ${animation ? styles[animation] : ''}`
+        }
         style = {{
           backgroundColor: `${tileStatus}`,
         }}
       >
-        <div style= {{marginBottom: '5px'}}>
-          {currentWord + ` (+${2200})`}
-        </div>
+        {
+          currentWord.length !== 0 &&
+            <div style = {{marginBottom: '4px'}}>
+              {currentWord + (score !== 0 ? ` (+${score})` : '')}
+            </div>
+        }
       </Paper>
     </Box>
   );

@@ -5,3 +5,52 @@
   font-size: 0.75em;
   border-radius: 0.75vmin;
 }
+
+.animationValid {
+  animation: expand ease-out;
+  animation-duration: 0.50s;
+  animation-fill-mode: forwards;
+  cursor: grabbing;
+}
+
+.animationInvalid {
+  animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(1);
+    opacity: 1.0;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.0;
+  }
+}
+
+@keyframes shake {
+  0% {
+    opacity: 1.0;
+  }
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(3px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+  100% {
+    opacity: 0.0;
+  }
+}

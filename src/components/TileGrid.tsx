@@ -1,7 +1,6 @@
 import React from 'react';
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
-import {createTheme} from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import styles from '../styles/TileGrid.module.scss';

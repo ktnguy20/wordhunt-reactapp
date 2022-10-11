@@ -16,7 +16,7 @@ function Logo() {
           return (
             <Grid item xs = {1} key={idx}>
               <Tile
-                tileId = {idx+500}
+                tileId = {9999}
                 tileValue = {letter}
                 onTileDown = {() => null}
                 onTileEnter = {() => null}

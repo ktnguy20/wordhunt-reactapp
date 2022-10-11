@@ -2,6 +2,7 @@ import React, {useState, MouseEvent, useEffect} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import diceArray from './assets/LetterDice/DiceArray';
+import scores from './data/scores';
 import {Box, Paper} from '@mui/material';
 import validWords from './data/ValidWords';
 import NavBar from './components/NavBar';
@@ -26,7 +27,10 @@ function App() {
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<string>('');
   const [score, setScore] = useState<number>(0);
-  const [gameLength, setGameLength] = useState<number>(6000);
+  // eslint-disable-next-line max-len
+  const [currWordScore, setCurrWordScore] = useState<number>(0);
+  const [currWordAnim, setCurrWordAnim] = useState<string>('');
+  const [gameLength, setGameLength] = useState<number>(60);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
@@ -83,7 +87,7 @@ function App() {
     setWordHistory([]);
     setPath([]);
     setScore(0);
-    setWord('hello');
+    setWord('');
     setGridArr(generateGrid());
     setIsActive((isActive) => true);
     setTime(gameLength+1);
@@ -108,6 +112,9 @@ function App() {
   };
 
   const onTileDown = (): void => {
+    setWord('');
+    setCurrWordAnim('');
+    setCurrWordScore(0);
     setMouseDown((isMouseDown) => !isMouseDown);
   };
 
@@ -126,6 +133,7 @@ function App() {
           setTileStatus('yellow');
         } else if (validWords[newWord.length-3].includes(newWord)) {
           setTileStatus('green');
+          setCurrWordScore(scores[newWord.length-3]);
         } else {
           setTileStatus('aliceblue');
         }
@@ -140,11 +148,12 @@ function App() {
     setMouseDown(false);
     if (tileStatus === 'green') {
       setWordHistory((wordHistory) => wordHistory.concat([currWord]));
-      const scores = [100, 400, 800, 1400, 1800, 2200, 2600, 3000, 3600];
       const wordValue = scores[currWord.length-3];
       setScore((score) => score+wordValue);
+      setCurrWordAnim('animationValid');
+    } else {
+      setCurrWordAnim('animationInvalid');
     }
-    setWord('');
     setPath([]);
     setTileStatus('aliceblue');
   };
@@ -160,7 +169,12 @@ function App() {
         <>
           <Score score={score}/>
           <Timer clockTime={clockTime}/>
-          <CurrentWord currentWord = {currWord} tileStatus = {tileStatus}/>
+          <CurrentWord
+            currentWord = {currWord}
+            tileStatus = {tileStatus}
+            score = {currWordScore}
+            animation = {currWordAnim}
+          />
           <div className = {styles.gameLayout}>
             <TileGrid
               gridArr = {gridArr}
