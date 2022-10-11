@@ -29,13 +29,8 @@ function NavBar({
               window.open('https://github.com/ktnguy20/wordhunt-reactapp');
             }}/>
         </div>
-        <div style={{
-          display: 'flex',
-          width: '500px',
-          paddingLeft: '2.5rem',
-        }}
-        >
-          <Logo />
+        <div className={styles.logo}>
+          <Logo/>
         </div>
         <div style={{
           alignItems: 'center',

@@ -2,16 +2,15 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Tile from './Tile';
 import Box from '@mui/material/Box';
+import styles from '../styles/NavBar.module.scss';
 
 
 function Logo() {
   const logo: string[] = 'WORD HUNT'.split('');
 
   return (
-    <Box width = {'100%'}>
-      <Grid container columns = {9} width = {'100%'}
-        // spacing={{xs: 0.5, sm: 0.6, md: 0.7, lg: 0.8, xl: 0.9}}
-      >
+    <Box className = {styles.logoAnimation} tabIndex = {0} width = {'100%'}>
+      <Grid container columns = {9} width = {'100%'}>
         {logo.map((letter: string, idx: number) => {
           return (
             <Grid item xs = {1} key={idx}>
