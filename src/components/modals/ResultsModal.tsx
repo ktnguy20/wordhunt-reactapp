@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseModal from './BaseModal';
+import styles from '../../styles/ResultsModal.module.scss';
 
 type ResultsModalProps = {
   isOpen: boolean;
@@ -29,7 +30,7 @@ function ResultsModal({
           <div key = {idx}>{word}</div>,
         )}
       </div>
-      <button onClick = {() => {
+      <button className = {styles.replayButton} onClick = {() => {
         handleRestart();
         handleClose();
       }}> Play Again </button>

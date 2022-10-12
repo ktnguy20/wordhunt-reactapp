@@ -1,8 +1,8 @@
 import React, {useState, MouseEvent, useEffect} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
-import diceArray from './assets/LetterDice/DiceArray';
-import scores from './data/scores';
+import getDice from './assets/LetterDice/DiceArray';
+import scores from './data/Scores';
 import {Box, Paper} from '@mui/material';
 import validWords from './data/ValidWords';
 import NavBar from './components/NavBar';
@@ -31,7 +31,7 @@ function App() {
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [gameLength, setGameLength] = useState<number>(60);
+  const [gameLength, setGameLength] = useState<number>(10);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
@@ -71,7 +71,7 @@ function App() {
 
   const generateGrid = (): string[][] => {
     const grid: string[][] = [];
-    const letters = shuffleDice(diceArray)
+    const letters = shuffleDice(getDice(size))
         .map(
             (die: string[]): string => {
               return rollDie(die);
@@ -164,7 +164,7 @@ function App() {
   };
 
   return (
-    <div className={styles.header} onMouseUp = {mouseUpHandler}>
+    <div className={styles.body} onMouseUp = {mouseUpHandler}>
       <NavBar
         handleOpenInfoModal={() => setIsInfoModalOpen(true)}
         handleOpenSettingsModal = {() => setIsSettingsModalOpen(true)}

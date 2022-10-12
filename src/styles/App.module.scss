@@ -1,22 +1,3 @@
-.dots {  
-  --bg-color: #2d2e30;
-  --main-color: #7eddd3;
-  --caret-color: #7eddd3;
-  --sub-color: #54585c;
-  --sub-alt-color: #242527;
-  --text-color: #e3e6eb;
-  --error-color: #d36a7b;
-  --error-extra-color: #994154;
-  --colorful-error-color: #d36a7b;
-  --colorful-error-extra-color: #994154;
-}
-
-.gameLayout {
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-}
 @mixin unselectable {
   -o-user-select: none;
   -khtml-user-drag: none;
@@ -33,19 +14,7 @@
   user-drag: none;
 }
 
-
-.logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.header {
+.body {
   @include unselectable;
   background-color: #2d2e30;
   min-height: 100vh;
@@ -55,19 +24,11 @@
   color: white;
   text-align: center;
   font-weight: 500;
-} 
-
-.tile-expand-animation {
-  animation: onTileEnter ease-in-out;
-  animation-duration: 0.05s;
-  animation-fill-mode: forwards;
 }
 
-@keyframes onTileEnter {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.05);
-  }
+.gameLayout {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }

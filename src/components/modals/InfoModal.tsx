@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../../styles/InfoModal.module.scss';
 import BaseModal from './BaseModal';
 
 type InfoModalProps = {
@@ -28,11 +29,11 @@ function InfoModal({
         </p>
       </div>
       {isStart ?
-        <button onClick = {() => {
+        <button className = {styles.playButton} onClick = {() => {
           handleStart();
           handleClose();
         }}>
-          Start Game
+          {'Start Game'}
         </button> :
         null
       }

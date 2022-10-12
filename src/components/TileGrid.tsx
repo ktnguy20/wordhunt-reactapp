@@ -36,6 +36,7 @@ function TileGrid({
       width={{xs: .75, sm: .5, md: .3, lg: .25, xl: .2}}
     >
       <Grid container
+        columns = {size}
         spacing={{xs: 1.2, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
         className="unselectable"
         paddingLeft={'5%'}
@@ -48,7 +49,7 @@ function TileGrid({
             row.map((letter: string, idx: number) => {
               const id: number = (size*rowIdx)+idx;
               return (
-                <Grid item key = {id} xs={3}>
+                <Grid item key = {id} xs={1}>
                   <Tile
                     tileId = {id}
                     tileValue = {letter}
