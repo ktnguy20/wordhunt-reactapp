@@ -4,21 +4,16 @@ import Tile from './Tile';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import styles from '../styles/TileGrid.module.scss';
-
-
-// const Item = styled(Paper)(({ theme }) => ({
-//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//     ...theme.typography.body2,
-//     color: theme.palette.text.secondary,
-//   }));
+import TileStatus from '../data/TileStatus';
 
 type TileGridProps = {
     gridArr: string[][];
     size: number;
-    onTileDown: () => void;
+    onTileDown: (tileId: number, tileLetter: string) => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     path: number[];
-    tileStatus: string;
+    tileStatus: TileStatus;
+    darkMode: boolean;
 }
 
 
@@ -29,7 +24,8 @@ function TileGrid({
   onTileEnter,
   path,
   tileStatus,
-}:TileGridProps) {
+  darkMode,
+}: TileGridProps) {
   return (
     <Box
       className = {styles.grid}
@@ -55,7 +51,10 @@ function TileGrid({
                     tileValue = {letter}
                     onTileDown = {onTileDown}
                     onTileEnter = {onTileEnter}
-                    tileStatus = {path.includes(id) ? tileStatus : undefined}
+                    tileStatus = {
+                      path.includes(id) ? tileStatus : TileStatus.unvisited
+                    }
+                    darkMode = {darkMode}
                   />
                 </Grid>
               );

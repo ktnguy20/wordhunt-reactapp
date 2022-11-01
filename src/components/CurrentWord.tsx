@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Paper} from '@mui/material';
+import {Paper} from '@mui/material';
 import styles from '../styles/CurrentWord.module.scss';
 
 type CurrentWordProps = {
@@ -7,35 +7,44 @@ type CurrentWordProps = {
   tileStatus: string,
   score?: number,
   animation?: string,
+  darkMode: boolean,
 }
 function CurrentWord({
   currentWord,
   tileStatus,
   score,
   animation,
+  darkMode,
 }: CurrentWordProps) {
+  let containerColor;
+  if (darkMode) {
+    if (tileStatus === 'invalid') containerColor = styles.darkInvalid;
+    else if (tileStatus === 'duplicate') containerColor = styles.darkDuplicate;
+    else if (tileStatus === 'valid') containerColor = styles.darkValid;
+  } else {
+    if (tileStatus === 'invalid') containerColor = styles.lightInvalid;
+    else if (tileStatus === 'duplicate') containerColor = styles.lightDuplicate;
+    else if (tileStatus === 'valid') containerColor = styles.lightValid;
+  }
+
   return (
-    <Box
-      style = {{height: '1.3em', marginBottom: '.5em', paddingBottom: '20px'}}
-    >
+    <div className = {styles.wordContainer}>
       <Paper
         square
         elevation = {12}
         className = {
-          `${styles.wordContainer} ${animation ? styles[animation] : ''}`
+          // eslint-disable-next-line max-len
+          `${styles.wordWrapper} ${containerColor} ${animation ? styles[animation] : ''}`
         }
-        style = {{
-          backgroundColor: `${tileStatus}`,
-        }}
       >
         {
           currentWord.length !== 0 &&
-            <div style = {{marginBottom: '4px'}}>
+            <div className = {styles.textWrapper}>
               {currentWord + (score !== 0 ? ` (+${score})` : '')}
             </div>
         }
       </Paper>
-    </Box>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 .bar {
     margin-bottom: 2%;
 }
-.barContent {
+.barContainer {
     height: 5%;
     background-color: #000;
     display: flex;
@@ -11,27 +11,38 @@
     padding-left: 1.25rem;
     padding-right: 1.25rem;
 }
+
+.githubWrapper {
+    display: flex;
+    align-items: center;
+    padding-right: 2.5rem;
+}
+
 .github {
     cursor: pointer;
     color: #FFF;
-    height: 100%;
-    width: 100%;
 }
-.settings {
-    cursor: pointer;
-    height: 100%;
-    color: #FFF;
+
+.infoSettingsWrapper {
+    display: flex;
+    align-items: center;
+    padding-left: 2.5rem;
 }
+
 .info {
     cursor: pointer;
-    height: 100%;
     color: #FFF;
     margin-right: .75rem;
 }
 
+.settings {
+    cursor: pointer;
+    color: #FFF;
+}
+
 .logo {
     display: flex;
-    width: 500px;
+    width: 30rem;
     padding-left: 2.5rem;
     color: #FFF;
 }

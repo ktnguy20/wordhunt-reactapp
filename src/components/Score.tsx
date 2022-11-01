@@ -1,24 +1,21 @@
 import React from 'react';
+import styles from '../styles/Score.module.scss';
 import {Box, Paper} from '@mui/material';
 
 type ScoreProps = {
   score: number;
+  darkMode: boolean;
 }
 function Score({
   score,
+  darkMode,
 }: ScoreProps) {
   return (
-    <Paper
-      elevation = {0}
-      style = {{
-        marginBottom: '2vh',
-        height: '1.3em',
-        backgroundColor: '#2d2e30',
-        color: '#FFF',
-      }}
+    <div
+      className = {styles.scoreContainer}
     >
       {`Score: ${score}`}
-    </Paper>
+    </div>
   );
 }
 

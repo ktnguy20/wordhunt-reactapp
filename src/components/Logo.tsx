@@ -4,8 +4,13 @@ import Tile from './Tile';
 import Box from '@mui/material/Box';
 import styles from '../styles/NavBar.module.scss';
 
+type LogoProps = {
+  darkMode: boolean;
+}
 
-function Logo() {
+function Logo({
+  darkMode,
+}: LogoProps) {
   const logo: string[] = 'WORD HUNT'.split('');
 
   return (
@@ -19,7 +24,7 @@ function Logo() {
                 tileValue = {letter}
                 onTileDown = {() => null}
                 onTileEnter = {() => null}
-                tileStatus = {'#50C878'}
+                darkMode = {darkMode}
               />
             </Grid>
           );

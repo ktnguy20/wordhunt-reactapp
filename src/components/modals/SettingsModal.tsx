@@ -4,6 +4,7 @@ import BaseModal from './BaseModal';
 type SettingsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
+  darkMode: boolean;
 }
 
 function SettingsModal({isOpen, handleClose}: SettingsModalProps) {

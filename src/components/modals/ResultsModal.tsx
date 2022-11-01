@@ -9,6 +9,7 @@ type ResultsModalProps = {
   wordHistory: string[];
   handleRestart: () => void;
   setIsInfoModalOpen: (bool: boolean) => void;
+  darkMode: boolean;
 }
 
 function ResultsModal({
@@ -18,6 +19,7 @@ function ResultsModal({
   score,
   wordHistory,
   setIsInfoModalOpen,
+  darkMode,
 }: ResultsModalProps) {
   return (
     <BaseModal

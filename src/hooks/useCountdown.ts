@@ -36,9 +36,7 @@ const useCountdown = (
       const elapsed = timestampMs - effectInitialTimeStamp;
       milisecond.current = effectInitialMs - elapsed;
       if (milisecond.current <= 0) {
-        console.log('mili <= 0');
         setTimer(0);
-        console.log('cancelAnimationFrame(zero)', handle, milisecond.current);
         cancelAnimationFrame(handle);
         setIsPlaying(false);
         onTimeout();
@@ -48,7 +46,6 @@ const useCountdown = (
         previous.current = milisecond.current;
 
         if (isUpdate) {
-          console.log(milisecond.current);
           setTimer(seconds);
         }
         if (isPlaying) {
@@ -59,7 +56,6 @@ const useCountdown = (
 
     handle = window.requestAnimationFrame(step);
     return () => {
-      console.log('cancelAnimationFrame(pause)', handle, milisecond.current);
       cancelAnimationFrame(handle);
     };
   }, [isPlaying, initialTimer]);

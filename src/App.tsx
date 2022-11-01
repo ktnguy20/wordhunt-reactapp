@@ -1,19 +1,20 @@
-import React, {useState, MouseEvent, useEffect} from 'react';
+import React, {useState, MouseEvent} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import getDice from './assets/LetterDice/DiceArray';
 import scores from './data/Scores';
-import {Box, Paper} from '@mui/material';
+import TileStatus from './data/TileStatus';
 import validWords from './data/ValidWords';
 import NavBar from './components/NavBar';
 import Timer from './components/Timer';
 import Score from './components/Score';
 import CurrentWord from './components/CurrentWord';
 import TileGrid from './components/TileGrid';
-import WordHistory from './components/WordHistory';
+// import WordHistory from './components/WordHistory';
 import InfoModal from './components/modals/InfoModal';
 import SettingsModal from './components/modals/SettingsModal';
 import ResultsModal from './components/modals/ResultsModal';
+import Tile from './components/Tile';
 
 
 function App() {
@@ -26,12 +27,13 @@ function App() {
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const [path, setPath] = useState<number[]>([]);
   const [wordHistory, setWordHistory] = useState<string[]>([]);
-  const [tileStatus, setTileStatus] = useState<string>('');
+  const [tileStatus, setTileStatus] = useState<TileStatus>(TileStatus.invalid);
   const [score, setScore] = useState<number>(0);
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [gameLength, setGameLength] = useState<number>(10);
+  const [gameLength, setGameLength] = useState<number>(1000);
+  const [darkMode, setDarkMode] = useState<boolean>(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
@@ -103,7 +105,7 @@ function App() {
   };
 
   const getCoords = (tileId: number): {x: number, y: number} => {
-    return ({x: Math.floor(tileId/size), y: tileId%size});
+    return ({x: Math.floor(tileId / size), y: tileId % size});
   };
 
   const isAdjacent = (prevTileId: number, currTileId: number): boolean => {
@@ -114,14 +116,22 @@ function App() {
     return (isHorizAdj && isVertAdj);
   };
 
-  const onTileDown = (): void => {
-    setWord('');
+  const onTileDown = (
+      tileId: number,
+      tileLetter: string,
+  ): void => {
+    setMouseDown((isMouseDown) => !isMouseDown);
     setCurrWordAnim('');
     setCurrWordScore(0);
-    setMouseDown((isMouseDown) => !isMouseDown);
+    setTileStatus(TileStatus.invalid);
+    setWord(tileLetter);
+    setPath([tileId]);
   };
 
-  const onTileEnter = (tileId: number, tileLetter: string): void => {
+  const onTileEnter = (
+      tileId: number,
+      tileLetter: string,
+  ): void => {
     if (mouseDown &&
       (
         (path.length === 0) ||
@@ -131,16 +141,18 @@ function App() {
       setWord((word) => {
         const newWord = word + tileLetter;
         if (newWord.length < 3) {
-          setTileStatus('aliceblue');
+          setTileStatus(TileStatus.invalid);
         } else if (wordHistory.includes(newWord)) {
-          setTileStatus('yellow');
+          setTileStatus(TileStatus.duplicate);
         } else if (validWords[newWord.length-3].includes(newWord)) {
-          setTileStatus('green');
+          setTileStatus(TileStatus.valid);
           setCurrWordScore(scores[newWord.length-3]);
         } else {
-          setTileStatus('aliceblue');
+          setTileStatus(TileStatus.invalid);
+          setCurrWordScore(0);
         }
-        return (word + tileLetter);
+        console.log(newWord);
+        return newWord;
       });
       setPath((path) => path.concat([tileId]));
     }
@@ -150,7 +162,7 @@ function App() {
     event.preventDefault();
     if (mouseDown) {
       setMouseDown(false);
-      if (tileStatus === 'green') {
+      if (tileStatus === 'valid') {
         setWordHistory((wordHistory) => wordHistory.concat([currWord]));
         const wordValue = scores[currWord.length-3];
         setScore((score) => score+wordValue);
@@ -159,29 +171,35 @@ function App() {
         setCurrWordAnim('animationInvalid');
       }
       setPath([]);
-      setTileStatus('aliceblue');
+      setTileStatus(TileStatus.invalid);
     }
   };
 
   return (
-    <div className={styles.body} onMouseUp = {mouseUpHandler}>
+    <div
+      className={`${styles.body} ${darkMode ? styles.dark : styles.light}`}
+      onMouseUp = {mouseUpHandler}
+    >
       <NavBar
         handleOpenInfoModal={() => setIsInfoModalOpen(true)}
         handleOpenSettingsModal = {() => setIsSettingsModalOpen(true)}
+        darkMode = {darkMode}
       />
       {
       isActive ?
         <>
-          <Score score={score}/>
-          <Timer clockTime={clockTime}/>
+          <Score score={score} darkMode = {darkMode} />
+          <Timer clockTime={clockTime} darkMode = {darkMode}/>
           <CurrentWord
             currentWord = {currWord}
             tileStatus = {tileStatus}
             score = {currWordScore}
             animation = {currWordAnim}
+            darkMode = {darkMode}
           />
           <div className = {styles.gameLayout}>
             <TileGrid
+              darkMode = {darkMode}
               gridArr = {gridArr}
               size = {size}
               onTileDown = {onTileDown}
@@ -199,10 +217,12 @@ function App() {
         handleStart = {() => handleGameStart()}
         isActive = {isActive}
         isStart = {isStart}
+        darkMode = {darkMode}
       />
       <SettingsModal
         isOpen = {isSettingsModalOpen}
         handleClose = {() => setIsSettingsModalOpen(false)}
+        darkMode = {darkMode}
       />
       <ResultsModal
         isOpen = {isResultsModalOpen}
@@ -211,6 +231,7 @@ function App() {
         score = {score}
         wordHistory = {wordHistory}
         setIsInfoModalOpen = {setIsInfoModalOpen}
+        darkMode = {darkMode}
       />
     </div>
   );

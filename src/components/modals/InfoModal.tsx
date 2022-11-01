@@ -8,6 +8,7 @@ type InfoModalProps = {
   handleStart: () => void;
   isActive: boolean;
   isStart: boolean;
+  darkMode: boolean;
 }
 
 function InfoModal({
@@ -16,6 +17,7 @@ function InfoModal({
   handleStart,
   isActive,
   isStart,
+  darkMode,
 }: InfoModalProps) {
   return (
     <BaseModal

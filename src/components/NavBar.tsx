@@ -9,20 +9,18 @@ import Logo from './Logo';
 type NavBarProps = {
   handleOpenInfoModal: () => void;
   handleOpenSettingsModal: () => void;
+  darkMode: boolean;
 }
 
 function NavBar({
   handleOpenInfoModal,
   handleOpenSettingsModal,
+  darkMode,
 }: NavBarProps) {
   return (
-    <div className= {styles.bar}>
-      <div className={styles.barContent}>
-        <div style={{
-          alignItems: 'center',
-          display: 'flex',
-          paddingRight: '2.5rem',
-        }}>
+    <div className= {`${styles.bar} ${darkMode ? styles.dark : styles.light}`}>
+      <div className={styles.barContainer}>
+        <div className = {styles.githubWrapper}>
           <GitHubIcon
             className={styles.github}
             onClick={() => {
@@ -30,13 +28,9 @@ function NavBar({
             }}/>
         </div>
         <div className={styles.logo}>
-          <Logo/>
+          <Logo darkMode = {darkMode}/>
         </div>
-        <div style={{
-          alignItems: 'center',
-          display: 'flex',
-          paddingLeft: '2.5rem',
-        }}>
+        <div className = {styles.infoSettingsWrapper}>
           <HelpOutlineIcon
             className={styles.info}
             onClick={handleOpenInfoModal}

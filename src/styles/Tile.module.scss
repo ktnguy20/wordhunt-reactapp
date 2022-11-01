@@ -1,3 +1,24 @@
+.tileContainer {
+  position: relative;
+  height: 0px;
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 15% !important;
+}
+
+.tileWrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  bottom: 0px;
+  border-radius: 50%;
+  
+}
+
 .animation {
   animation: onTileEnter ease-in-out;
   animation-duration: 0.05s;
@@ -12,4 +33,44 @@
   100% {
     transform: scale(1.05);
   }
+}
+
+//colors
+.darkLogo {
+  background-color: #50C878 !important;
+}
+
+.darkUnvisited {
+  background-color: white !important;
+}
+.darkValid {
+  background-color: green !important;
+}
+
+.darkDuplicate {
+  background-color: yellow !important;
+}
+
+.darkInvalid {
+  background-color: aliceblue !important;
+}
+
+.lightLogo {
+  background-color: grey !important;
+}
+
+.lightUnvisited {
+  background-color: white !important;
+}
+
+.lightValid {
+  background-color: green !important;
+}
+
+.lightInvalid {
+  background-color: aqua !important;
+}
+
+.lightUnvisited {
+  background-color: white !important;
 }

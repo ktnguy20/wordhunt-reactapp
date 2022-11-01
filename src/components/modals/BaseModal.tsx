@@ -15,25 +15,6 @@ type BaseModalProps = {
 }
 
 function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
-  const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: '16px',
-    boxShadow: 24,
-    p: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyItems: 'center',
-    outline: 'none',
-  };
-
   return (
     <div>
       <Modal
@@ -46,7 +27,7 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
         }}
       >
         <Fade in={isOpen}>
-          <Box sx={style}>
+          <Box className = {styles.modalBody}>
             {handleClose &&
               <HighlightOffIcon
                 className = {styles.closeIcon}
