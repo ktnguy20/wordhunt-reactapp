@@ -3,68 +3,78 @@ import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-
-
-// const Item = styled(Paper)(({ theme }) => ({
-//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//     ...theme.typography.body2,
-//     color: theme.palette.text.secondary,
-//   }));
+import styles from '../styles/TileGrid.module.scss';
+import TileStatus from '../data/TileStatus';
 
 type TileGridProps = {
-    gridArr: string[];
-    onTileDown: () => void;
+    gridArr: string[][];
+    size: number;
+    onTileDown: (tileId: number, tileLetter: string) => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     path: number[];
-    tileStatus: string;
+    tileStatus: TileStatus;
+    darkMode: boolean;
 }
 
 
 function TileGrid({
   gridArr,
+  size,
   onTileDown,
   onTileEnter,
   path,
   tileStatus,
-}:TileGridProps) {
+  darkMode,
+}: TileGridProps) {
   return (
-    <div
-      style={{justifyContent: 'center', display: 'flex'}}
+    <Box
+      className = {styles.grid}
+      width={{xs: .75, sm: .5, md: .3, lg: .25, xl: .2}}
     >
-      <Box
-        width={{xs: 0.4, sm: .3, md: .25, lg: .2, xl: .15}}
+      <Grid container
+        columns = {size}
+        spacing={{xs: 1.2, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
+        className="unselectable"
+        paddingLeft={'5%'}
+        paddingRight={'5%'}
+        paddingTop={'5%'}
+        paddingBottom={'5%'}
       >
-        <Grid container
-          spacing={{xs: 0.5, sm: 0.75, md: 1.0, lg: 1.25, xl: 1.50}}
-          className="unselectable"
-        >
-          <Xwrapper>
-            {gridArr.map((letter: string, idx:number) => (
-              <Tile
-                key = {idx}
-                tileId = {idx}
-                tileValue = {letter}
-                onTileDown = {onTileDown}
-                onTileEnter = {onTileEnter}
-                tileStatus = {path.includes(idx) ? tileStatus : undefined}
-              />
-            ))}
-            {path.map((value: number, idx: number) => {
-              if (idx == path.length-1) return;
-              return (<Xarrow
-                key = {idx}
-                start={`${value}`}
-                end = {`${path[idx+1]}`}
-                showHead={false}
-                path={'straight'}
-                startAnchor={'middle'}
-                endAnchor = {'middle'}
-              />);
-            })}
-          </Xwrapper>
-        </Grid>
-      </Box>
-    </div>
+        <Xwrapper>
+          {gridArr.map((row: string[], rowIdx:number) => (
+            row.map((letter: string, idx: number) => {
+              const id: number = (size*rowIdx)+idx;
+              return (
+                <Grid item key = {id} xs={1}>
+                  <Tile
+                    tileId = {id}
+                    tileValue = {letter}
+                    onTileDown = {onTileDown}
+                    onTileEnter = {onTileEnter}
+                    tileStatus = {
+                      path.includes(id) ? tileStatus : TileStatus.unvisited
+                    }
+                    darkMode = {darkMode}
+                  />
+                </Grid>
+              );
+            })
+          ))}
+          {path.map((value: number, idx: number) => {
+            if (idx == path.length-1) return;
+            return (<Xarrow
+              key = {idx}
+              start={`${value}`}
+              end = {`${path[idx+1]}`}
+              showHead={false}
+              path={'straight'}
+              startAnchor={'middle'}
+              endAnchor = {'middle'}
+            />);
+          })}
+        </Xwrapper>
+      </Grid>
+    </Box>
   );
 }
 

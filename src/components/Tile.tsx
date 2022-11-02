@@ -1,16 +1,16 @@
 import React, {MouseEvent} from 'react';
-import {styled} from '@mui/material/styles';
 import styles from '../styles/Tile.module.scss';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import TileStatus from '../data/TileStatus';
 
 type TileProps = {
     tileId: number;
     tileValue:string;
-    onTileDown: () => void;
+    onTileDown: (tileId: number, tileLetter: string) => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
-    tileStatus?: string;
+    tileStatus?: TileStatus;
+    darkMode: boolean;
 }
 
 function Tile({
@@ -19,53 +19,53 @@ function Tile({
   onTileDown,
   onTileEnter,
   tileStatus,
+  darkMode,
 }: TileProps) {
-  const TileContainer = styled(Paper)(() => ({
-    backgroundColor: tileStatus !== undefined ? tileStatus : '#E3CFAA',
-    position: 'relative',
-    height: '0',
-    width: '100%',
-    paddingBottom: '100%',
-  }));
+  let tileColor: string | undefined = undefined;
 
-  const LetterContainer = styled(Box)(() => ({
-    position: 'absolute',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    width: '100%',
-    top: '0',
-    bottom: '0',
-    borderRadius: '50%',
-  }));
-
+  if (darkMode) {
+    if (tileStatus === undefined) {
+      tileColor = styles.darkLogo;
+    } else if (tileStatus === 'unvisited') tileColor = styles.darkUnvisited;
+    else if (tileStatus === 'invalid') tileColor = styles.darkInvalid;
+    else if (tileStatus === 'duplicate') tileColor = styles.darkDuplicate;
+    else if (tileStatus === 'valid') tileColor = styles.darkValid;
+  } else {
+    if (!tileStatus) tileColor = styles.lightLogo;
+    else if (tileStatus === 'unvisited') tileColor = styles.lightUnvisited;
+    else if (tileStatus === 'invalid') tileColor = styles.lightInvalid;
+    else if (tileStatus === 'duplicate') tileColor = styles.lightDuplicate;
+    else if (tileStatus === 'valid') tileColor = styles.lightValid;
+  }
 
   const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
     onTileEnter(tileId, tileValue);
   };
 
   const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-    onTileDown();
-    onTileEnter(tileId, tileValue);
+    onTileDown(tileId, tileValue);
   };
 
   return (
-    <Grid item xs={3}>
-      <div
-        className={tileStatus !== undefined ? styles.animation : ''}
-        onMouseDown = {mouseDownHandler}
-        id = {`${tileId}`}
+    <div
+      className={tileStatus !== 'unvisited' ? styles.animation : ''}
+      onMouseDown = {mouseDownHandler}
+      id = {`${tileId}`}
+    >
+      <Paper
+        className = {`${styles.tileContainer} ${tileColor}`}
+        elevation = {12}
       >
-        <TileContainer elevation = {16}>
-          <LetterContainer onMouseEnter = {mouseEnterHandler}>
-            <div>
-              {tileValue}
-            </div>
-          </LetterContainer>
-        </TileContainer>
-      </div>
-    </Grid>
+        <Box
+          className = {styles.tileWrapper}
+          onMouseEnter = {mouseEnterHandler}
+        >
+          <div>
+            {tileValue}
+          </div>
+        </Box>
+      </Paper>
+    </div>
   );
 }
 export default Tile;

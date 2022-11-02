@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseModal from './BaseModal';
+import styles from '../../styles/ResultsModal.module.scss';
 
 type ResultsModalProps = {
   isOpen: boolean;
@@ -8,6 +9,7 @@ type ResultsModalProps = {
   wordHistory: string[];
   handleRestart: () => void;
   setIsInfoModalOpen: (bool: boolean) => void;
+  darkMode: boolean;
 }
 
 function ResultsModal({
@@ -17,14 +19,11 @@ function ResultsModal({
   score,
   wordHistory,
   setIsInfoModalOpen,
+  darkMode,
 }: ResultsModalProps) {
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {() => {
-        handleClose();
-        setIsInfoModalOpen(true);
-      }}
     >
       Results
       <div>
@@ -33,7 +32,7 @@ function ResultsModal({
           <div key = {idx}>{word}</div>,
         )}
       </div>
-      <button onClick = {() => {
+      <button className = {styles.replayButton} onClick = {() => {
         handleRestart();
         handleClose();
       }}> Play Again </button>

@@ -1,12 +1,76 @@
+.bar {
+    margin-bottom: 2%;
+}
+.barContainer {
+    height: 5%;
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.githubWrapper {
+    display: flex;
+    align-items: center;
+    padding-right: 2.5rem;
+}
+
 .github {
     cursor: pointer;
-    color: black;
+    color: #FFF;
 }
-.settings {
-    cursor: pointer;
-    color: black;
+
+.infoSettingsWrapper {
+    display: flex;
+    align-items: center;
+    padding-left: 2.5rem;
 }
+
 .info {
     cursor: pointer;
-    color: black;
+    color: #FFF;
+    margin-right: .75rem;
+}
+
+.settings {
+    cursor: pointer;
+    color: #FFF;
+}
+
+.logo {
+    display: flex;
+    width: 32rem;
+    padding-left: 2.5rem;
+    color: #FFF;
+}
+
+.logoAnimation:focus {
+    animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.logoAnimation:active {
+    animation: none;
+}
+@keyframes shake {
+    10%, 90% {
+      transform: translate3d(-2px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(5px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-7px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(7px, 0, 0);
+    }
 }

@@ -1,3 +1,23 @@
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25rem; //add selectors for mobile scaling
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 24;
+    padding: 2em;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    outline: none;
+
+}
+
 .closeIcon {
     cursor: pointer;
     position: absolute;

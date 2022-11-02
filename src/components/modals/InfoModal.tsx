@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../../styles/InfoModal.module.scss';
 import BaseModal from './BaseModal';
 
 type InfoModalProps = {
@@ -6,6 +7,8 @@ type InfoModalProps = {
   handleClose: () => void;
   handleStart: () => void;
   isActive: boolean;
+  isStart: boolean;
+  darkMode: boolean;
 }
 
 function InfoModal({
@@ -13,11 +16,13 @@ function InfoModal({
   handleClose,
   handleStart,
   isActive,
+  isStart,
+  darkMode,
 }: InfoModalProps) {
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {handleClose}
+      handleClose = {!isStart ? handleClose : undefined}
     >
       <p> Hello</p>
       <div>
@@ -25,12 +30,12 @@ function InfoModal({
           This is how you play the game
         </p>
       </div>
-      {!isActive ?
-        <button onClick = {() => {
+      {isStart ?
+        <button className = {styles.playButton} onClick = {() => {
           handleStart();
           handleClose();
         }}>
-          Start Game
+          {'Start Game'}
         </button> :
         null
       }
