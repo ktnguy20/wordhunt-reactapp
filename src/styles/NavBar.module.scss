@@ -3,7 +3,7 @@
 }
 .barContainer {
     height: 5%;
-    background-color: #000;
+    background-color: #BAA590;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -20,7 +20,7 @@
 
 .github {
     cursor: pointer;
-    color: #FFF;
+    color: #000;
 }
 
 .infoSettingsWrapper {
@@ -31,13 +31,13 @@
 
 .info {
     cursor: pointer;
-    color: #FFF;
+    color: #000;
     margin-right: .75rem;
 }
 
 .settings {
     cursor: pointer;
-    color: #FFF;
+    color: #000;
 }
 
 .logo {
