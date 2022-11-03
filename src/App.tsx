@@ -32,7 +32,7 @@ function App() {
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [gameLength, setGameLength] = useState<number>(1000);
+  const [timeLimit, setTimeLimit] = useState<number>(90);
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
@@ -44,7 +44,7 @@ function App() {
     setIsResultsModalOpen(true);
   };
   const [clockTime, setTime, isPlaying, setIsPlaying] = useCountdown(
-      gameLength, false, onTimeout,
+      timeLimit, false, onTimeout,
   );
 
   // end of tileGrid hooks
@@ -71,7 +71,7 @@ function App() {
     return die[Math.floor(Math.random()*die.length)];
   };
 
-  const generateGrid = (): string[][] => {
+  const generateGrid = (size: number): string[][] => {
     const grid: string[][] = [];
     const letters = shuffleDice(getDice(size))
         .map(
@@ -85,7 +85,7 @@ function App() {
     return grid;
   };
 
-  const handleGameStart = (): void => {
+  const handleGameStart = (size: number, timeLimit: number): void => {
     if (isStart) {
       setIsStart(false);
     }
@@ -93,16 +93,34 @@ function App() {
     setPath([]);
     setScore(0);
     setWord('');
-    setGridArr(generateGrid());
+    setGridArr(generateGrid(size));
     setIsActive((isActive) => true);
-    setTime(gameLength+1);
-    setTimeout(() => setIsPlaying(true), 2);
+    setTime(timeLimit+1);
+    setTimeout(() => setIsPlaying(true), 1);
   };
 
-  const handleGameRestart = (): void => {
+  const handleGameRestart = (size: number, timeLimit: number): void => {
     setIsPlaying(false);
-    handleGameStart();
+    handleGameStart(size, timeLimit);
   };
+
+  const handleChangeSize =
+    (event: MouseEvent<HTMLElement>, newSize: number) => {
+      event.preventDefault();
+      if (newSize) {
+        setSize(newSize);
+        handleGameRestart(newSize, timeLimit);
+      }
+    };
+
+  const handleChangeTime =
+    (event: MouseEvent<HTMLElement>, newTimeLimit: number) => {
+      event.preventDefault();
+      if (newTimeLimit) {
+        setTimeLimit(newTimeLimit);
+        handleGameRestart(size, newTimeLimit);
+      }
+    };
 
   const getCoords = (tileId: number): {x: number, y: number} => {
     return ({x: Math.floor(tileId / size), y: tileId % size});
@@ -214,7 +232,7 @@ function App() {
       <InfoModal
         isOpen = {isInfoModalOpen}
         handleClose = {() => setIsInfoModalOpen(false)}
-        handleStart = {() => handleGameStart()}
+        handleStart = {() => handleGameStart(size, timeLimit)}
         isActive = {isActive}
         isStart = {isStart}
         darkMode = {darkMode}
@@ -223,11 +241,16 @@ function App() {
         isOpen = {isSettingsModalOpen}
         handleClose = {() => setIsSettingsModalOpen(false)}
         darkMode = {darkMode}
+        toggleDarkMode = {() => setDarkMode((isDark) => !isDark)}
+        size = {size}
+        setSize = {handleChangeSize}
+        timeLimit = {timeLimit}
+        setTimeLimit = {handleChangeTime}
       />
       <ResultsModal
         isOpen = {isResultsModalOpen}
         handleClose = {() => setIsResultsModalOpen(false)}
-        handleRestart = {() => handleGameRestart()}
+        handleRestart = {() => handleGameRestart(size, timeLimit)}
         score = {score}
         wordHistory = {wordHistory}
         setIsInfoModalOpen = {setIsInfoModalOpen}

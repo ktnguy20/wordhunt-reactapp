@@ -24,6 +24,7 @@ function ResultsModal({
   return (
     <BaseModal
       isOpen = {isOpen}
+      darkMode = {darkMode}
     >
       Results
       <div>

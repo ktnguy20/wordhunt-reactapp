@@ -23,6 +23,7 @@ function InfoModal({
     <BaseModal
       isOpen = {isOpen}
       handleClose = {!isStart ? handleClose : undefined}
+      darkMode = {darkMode}
     >
       <p> Hello</p>
       <div>

@@ -6,7 +6,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 25rem; //add selectors for mobile scaling
-    background-color: white;
     border-radius: 16px;
     box-shadow: 24;
     padding: 2em;
@@ -16,6 +15,17 @@
     justify-items: center;
     outline: none;
 
+}
+
+
+.dark {
+  background-color: #363842;
+  color: white;
+}
+
+.light {
+  background-color: white;
+  color: #2d2e30;
 }
 
 .closeIcon {
