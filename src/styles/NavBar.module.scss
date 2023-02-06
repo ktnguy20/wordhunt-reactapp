@@ -31,13 +31,8 @@
 }
 
 .githubContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include icon-container;
     padding-right: 0.5rem;
-    width: 6rem;
-    max-width: 75px;
-    min-width: 40px;
 }
 
 .github {
@@ -45,13 +40,8 @@
 }
 
 .infoSettingsContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include icon-container;
     padding-left: 0.5rem;
-    width: 6rem;
-    max-width: 75px;
-    min-width: 40px;
 }
 
 .info {
