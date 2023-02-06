@@ -21,6 +21,7 @@
 .github {
     cursor: pointer;
     color: #ffffff;
+    width: 1.5rem !important;
 }
 
 .infoSettingsWrapper {
@@ -33,16 +34,18 @@
     cursor: pointer;
     color: #ffffff;
     margin-right: .75rem;
+    width: 1.5rem !important;
 }
 
 .settings {
     cursor: pointer;
     color: #ffffff;
+    width: 1.5rem !important;
 }
 
 .logo {
     display: flex;
-    width: 32rem;
+    width: 500px;
     padding-left: 2.5rem;
 }
 

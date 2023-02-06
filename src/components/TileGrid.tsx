@@ -29,7 +29,7 @@ function TileGrid({
   return (
     <Box
       className = {styles.grid}
-      width={{xs: .75, sm: .5, md: .3, lg: .25, xl: .2}}
+      width={{xs: .75, sm: .6, md: .5, lg: .4, xl: .2}}
     >
       <Grid container
         columns = {size}
