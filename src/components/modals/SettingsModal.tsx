@@ -84,12 +84,12 @@ function SettingsModal({
       <h3> Settings </h3>
       <div style={{width: '100%'}}>
         <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h4> Dark Mode </h4>
+          <h4 style ={{marginRight: '0.5rem'}}> Dark Mode </h4>
           <MaterialUISwitch sx={{ m: 1 }} defaultChecked onChange = {toggleDarkMode}/>
         </div>
         <hr/>
         <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h4> Board Size </h4>
+          <h4 style ={{marginRight: '0.5rem'}}> Board Size </h4>
           <ToggleButtonGroup
           sx = {{"&& .Mui-selected": {
             backgroundColor: darkMode ? "lightslategrey" : undefined
@@ -109,7 +109,7 @@ function SettingsModal({
         </div>
         <hr/>
         <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h4> Time Limit </h4>
+          <h4 style ={{marginRight: '0.5rem'}}> Time Limit </h4>
             <ToggleButtonGroup
               sx = {{"&& .Mui-selected": {
                 backgroundColor: darkMode ? "lightslategrey" : undefined

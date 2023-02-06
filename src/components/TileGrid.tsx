@@ -33,7 +33,7 @@ function TileGrid({
     >
       <Grid container
         columns = {size}
-        spacing={{xs: 1.2, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
+        spacing={{xs: 1, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
         className="unselectable"
         paddingLeft={'5%'}
         paddingRight={'5%'}
