@@ -1,46 +1,65 @@
+@mixin icon {
+    cursor: pointer;
+    color: #ffffff;
+    width: calc(50% - 0.5rem) !important;
+    height: 100% !important;
+    margin: 0 0.3rem;
+}
+
+@mixin icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 0.5rem;
+    width: 6rem;
+    max-width: 75px;
+    min-width: 40px;
+}
+
 .bar {
     margin-bottom: 2%;
 }
-.barContainer {
+.barWrapper {
     height: 5%;
     background-color: #000000;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
-.githubWrapper {
+.githubContainer {
     display: flex;
     align-items: center;
-    padding-right: 2.75rem;
+    justify-content: center;
+    padding-right: 0.5rem;
+    width: 6rem;
+    max-width: 75px;
+    min-width: 40px;
 }
 
 .github {
-    cursor: pointer;
-    color: #ffffff;
-    width: 1.5rem !important;
+    @include icon;
 }
 
-.infoSettingsWrapper {
+.infoSettingsContainer {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding-left: 0.5rem;
+    width: 6rem;
+    max-width: 75px;
+    min-width: 40px;
 }
 
 .info {
-    cursor: pointer;
-    color: #ffffff;
-    margin-right: .75rem;
-    width: 1.5rem !important;
+    @include icon;
 }
 
 .settings {
-    cursor: pointer;
-    color: #ffffff;
-    width: 1.5rem !important;
+    @include icon;
 }
 
 .logo {

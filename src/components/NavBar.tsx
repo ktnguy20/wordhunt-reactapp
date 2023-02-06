@@ -19,9 +19,15 @@ function NavBar({
 }: NavBarProps) {
   return (
     <div className= {`${styles.bar} ${darkMode ? styles.dark : styles.light}`}>
-      <div className={styles.barContainer}>
-        <div className = {styles.githubWrapper}>
+      <div className={styles.barWrapper}>
+        <div className = {styles.githubContainer}>
           <GitHubIcon
+            className={styles.github}
+            onClick={() => {
+              window.open('https://github.com/ktnguy20/wordhunt-reactapp');
+            }}/>
+          <GitHubIcon
+            style={{visibility: 'hidden'}}
             className={styles.github}
             onClick={() => {
               window.open('https://github.com/ktnguy20/wordhunt-reactapp');
@@ -30,7 +36,7 @@ function NavBar({
         <div className={styles.logo}>
           <Logo darkMode = {darkMode}/>
         </div>
-        <div className = {styles.infoSettingsWrapper}>
+        <div className = {styles.infoSettingsContainer}>
           <HelpOutlineIcon
             className={styles.info}
             onClick={handleOpenInfoModal}
