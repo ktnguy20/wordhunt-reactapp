@@ -1,10 +1,10 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState, useEffect, MouseEvent} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import getDice from './assets/LetterDice/DiceArray';
-import scores from './data/Scores';
+import getScores from './data/Scores';
 import TileStatus from './data/TileStatus';
-import validWords from './data/ValidWords';
+import getValidWords from './data/ValidWords';
 import NavBar from './components/NavBar';
 import Timer from './components/Timer';
 import Score from './components/Score';
@@ -28,7 +28,10 @@ function App() {
   const [path, setPath] = useState<number[]>([]);
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<TileStatus>(TileStatus.invalid);
+  const [scores, setScores] = useState<number[]>(getScores(size));
   const [score, setScore] = useState<number>(0);
+  // eslint-disable-next-line max-len
+  const [validWords, setValidWords] = useState<{[key: string]: {value: number, path: {row: number, col: number}[]}}>({});
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
@@ -72,6 +75,13 @@ function App() {
   };
 
   const generateGrid = (size: number): string[][] => {
+    const test: boolean = false;
+    const testGrid = [
+      ['B', 'H', 'E', 'Q'],
+      ['C', 'L', 'G', 'Y'],
+      ['S', 'Y', 'W', 'K'],
+      ['D', 'A', 'S', 'C'],
+    ];
     const grid: string[][] = [];
     const letters = shuffleDice(getDice(size))
         .map(
@@ -82,21 +92,23 @@ function App() {
     for (let i = 0; i < letters.length; i+=size) {
       grid.push(letters.slice(i, i+size));
     }
-    return grid;
+    return (!test) ? grid: testGrid;
   };
 
   const handleGameStart = (size: number, timeLimit: number): void => {
     if (isStart) {
       setIsStart(false);
     }
+    const newGrid = generateGrid(size);
     setWordHistory([]);
     setPath([]);
     setScore(0);
     setWord('');
-    setGridArr(generateGrid(size));
+    setGridArr(newGrid);
+    setValidWords(getValidWords(size, newGrid));
     setIsActive((isActive) => true);
     setTime(timeLimit+1);
-    setTimeout(() => setIsPlaying(true), 1);
+    setTimeout(() => setIsPlaying(true), 3);
   };
 
   const handleGameRestart = (size: number, timeLimit: number): void => {
@@ -162,9 +174,10 @@ function App() {
           setTileStatus(TileStatus.invalid);
         } else if (wordHistory.includes(newWord)) {
           setTileStatus(TileStatus.duplicate);
-        } else if (validWords[newWord.length-3].includes(newWord)) {
+          setCurrWordScore(0);
+        } else if (newWord in validWords) {
           setTileStatus(TileStatus.valid);
-          setCurrWordScore(scores[newWord.length-3]);
+          setCurrWordScore(validWords[newWord].value);
         } else {
           setTileStatus(TileStatus.invalid);
           setCurrWordScore(0);
@@ -182,8 +195,7 @@ function App() {
       setMouseDown(false);
       if (tileStatus === 'valid') {
         setWordHistory((wordHistory) => wordHistory.concat([currWord]));
-        const wordValue = scores[currWord.length-3];
-        setScore((score) => score+wordValue);
+        setScore((score) => score+currWordScore);
         setCurrWordAnim('animationValid');
       } else {
         setCurrWordAnim('animationInvalid');

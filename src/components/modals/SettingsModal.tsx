@@ -5,6 +5,7 @@ import {styled} from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { ToggleButton } from '@mui/material';
+import styles from '../../styles/SettingsModal.module.scss';
 
 type SettingsModalProps = {
   isOpen: boolean;
@@ -80,42 +81,54 @@ function SettingsModal({
       handleClose = {handleClose}
       darkMode = {darkMode}
     >
-      Settings
-      
-      <MaterialUISwitch sx={{ m: 1 }} defaultChecked onChange = {toggleDarkMode}/>
-      <ToggleButtonGroup
-        color = 'primary'
-        value={size}
-        onChange={setSize}
-        exclusive
-      >
-        <ToggleButton value= {4} key={4} disableRipple>
-          4x4
-        </ToggleButton>
-        <ToggleButton value={5} key={5} disableRipple>
-          5x5
-        </ToggleButton>
-      </ToggleButtonGroup>
-
-      <ToggleButtonGroup
-        color = 'primary'
-        value={timeLimit}
-        onChange={setTimeLimit}
-        exclusive
-      >
-        <ToggleButton value={30} key={30}>
-          30
-        </ToggleButton>
-        <ToggleButton value={45} key={45}>
-          45
-        </ToggleButton>
-        <ToggleButton value={60} key={60}>
-          60
-        </ToggleButton>
-        <ToggleButton value={90} key={90}>
-          90
-        </ToggleButton>
-      </ToggleButtonGroup>
+      <h3> Settings </h3>
+      <div style={{width: '100%'}}>
+        <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h4> Dark Mode </h4>
+          <MaterialUISwitch sx={{ m: 1 }} defaultChecked onChange = {toggleDarkMode}/>
+        </div>
+        <hr/>
+        <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h4> Board Size </h4>
+          <ToggleButtonGroup
+          sx = {{"&& .Mui-selected": {
+            backgroundColor: darkMode ? "lightslategrey" : undefined
+          }}}
+          value={size}
+          onChange={setSize}
+          exclusive
+        >
+          {
+            [4,5].map((x) => {
+              return (<ToggleButton className = {darkMode ? styles.buttonGroupDark : undefined} value={x} key={x}>
+                {x}x{x}
+              </ToggleButton>);
+            })
+          }
+        </ToggleButtonGroup>
+        </div>
+        <hr/>
+        <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h4> Time Limit </h4>
+            <ToggleButtonGroup
+              sx = {{"&& .Mui-selected": {
+                backgroundColor: darkMode ? "lightslategrey" : undefined
+              }}}
+              value={timeLimit}
+              onChange={setTimeLimit}
+              exclusive
+            >
+              {
+                [30,45,60,90].map((x) => {
+                  return (<ToggleButton className = {darkMode ? styles.buttonGroupDark : undefined} value={x} key={x}>
+                    {x}
+                  </ToggleButton>);
+                })
+              }
+              
+          </ToggleButtonGroup>
+        </div>
+      </div>
     </BaseModal>
   );
 }
