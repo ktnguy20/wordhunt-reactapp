@@ -29,11 +29,10 @@ function TileGrid({
   return (
     <Box
       className = {styles.grid}
-      width={{xs: .75, sm: .6, md: .4, lg: .3, xl: .2}}
     >
       <Grid container
         columns = {size}
-        spacing={{xs: 1, sm: 1.3, md: 1.4, lg: 1.25, xl: 1.50}}
+        spacing={'2.5%'}
         className="unselectable"
         paddingLeft={'5%'}
         paddingRight={'5%'}
