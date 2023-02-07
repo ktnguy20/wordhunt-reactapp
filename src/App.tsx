@@ -75,13 +75,6 @@ function App() {
   };
 
   const generateGrid = (size: number): string[][] => {
-    const test: boolean = true;
-    const testGrid = [
-      ['B', 'H', 'E', 'Q'],
-      ['C', 'L', 'G', 'Y'],
-      ['S', 'Y', 'W', 'K'],
-      ['D', 'A', 'S', 'C'],
-    ];
     const grid: string[][] = [];
     const letters = shuffleDice(getDice(size))
         .map(
@@ -92,7 +85,7 @@ function App() {
     for (let i = 0; i < letters.length; i+=size) {
       grid.push(letters.slice(i, i+size));
     }
-    return (!test) ? grid: testGrid;
+    return grid;
   };
 
   const handleGameStart = (size: number, timeLimit: number): void => {

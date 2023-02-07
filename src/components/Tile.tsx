@@ -40,7 +40,7 @@ function Tile({
 
   const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
     // whatever logic you need
-    event.preventDefault();
+    if (tileStatus) event.preventDefault();
     onTileDown(tileId, tileValue);
     event.currentTarget.setPointerCapture(event.pointerId);
     event.currentTarget.releasePointerCapture(event.pointerId);
