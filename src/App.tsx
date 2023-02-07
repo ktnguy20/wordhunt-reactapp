@@ -196,6 +196,9 @@ function App() {
         setWordHistory((wordHistory) => wordHistory.concat([currWord]));
         setScore((score) => score+currWordScore);
         setCurrWordAnim('animationValid');
+        validWords[currWord].path = path.map((tileId: number) => {
+          return {row: Math.floor(tileId/size), col: tileId%size};
+        });
       } else {
         setCurrWordAnim('animationInvalid');
       }
