@@ -17,6 +17,7 @@
 .body {
   @include unselectable;
   position: fixed;
+  touch-action: pan-x pan-y;
   height: 100vh;
   max-height: -webkit-fill-available;
   width: stretch;
