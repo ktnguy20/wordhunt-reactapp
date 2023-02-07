@@ -35,7 +35,7 @@ function App() {
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [timeLimit, setTimeLimit] = useState<number>(90);
+  const [timeLimit, setTimeLimit] = useState<number>(1000);
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
@@ -75,7 +75,7 @@ function App() {
   };
 
   const generateGrid = (size: number): string[][] => {
-    const test: boolean = false;
+    const test: boolean = true;
     const testGrid = [
       ['B', 'H', 'E', 'Q'],
       ['C', 'L', 'G', 'Y'],
