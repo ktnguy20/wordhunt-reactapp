@@ -38,31 +38,24 @@ function Tile({
     else if (tileStatus === 'valid') tileColor = styles.lightValid;
   }
 
-  // const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
-  //   onTileEnter(tileId, tileValue);
-  // };
-
-  // const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-  //   onTileDown(tileId, tileValue);
-  // };
-
   const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
     // whatever logic you need
+    event.preventDefault();
     onTileDown(tileId, tileValue);
-    // event.target.releasePointerCapture(event.pointerId);
+    event.currentTarget.setPointerCapture(event.pointerId);
     event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
   const pointerEnterHandler = (event: PointerEvent<HTMLDivElement>) => {
+    event.preventDefault();
     onTileEnter(tileId, tileValue);
   };
 
   return (
     <div
       className={tileStatus !== 'unvisited' ? styles.animation : ''}
-      // onMouseDown = {mouseDownHandler}
-      onPointerDown = {pointerDownHandler}
       id = {`${tileId}`}
+      onPointerDown = {pointerDownHandler}
     >
       <Paper
         className = {`${styles.tileContainer} ${tileColor}`}
@@ -70,8 +63,7 @@ function Tile({
       >
         <Box
           className = {styles.tileWrapper}
-          // onMouseEnter = {mouseEnterHandler}
-          onPointerEnter = {pointerEnterHandler}
+          onPointerEnter= {pointerEnterHandler}
         >
           <div>
             {tileValue}

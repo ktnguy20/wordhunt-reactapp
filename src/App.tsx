@@ -182,7 +182,6 @@ function App() {
           setTileStatus(TileStatus.invalid);
           setCurrWordScore(0);
         }
-        console.log(newWord);
         return newWord;
       });
       setPath((path) => path.concat([tileId]));
