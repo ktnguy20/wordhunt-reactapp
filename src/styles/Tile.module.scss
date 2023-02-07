@@ -1,4 +1,5 @@
 .tileContainer {
+  touch-action: none;
   position: relative;
   height: 0px;
   width: 100%;
@@ -7,6 +8,7 @@
 }
 
 .tileWrapper {
+  touch-action: none;
   position: absolute;
   display: flex;
   justify-content: center;
