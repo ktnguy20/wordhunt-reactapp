@@ -38,19 +38,19 @@ function Tile({
     else if (tileStatus === 'valid') tileColor = styles.lightValid;
   }
 
-  const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
-    onTileEnter(tileId, tileValue);
-  };
+  // const mouseEnterHandler = (event: MouseEvent<HTMLDivElement>) => {
+  //   onTileEnter(tileId, tileValue);
+  // };
 
-  const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
-    onTileDown(tileId, tileValue);
-  };
+  // const mouseDownHandler = (event: MouseEvent<HTMLDivElement>) => {
+  //   onTileDown(tileId, tileValue);
+  // };
 
   const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
     // whatever logic you need
     onTileDown(tileId, tileValue);
     // event.target.releasePointerCapture(event.pointerId);
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    // event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
   const pointerEnterHandler = (event: PointerEvent<HTMLDivElement>) => {
