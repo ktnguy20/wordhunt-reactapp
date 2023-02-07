@@ -24,7 +24,7 @@ function Tile({
   let tileColor: string | undefined = undefined;
 
   if (darkMode) {
-    if (tileStatus === undefined) {
+    if (!tileStatus) {
       tileColor = styles.darkLogo;
     } else if (tileStatus === 'unvisited') tileColor = styles.darkUnvisited;
     else if (tileStatus === 'invalid') tileColor = styles.darkInvalid;
