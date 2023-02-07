@@ -50,7 +50,7 @@ function Tile({
     // whatever logic you need
     onTileDown(tileId, tileValue);
     // event.target.releasePointerCapture(event.pointerId);
-    // event.currentTarget.releasePointerCapture(event.pointerId);
+    event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
   const pointerEnterHandler = (event: PointerEvent<HTMLDivElement>) => {
