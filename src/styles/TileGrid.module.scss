@@ -1,6 +1,6 @@
 .grid {
-    width: calc(min(100vh, 187.5vw)*0.4);
-    max-width: 80%;
+    width: calc(min(120vh, 150vw)*0.5);
+    max-width: min(30rem,80%);
     display: flex;
     justify-content: top;
     flex-direction: column;
