@@ -1,4 +1,4 @@
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, PointerEvent} from 'react';
 import styles from '../styles/Tile.module.scss';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -46,10 +46,22 @@ function Tile({
     onTileDown(tileId, tileValue);
   };
 
+  const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
+    // whatever logic you need
+    onTileDown(tileId, tileValue);
+    // event.target.releasePointerCapture(event.pointerId);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
+  const pointerEnterHandler = (event: PointerEvent<HTMLDivElement>) => {
+    onTileEnter(tileId, tileValue);
+  };
+
   return (
     <div
       className={tileStatus !== 'unvisited' ? styles.animation : ''}
-      onMouseDown = {mouseDownHandler}
+      // onMouseDown = {mouseDownHandler}
+      onPointerDown = {pointerDownHandler}
       id = {`${tileId}`}
     >
       <Paper
@@ -58,7 +70,8 @@ function Tile({
       >
         <Box
           className = {styles.tileWrapper}
-          onMouseEnter = {mouseEnterHandler}
+          // onMouseEnter = {mouseEnterHandler}
+          onPointerEnter = {pointerEnterHandler}
         >
           <div>
             {tileValue}

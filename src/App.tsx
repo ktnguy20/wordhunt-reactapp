@@ -1,4 +1,4 @@
-import React, {useState, useEffect, MouseEvent} from 'react';
+import React, {useState, useEffect, MouseEvent, PointerEvent} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import getDice from './assets/LetterDice/DiceArray';
@@ -189,7 +189,7 @@ function App() {
     }
   };
 
-  const mouseUpHandler = (event: MouseEvent<HTMLDivElement>) => {
+  const pointerUpHandler = (event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
     if (mouseDown) {
       setMouseDown(false);
@@ -208,7 +208,7 @@ function App() {
   return (
     <div
       className={`${styles.body} ${darkMode ? styles.dark : styles.light}`}
-      onMouseUp = {mouseUpHandler}
+      onPointerUp = {pointerUpHandler}
     >
       <NavBar
         handleOpenInfoModal={() => setIsInfoModalOpen(true)}
