@@ -7,15 +7,16 @@
     transform: translate(-50%, -50%);
     width: 25rem; //add selectors for mobile scaling
     max-width: 70%;
+    max-height: 50%;
     border-radius: 16px;
     box-shadow: 24;
     padding: 2em;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     align-content: center;
     justify-items: center;
     outline: none;
-
+    overflow: auto;
 }
 
 

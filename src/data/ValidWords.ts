@@ -59,12 +59,10 @@ const getValidWords = (
 
   for (let i = 0; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
-      console.log(board[i][j]);
       solveBoard(possibleWordsTrie.root, i, j, visited, '', []);
     }
   }
-  console.log(validWordsMap);
-  console.log(Object.keys(validWordsMap).length);
+
   return validWordsMap;
 };
 

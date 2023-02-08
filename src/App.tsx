@@ -1,8 +1,7 @@
-import React, {useState, useEffect, MouseEvent, PointerEvent} from 'react';
+import React, {useState, MouseEvent, PointerEvent} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import getDice from './assets/LetterDice/DiceArray';
-import getScores from './data/Scores';
 import TileStatus from './data/TileStatus';
 import getValidWords from './data/ValidWords';
 import NavBar from './components/NavBar';
@@ -14,7 +13,6 @@ import TileGrid from './components/TileGrid';
 import InfoModal from './components/modals/InfoModal';
 import SettingsModal from './components/modals/SettingsModal';
 import ResultsModal from './components/modals/ResultsModal';
-import Tile from './components/Tile';
 
 
 function App() {
@@ -28,14 +26,13 @@ function App() {
   const [path, setPath] = useState<number[]>([]);
   const [wordHistory, setWordHistory] = useState<string[]>([]);
   const [tileStatus, setTileStatus] = useState<TileStatus>(TileStatus.invalid);
-  const [scores, setScores] = useState<number[]>(getScores(size));
   const [score, setScore] = useState<number>(0);
   // eslint-disable-next-line max-len
   const [validWords, setValidWords] = useState<{[key: string]: {value: number, path: {row: number, col: number}[]}}>({});
   // eslint-disable-next-line max-len
   const [currWordScore, setCurrWordScore] = useState<number>(0);
   const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [timeLimit, setTimeLimit] = useState<number>(1000);
+  const [timeLimit, setTimeLimit] = useState<number>(500);
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
   // eslint-disable-next-line max-len
@@ -43,7 +40,7 @@ function App() {
   const [isResultsModalOpen, setIsResultsModalOpen] = useState<boolean>(false);
 
   const onTimeout = (): void => {
-    setIsActive((isActive) => false);
+    setIsActive(false);
     setIsResultsModalOpen(true);
   };
   const [clockTime, setTime, isPlaying, setIsPlaying] = useCountdown(
@@ -99,7 +96,7 @@ function App() {
     setWord('');
     setGridArr(newGrid);
     setValidWords(getValidWords(size, newGrid));
-    setIsActive((isActive) => true);
+    setIsActive(true);
     setTime(timeLimit+1);
     setTimeout(() => setIsPlaying(true), 3);
   };
@@ -110,8 +107,7 @@ function App() {
   };
 
   const handleChangeSize =
-    (event: MouseEvent<HTMLElement>, newSize: number) => {
-      event.preventDefault();
+    (newSize: number) => {
       if (newSize) {
         setSize(newSize);
         handleGameRestart(newSize, timeLimit);
@@ -119,8 +115,7 @@ function App() {
     };
 
   const handleChangeTime =
-    (event: MouseEvent<HTMLElement>, newTimeLimit: number) => {
-      event.preventDefault();
+    (newTimeLimit: number) => {
       if (newTimeLimit) {
         setTimeLimit(newTimeLimit);
         handleGameRestart(size, newTimeLimit);
@@ -206,8 +201,14 @@ function App() {
       onPointerUp = {pointerUpHandler}
     >
       <NavBar
-        handleOpenInfoModal={() => setIsInfoModalOpen(true)}
-        handleOpenSettingsModal = {() => setIsSettingsModalOpen(true)}
+        handleOpenInfoModal={() => {
+          setIsInfoModalOpen(true);
+          setIsPlaying(false);
+        }}
+        handleOpenSettingsModal = {() => {
+          setIsSettingsModalOpen(true);
+          setIsPlaying(false);
+        }}
         darkMode = {darkMode}
       />
       {
@@ -238,7 +239,10 @@ function App() {
       }
       <InfoModal
         isOpen = {isInfoModalOpen}
-        handleClose = {() => setIsInfoModalOpen(false)}
+        handleClose = {() => {
+          setIsInfoModalOpen(false);
+          setIsPlaying(true);
+        }}
         handleStart = {() => handleGameStart(size, timeLimit)}
         isActive = {isActive}
         isStart = {isStart}
@@ -246,7 +250,11 @@ function App() {
       />
       <SettingsModal
         isOpen = {isSettingsModalOpen}
-        handleClose = {() => setIsSettingsModalOpen(false)}
+        handleClose = {() => {
+          setIsSettingsModalOpen(false);
+          setIsPlaying(true);
+        }}
+        handleRestart = {() => handleGameRestart(size, timeLimit)}
         darkMode = {darkMode}
         toggleDarkMode = {() => setDarkMode((isDark) => !isDark)}
         size = {size}

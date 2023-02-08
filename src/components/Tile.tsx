@@ -1,4 +1,4 @@
-import React, {MouseEvent, PointerEvent} from 'react';
+import React, {PointerEvent} from 'react';
 import styles from '../styles/Tile.module.scss';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -39,16 +39,19 @@ function Tile({
   }
 
   const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
-    // whatever logic you need
-    if (tileStatus) event.preventDefault();
-    onTileDown(tileId, tileValue);
-    event.currentTarget.setPointerCapture(event.pointerId);
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    if (tileStatus) {
+      event.preventDefault();
+      onTileDown(tileId, tileValue);
+      event.currentTarget.setPointerCapture(event.pointerId);
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const pointerEnterHandler = (event: PointerEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    onTileEnter(tileId, tileValue);
+    if (tileStatus) {
+      event.preventDefault();
+      onTileEnter(tileId, tileValue);
+    }
   };
 
   return (

@@ -1,21 +1,23 @@
 /* eslint-disable */
-import React, {MouseEvent} from 'react';
+import React, {useState, MouseEvent} from 'react';
 import BaseModal from './BaseModal';
 import {styled} from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { ToggleButton } from '@mui/material';
+import {ToggleButton} from '@mui/material';
 import styles from '../../styles/SettingsModal.module.scss';
+import { borderColor } from '@mui/system';
 
 type SettingsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
+  handleRestart: () => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
   size: number;
-  setSize: (event: MouseEvent<HTMLElement>, newSize: number) => void;
+  setSize: (newSize: number) => void;
   timeLimit: number;
-  setTimeLimit: (event: MouseEvent<HTMLElement>, newTimeLimit: number) => void;
+  setTimeLimit: (newTimeLimit: number) => void;
 }
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -68,6 +70,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 function SettingsModal({
   isOpen,
   handleClose,
+  handleRestart,
   darkMode,
   toggleDarkMode,
   size,
@@ -75,10 +78,60 @@ function SettingsModal({
   timeLimit,
   setTimeLimit
 }: SettingsModalProps) {
+  
+  const [newSize, setNewSize] = useState<number>(size);
+  const [newTimeLimit, setNewTimeLimit] = useState<number>(timeLimit);
+
+  const MaterialUIButtonGroupStyle = {
+    '& .MuiToggleButtonGroup-grouped:not(:first-of-type)': {
+      borderLeftColor: darkMode ? 'inherit': 'rgba(0, 0, 0, 0.12)',
+    },
+    '& .Mui-selected': {
+      backgroundColor: darkMode ? 'lightslategrey' : 'rgba(0, 0, 0, 0.08)',
+      color: darkMode ? 'inherit': undefined
+    },
+    '& .Mui-selected:hover': {
+      backgroundColor: darkMode ? 'rgba(119, 136, 153, 0.9)' : 'rgba(0, 0, 0, 0.12)',
+      color: darkMode ? 'inherit': undefined
+    },
+    '& .Mui-focus': {
+      backgroundColor: darkMode ? "lightslategrey" : undefined,
+      color: darkMode ? 'inherit': undefined
+    },
+    '& .Mui-focusVisible': {
+      backgroundColor: darkMode ? "lightslategrey" : undefined,
+      color: darkMode ? 'inherit': undefined
+    },
+    '& :hover': {
+      backgroundColor: darkMode ? 'rgba(119, 136, 153, 0.3)' : 'rgba(0, 0, 0, 0.04)',
+      color: darkMode ? 'inherit': undefined
+    }
+  };
+
+  const MaterialUIButtonStyle = {
+    color: darkMode ? 'inherit': 'undefined',
+    borderColor: darkMode ? 'inherit': 'undefined'
+  };
+
+  const handleSaveSettings = () => {
+    if (newTimeLimit !== timeLimit || newSize !== size) {
+      setTimeLimit(newTimeLimit);
+      setSize(newSize);
+    }
+    handleClose();
+  }
+
+  const resetSettings = () => {
+    setNewSize(size);
+    setNewTimeLimit(timeLimit);
+  }
   return (
     <BaseModal
       isOpen = {isOpen}
-      handleClose = {handleClose}
+      handleClose = {() => {
+        resetSettings();
+        handleClose();
+      }}
       darkMode = {darkMode}
     >
       <h3> Settings </h3>
@@ -91,16 +144,22 @@ function SettingsModal({
         <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <h4 style ={{marginRight: '0.5rem'}}> Board Size </h4>
           <ToggleButtonGroup
-          sx = {{"&& .Mui-selected": {
-            backgroundColor: darkMode ? "lightslategrey" : undefined
-          }}}
-          value={size}
-          onChange={setSize}
+          sx = {MaterialUIButtonGroupStyle}
+          value={newSize}
+          onChange={(_: MouseEvent<HTMLElement>, selectedSize: number) => {
+            if (selectedSize) {
+              setNewSize(selectedSize);
+            }
+          }}
           exclusive
         >
           {
             [4,5].map((x) => {
-              return (<ToggleButton className = {darkMode ? styles.buttonGroupDark : undefined} value={x} key={x}>
+              return (
+              <ToggleButton
+                sx ={MaterialUIButtonStyle}
+                value={x} key={x}
+                disableFocusRipple disableRipple>
                 {x}x{x}
               </ToggleButton>);
             })
@@ -111,22 +170,41 @@ function SettingsModal({
         <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <h4 style ={{marginRight: '0.5rem'}}> Time Limit </h4>
             <ToggleButtonGroup
-              sx = {{"&& .Mui-selected": {
-                backgroundColor: darkMode ? "lightslategrey" : undefined
-              }}}
-              value={timeLimit}
-              onChange={setTimeLimit}
+              sx = {MaterialUIButtonGroupStyle}
+              value={newTimeLimit}
+              onChange={(_: MouseEvent<HTMLElement>, selectedTimeLimit: number) => {
+                if (selectedTimeLimit) {
+                  setNewTimeLimit(selectedTimeLimit);
+                }
+              }}
               exclusive
             >
               {
                 [30,45,60,90].map((x) => {
-                  return (<ToggleButton className = {darkMode ? styles.buttonGroupDark : undefined} value={x} key={x}>
+                  return (
+                  <ToggleButton
+                    sx ={MaterialUIButtonStyle}
+                    value={x} key={x}
+                    disableFocusRipple disableRipple
+                  >
                     {x}
                   </ToggleButton>);
                 })
               }
               
           </ToggleButtonGroup>
+        </div>
+        <div className={styles.buttonContainer}>
+          <button className = {styles.saveButton} onClick = {() => {
+            resetSettings();
+            handleClose();
+            handleRestart();
+          }}>
+            Restart
+          </button>
+          <button className = {styles.saveButton} onClick = {handleSaveSettings}>
+            Save Settings
+          </button>
         </div>
       </div>
     </BaseModal>
