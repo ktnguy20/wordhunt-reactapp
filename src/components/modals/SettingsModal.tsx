@@ -6,7 +6,6 @@ import Switch from '@mui/material/Switch';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {ToggleButton} from '@mui/material';
 import styles from '../../styles/SettingsModal.module.scss';
-import { borderColor } from '@mui/system';
 
 type SettingsModalProps = {
   isOpen: boolean;
@@ -88,22 +87,27 @@ function SettingsModal({
     },
     '& .Mui-selected': {
       backgroundColor: darkMode ? 'lightslategrey' : 'rgba(0, 0, 0, 0.08)',
+      borderColor: darkMode ? 'inherit': 'undefined',
       color: darkMode ? 'inherit': undefined
     },
     '& .Mui-selected:hover': {
       backgroundColor: darkMode ? 'rgba(119, 136, 153, 0.9)' : 'rgba(0, 0, 0, 0.12)',
+      borderColor: darkMode ? 'inherit': 'undefined',
       color: darkMode ? 'inherit': undefined
     },
     '& .Mui-focus': {
       backgroundColor: darkMode ? "lightslategrey" : undefined,
+      borderColor: darkMode ? 'inherit': 'undefined',
       color: darkMode ? 'inherit': undefined
     },
     '& .Mui-focusVisible': {
       backgroundColor: darkMode ? "lightslategrey" : undefined,
+      borderColor: darkMode ? 'inherit': 'undefined',
       color: darkMode ? 'inherit': undefined
     },
     '& :hover': {
       backgroundColor: darkMode ? 'rgba(119, 136, 153, 0.3)' : 'rgba(0, 0, 0, 0.04)',
+      borderColor: darkMode ? 'inherit': 'undefined',
       color: darkMode ? 'inherit': undefined
     }
   };
