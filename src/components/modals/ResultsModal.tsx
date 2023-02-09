@@ -1,11 +1,14 @@
 import React, {useState, useMemo, useEffect, useRef} from 'react';
 import BaseModal from './BaseModal';
+import PathModal from './PathModal';
 import styles from '../../styles/ResultsModal.module.scss';
 
 type ResultsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
-  handleRestart: () => void;
+  handleRestart: () => void
+  gridArr: string[][];
+  size: number;
   score: number;
   wordHistory: Set<string>;
   validWords:
@@ -17,12 +20,16 @@ function ResultsModal({
   isOpen,
   handleClose,
   handleRestart,
+  gridArr,
+  size,
   score,
   wordHistory,
   validWords,
   darkMode,
 }: ResultsModalProps) {
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
+  const [selectedWord, setSelectedWord] = useState<string>('');
+  const [isPathModalOpen, setIsPathModalOpen] = useState<boolean>(false);
   const headerRef = useRef<HTMLHeadingElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
 
@@ -119,7 +126,13 @@ function ResultsModal({
             (isRevealed ? allWords: words).map(
                 (word: string, idx: number) => {
                   return (
-                    <strong key='idx'> {word} </strong>
+                    <strong
+                      key='idx'
+                      onClick={() => {
+                        setSelectedWord(word);
+                        setIsPathModalOpen(true);
+                      }}
+                    > {word} </strong>
                   );
                 })
           }
@@ -166,6 +179,14 @@ function ResultsModal({
         handleRestart();
         handleClose();
       }}> Play Again </button>
+      <PathModal
+        isOpen = {isPathModalOpen}
+        darkMode = {darkMode}
+        handleClose = {() => setIsPathModalOpen(false)}
+        gridArr = {gridArr}
+        size = {size}
+        path = {validWords[selectedWord]?.path}
+      />
     </BaseModal>
   );
 }

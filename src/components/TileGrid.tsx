@@ -7,25 +7,27 @@ import styles from '../styles/TileGrid.module.scss';
 import TileStatus from '../data/TileStatus';
 
 type TileGridProps = {
+    darkMode: boolean;
     gridArr: string[][];
     size: number;
     onTileDown: (tileId: number, tileLetter: string) => void;
     onTileEnter: (tileId: number, tileLetter: string) => void;
     path: number[];
+    showDirection: boolean;
     tileStatus: TileStatus;
-    darkMode: boolean;
 }
 
 
 const TileGrid = memo(
     function TileGrid({
+      darkMode,
       gridArr,
       size,
       onTileDown,
       onTileEnter,
       path,
+      showDirection,
       tileStatus,
-      darkMode,
     }: TileGridProps) {
       return (
         <Box
@@ -66,7 +68,7 @@ const TileGrid = memo(
                   key = {idx}
                   start={`${value}`}
                   end = {`${path[idx+1]}`}
-                  showHead={false}
+                  showHead={showDirection}
                   path={'straight'}
                   startAnchor={'middle'}
                   endAnchor = {'middle'}

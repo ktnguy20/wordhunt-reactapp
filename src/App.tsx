@@ -36,7 +36,7 @@ function App() {
 
   const [isSettingsModalOpen, setIsSettingsModalOpen] =
     useState<boolean>(false);
-  const [timeLimit, setTimeLimit] = useState<number>(90);
+  const [timeLimit, setTimeLimit] = useState<number>(5);
   const [size, setSize] = useState<number>(4);
   const [darkMode, setDarkMode] = useState<boolean>(true);
 
@@ -219,6 +219,7 @@ function App() {
               onTileDown = {onTileDown}
               onTileEnter = {onTileEnter}
               path = {path}
+              showDirection = {false}
               tileStatus = {tileStatus}
             />
           </div>
@@ -260,6 +261,8 @@ function App() {
         isOpen = {isResultsModalOpen}
         handleClose = {() => setIsResultsModalOpen(false)}
         handleRestart = {() => handleGameRestart(size, timeLimit)}
+        gridArr = {gridArr}
+        size = {size}
         score = {score}
         wordHistory = {wordHistory}
         validWords = {validWords}
