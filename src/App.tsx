@@ -42,7 +42,7 @@ function App() {
 
   const [isResultsModalOpen, setIsResultsModalOpen] =
     useState<boolean>(false);
-  const [wordHistory, setWordHistory] = useState<string[]>([]);
+  const [wordHistory, setWordHistory] = useState<Set<string>>(new Set());
 
   const onTimeout = (): void => {
     setIsActive(false);
@@ -95,7 +95,7 @@ function App() {
       setIsStart(false);
     }
     const newGrid = generateGrid(size);
-    setWordHistory([]);
+    setWordHistory(new Set());
     setPath([]);
     setScore(0);
     setWord('');
@@ -147,7 +147,7 @@ function App() {
         const newWord = word + tileLetter;
         if (newWord.length < 3) {
           setTileStatus(TileStatus.invalid);
-        } else if (wordHistory.includes(newWord)) {
+        } else if (wordHistory.has(newWord)) {
           setTileStatus(TileStatus.duplicate);
         } else if (newWord in validWords) {
           setTileStatus(TileStatus.valid);
@@ -165,7 +165,8 @@ function App() {
     if (isPointerDown) {
       setIsPointerDown(false);
       if (tileStatus === 'valid') {
-        setWordHistory((wordHistory) => wordHistory.concat([currWord]));
+        console.log(currWord);
+        setWordHistory((wordHistory) => wordHistory.add(currWord));
         setScore((score) => score + validWords[currWord].value);
         validWords[currWord].path = path.map((tileId: number) => {
           return {row: Math.floor(tileId/size), col: tileId%size};
@@ -261,7 +262,7 @@ function App() {
         handleRestart = {() => handleGameRestart(size, timeLimit)}
         score = {score}
         wordHistory = {wordHistory}
-        setIsInfoModalOpen = {setIsInfoModalOpen}
+        validWords = {validWords}
         darkMode = {darkMode}
       />
     </div>
