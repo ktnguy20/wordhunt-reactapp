@@ -1,3 +1,13 @@
+@supports(padding:max(0px)) {
+  body, header, footer {
+      padding-left: min(0vmin, env(safe-area-inset-left));
+      padding-right: min(0vmin, env(safe-area-inset-right));
+      padding-top: min(0vmin, env(safe-area-inset-top));
+      padding-bottom: min(0vmin, env(safe-area-inset-bottom));
+  }
+}
+
+
 @mixin unselectable {
   -o-user-select: none;
   -khtml-user-drag: none;
@@ -16,8 +26,13 @@
 
 .body {
   @include unselectable;
-  min-height: 100vh;
-  width: 100vw;
+  position: fixed;
+  touch-action: none;
+  height: 100vh;
+  max-height: -webkit-fill-available;
+  width: stretch;
+  width: -webkit-fill-available;
+  width: -moz-available;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
@@ -26,18 +41,19 @@
 }
 
 .dark {
-  background-color: #2d2e30;
+  background-color: #14161f;
   color: white;
 }
 
 .light {
-  background-color: white;
-  color: #2d2e30;
+  background-color: #eae8da;
+  color: #010101;
 }
 
 
 .gameLayout {
   display: flex;
+  touch-action: none;
   justify-content: center;
   margin: 0;
   padding: 0;

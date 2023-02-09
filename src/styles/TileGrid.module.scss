@@ -1,8 +1,11 @@
 .grid {
+    touch-action: none;
+    width: calc(min(105vh, 150vw)*0.5);
+    max-width: min(30rem,80%);
     display: flex;
     justify-content: top;
     flex-direction: column;
-    background-color: #727C7F;
+    background-color: #545857;
     border-radius: 5%;
     cursor: grab;
 }

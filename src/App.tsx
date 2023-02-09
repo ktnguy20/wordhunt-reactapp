@@ -1,10 +1,9 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState, PointerEvent, useCallback} from 'react';
 import useCountdown from './hooks/useCountdown';
 import styles from './styles/App.module.scss';
 import getDice from './assets/LetterDice/DiceArray';
-import scores from './data/Scores';
 import TileStatus from './data/TileStatus';
-import validWords from './data/ValidWords';
+import getValidWords from './data/ValidWords';
 import NavBar from './components/NavBar';
 import Timer from './components/Timer';
 import Score from './components/Score';
@@ -14,37 +13,47 @@ import TileGrid from './components/TileGrid';
 import InfoModal from './components/modals/InfoModal';
 import SettingsModal from './components/modals/SettingsModal';
 import ResultsModal from './components/modals/ResultsModal';
-import Tile from './components/Tile';
 
 
 function App() {
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+
   const [isStart, setIsStart] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
+
   const [gridArr, setGridArr] = useState<string[][]>([]);
   const [size, setSize] = useState<number>(4);
-  // previously in tileGrid component hooks
-  const [currWord, setWord] = useState<string>('');
-  const [mouseDown, setMouseDown] = useState<boolean>(false);
-  const [path, setPath] = useState<number[]>([]);
-  const [wordHistory, setWordHistory] = useState<string[]>([]);
+  const [timeLimit, setTimeLimit] = useState<number>(60);
+
+  const [currWord, setCurrWord] = useState<string>('');
+  const [currPath, setCurrPath] = useState<number[]>([]);
+  const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
+
   const [tileStatus, setTileStatus] = useState<TileStatus>(TileStatus.invalid);
+  const [prevTileStatus, setPrevTileStatus] = useState<
+    TileStatus>(TileStatus.invalid);
+
+  const [prevScore, setPrevScore] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
-  // eslint-disable-next-line max-len
-  const [currWordScore, setCurrWordScore] = useState<number>(0);
-  const [currWordAnim, setCurrWordAnim] = useState<string>('');
-  const [gameLength, setGameLength] = useState<number>(1000);
-  const [darkMode, setDarkMode] = useState<boolean>(true);
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(true);
-  // eslint-disable-next-line max-len
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
-  const [isResultsModalOpen, setIsResultsModalOpen] = useState<boolean>(false);
+
+  const [wordHistory, setWordHistory] = useState<Set<string>>(new Set());
+  const [validWords, setValidWords] = useState<
+    {[key: string]: {value: number, path: {row: number, col: number}[]}}>({});
+
+  const [isInfoModalOpen, setIsInfoModalOpen] =
+    useState<boolean>(true);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] =
+    useState<boolean>(false);
+  const [isResultsModalOpen, setIsResultsModalOpen] =
+    useState<boolean>(false);
+
 
   const onTimeout = (): void => {
-    setIsActive((isActive) => false);
+    setIsActive(false);
     setIsResultsModalOpen(true);
   };
   const [clockTime, setTime, isPlaying, setIsPlaying] = useCountdown(
-      gameLength, false, onTimeout,
+      timeLimit, false, onTimeout,
   );
 
   // end of tileGrid hooks
@@ -71,7 +80,7 @@ function App() {
     return die[Math.floor(Math.random()*die.length)];
   };
 
-  const generateGrid = (): string[][] => {
+  const generateGrid = (size: number): string[][] => {
     const grid: string[][] = [];
     const letters = shuffleDice(getDice(size))
         .map(
@@ -85,23 +94,25 @@ function App() {
     return grid;
   };
 
-  const handleGameStart = (): void => {
+  const handleGameStart = (size: number, timeLimit: number): void => {
     if (isStart) {
       setIsStart(false);
     }
-    setWordHistory([]);
-    setPath([]);
+    const newGrid = generateGrid(size);
+    setWordHistory(new Set());
+    setCurrPath([]);
     setScore(0);
-    setWord('');
-    setGridArr(generateGrid());
-    setIsActive((isActive) => true);
-    setTime(gameLength+1);
-    setTimeout(() => setIsPlaying(true), 2);
+    setCurrWord('');
+    setGridArr(newGrid);
+    setValidWords(getValidWords(size, newGrid));
+    setIsActive(true);
+    setTime(timeLimit+1);
+    setTimeout(() => setIsPlaying(true), 0);
   };
 
-  const handleGameRestart = (): void => {
+  const handleGameRestart = (size: number, timeLimit: number): void => {
     setIsPlaying(false);
-    handleGameStart();
+    handleGameStart(size, timeLimit);
   };
 
   const getCoords = (tileId: number): {x: number, y: number} => {
@@ -116,73 +127,85 @@ function App() {
     return (isHorizAdj && isVertAdj);
   };
 
-  const onTileDown = (
+  const onTileDown = useCallback((
       tileId: number,
       tileLetter: string,
   ): void => {
-    setMouseDown((isMouseDown) => !isMouseDown);
-    setCurrWordAnim('');
-    setCurrWordScore(0);
+    setIsPointerDown((isPointerDown) => !isPointerDown);
     setTileStatus(TileStatus.invalid);
-    setWord(tileLetter);
-    setPath([tileId]);
-  };
+    setCurrWord(tileLetter);
+    setPrevScore(0);
+    setCurrPath([tileId]);
+  }, []);
 
-  const onTileEnter = (
+  const onTileEnter = useCallback((
       tileId: number,
       tileLetter: string,
   ): void => {
-    if (mouseDown &&
+    if (isPointerDown &&
       (
-        (path.length === 0) ||
-        ((!path.includes(tileId)) && (isAdjacent(path[path.length-1], tileId)))
+        (currPath.length === 0) ||
+        (
+          (!currPath.includes(tileId)) &&
+          (isAdjacent(currPath[currPath.length-1], tileId))
+        )
       )
     ) {
-      setWord((word) => {
+      setCurrWord((word) => {
         const newWord = word + tileLetter;
         if (newWord.length < 3) {
           setTileStatus(TileStatus.invalid);
-        } else if (wordHistory.includes(newWord)) {
+        } else if (wordHistory.has(newWord)) {
           setTileStatus(TileStatus.duplicate);
-        } else if (validWords[newWord.length-3].includes(newWord)) {
+        } else if (newWord in validWords) {
           setTileStatus(TileStatus.valid);
-          setCurrWordScore(scores[newWord.length-3]);
         } else {
           setTileStatus(TileStatus.invalid);
-          setCurrWordScore(0);
         }
-        console.log(newWord);
         return newWord;
       });
-      setPath((path) => path.concat([tileId]));
+      setCurrPath((currPath) => currPath.concat([tileId]));
     }
-  };
+  }, [currPath]);
 
-  const mouseUpHandler = (event: MouseEvent<HTMLDivElement>) => {
+  const pointerUpHandler = (event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (mouseDown) {
-      setMouseDown(false);
+    if (isPointerDown) {
+      setIsPointerDown(false);
       if (tileStatus === 'valid') {
-        setWordHistory((wordHistory) => wordHistory.concat([currWord]));
-        const wordValue = scores[currWord.length-3];
-        setScore((score) => score+wordValue);
-        setCurrWordAnim('animationValid');
-      } else {
-        setCurrWordAnim('animationInvalid');
+        console.log(currWord);
+        setWordHistory((wordHistory) => wordHistory.add(currWord));
+        setScore((score) => score + validWords[currWord].value);
+        validWords[currWord].path = currPath.map((tileId: number) => {
+          return {row: Math.floor(tileId/size), col: tileId%size};
+        });
       }
-      setPath([]);
+      setCurrPath([]);
       setTileStatus(TileStatus.invalid);
+      setPrevTileStatus(tileStatus);
+      setPrevScore(wordHistory.has(currWord) ?
+        0: validWords[currWord]?.value | 0);
     }
   };
 
   return (
     <div
       className={`${styles.body} ${darkMode ? styles.dark : styles.light}`}
-      onMouseUp = {mouseUpHandler}
+      onPointerUp = {pointerUpHandler}
     >
       <NavBar
-        handleOpenInfoModal={() => setIsInfoModalOpen(true)}
-        handleOpenSettingsModal = {() => setIsSettingsModalOpen(true)}
+        handleOpenInfoModal={
+          useCallback(() => {
+            setIsInfoModalOpen(true);
+            setIsPlaying(false);
+          }, [])
+        }
+        handleOpenSettingsModal = {
+          useCallback(() => {
+            setIsSettingsModalOpen(true);
+            setIsPlaying(false);
+          }, [])
+        }
         darkMode = {darkMode}
       />
       {
@@ -192,9 +215,14 @@ function App() {
           <Timer clockTime={clockTime} darkMode = {darkMode}/>
           <CurrentWord
             currentWord = {currWord}
+            prevTileStatus = {prevTileStatus}
             tileStatus = {tileStatus}
-            score = {currWordScore}
-            animation = {currWordAnim}
+            prevScore = {prevScore}
+            score = {
+              wordHistory.has(currWord) ? 0:
+              validWords[currWord]?.value | 0
+            }
+            isPointerDown = {isPointerDown}
             darkMode = {darkMode}
           />
           <div className = {styles.gameLayout}>
@@ -204,7 +232,8 @@ function App() {
               size = {size}
               onTileDown = {onTileDown}
               onTileEnter = {onTileEnter}
-              path = {path}
+              path = {currPath}
+              showDirection = {false}
               tileStatus = {tileStatus}
             />
           </div>
@@ -213,24 +242,44 @@ function App() {
       }
       <InfoModal
         isOpen = {isInfoModalOpen}
-        handleClose = {() => setIsInfoModalOpen(false)}
-        handleStart = {() => handleGameStart()}
+        handleClose = {() => {
+          setIsInfoModalOpen(false);
+          setIsPlaying(true);
+        }}
+        handleStart = {() => handleGameStart(size, timeLimit)}
         isActive = {isActive}
         isStart = {isStart}
         darkMode = {darkMode}
       />
       <SettingsModal
         isOpen = {isSettingsModalOpen}
-        handleClose = {() => setIsSettingsModalOpen(false)}
+        handleClose = {useCallback(() => {
+          setIsSettingsModalOpen(false);
+          if (!isPlaying) {
+            setIsPlaying(true);
+          }
+        }, [isPlaying])}
+        handleRestart = {useCallback(handleGameRestart, [])}
         darkMode = {darkMode}
+        toggleDarkMode = {
+          useCallback(() => setDarkMode((isDark) => !isDark), [])
+        }
+        size = {size}
+        setSize = {useCallback((newSize: number) => setSize(newSize), [])}
+        timeLimit = {timeLimit}
+        setTimeLimit = {
+          useCallback((newTimeLimit: number) => setTimeLimit(newTimeLimit), [])
+        }
       />
       <ResultsModal
         isOpen = {isResultsModalOpen}
         handleClose = {() => setIsResultsModalOpen(false)}
-        handleRestart = {() => handleGameRestart()}
+        handleRestart = {() => handleGameRestart(size, timeLimit)}
+        gridArr = {gridArr}
+        size = {size}
         score = {score}
         wordHistory = {wordHistory}
-        setIsInfoModalOpen = {setIsInfoModalOpen}
+        validWords = {validWords}
         darkMode = {darkMode}
       />
     </div>

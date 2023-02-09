@@ -15,14 +15,14 @@
   margin-bottom: 0.10rem;
 }
 
-.animationValid {
+.animation_valid {
   animation: expand ease-out;
   animation-duration: 0.75s;
   animation-fill-mode: forwards;
   cursor: grabbing;
 }
 
-.animationInvalid {
+.animation_invalid, .animation_duplicate {
   animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
@@ -66,27 +66,26 @@
 
 //colors
 
-.darkInvalid {
-  background-color: aliceblue !important;
+.dark_invalid {
+  background-color: #a9b7c4 !important;
 }
 
-.darkDuplicate {
-  background-color: yellow !important;
+.dark_duplicate {
+  background-color: #f6e866 !important;
 }
 
-.darkValid {
-  background-color: green !important;
+.dark_valid {
+  background-color: #50C878 !important;
 }
 
-
-.lightInvalid {
-  background-color: aliceblue !important;
+.light_duplicate {
+  background-color: #f6e866 !important;
 }
 
-.lightDuplicate {
-  background-color: yellow !important;
+.light_valid {
+  background-color: #82f4a8 !important;
 }
 
-.lightValid {
-  background-color: green !important;
+.light_invalid {
+  background-color: #b37f6eed !important;
 }

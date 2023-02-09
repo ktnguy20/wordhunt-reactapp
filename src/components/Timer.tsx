@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import styles from '../styles/Timer.module.scss';
 
 type TimerProps = {
@@ -6,14 +6,16 @@ type TimerProps = {
   darkMode: boolean;
 }
 
-function Timer({
-  clockTime,
-  darkMode,
-}: TimerProps) {
-  return (
-    <div className = {styles.timer}>
-      {clockTime}
-    </div>
-  );
-}
+const Timer = memo(
+    function Timer({
+      clockTime,
+      darkMode,
+    }: TimerProps) {
+      return (
+        <div className = {styles.timer}>
+          {clockTime}
+        </div>
+      );
+    },
+);
 export default Timer;

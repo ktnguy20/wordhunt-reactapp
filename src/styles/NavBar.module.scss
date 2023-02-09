@@ -1,50 +1,69 @@
-.bar {
-    margin-bottom: 2%;
+@mixin icon {
+    display: flex;
+    cursor: pointer;
+    color: #ffffff;
+    width: calc(50% - 0.5rem) !important;
+    max-height: 5vh;
+    height: auto !important;
+    margin: 0 0.25rem;
+    font-size: unset;
 }
-.barContainer {
-    height: 5%;
-    background-color: #000;
+
+@mixin icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6rem;
+    max-width: 75px;
+    min-width: 40px;
+}
+
+@mixin barWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-bottom: 2rem;
 }
 
-.githubWrapper {
-    display: flex;
-    align-items: center;
-    padding-right: 2.5rem;
+.barWrapper_dark {
+    @include barWrapper;
+    background-color: rgb(6, 6, 6);
+}
+
+.barWrapper_light {
+    @include barWrapper;
+    background-color: #67827e;
+}
+
+.githubContainer {
+    @include icon-container;
 }
 
 .github {
-    cursor: pointer;
-    color: #FFF;
+    @include icon;
 }
 
-.infoSettingsWrapper {
-    display: flex;
-    align-items: center;
-    padding-left: 2.5rem;
+.infoSettingsContainer {
+    @include icon-container;
 }
 
 .info {
-    cursor: pointer;
-    color: #FFF;
-    margin-right: .75rem;
+    @include icon;
 }
 
 .settings {
-    cursor: pointer;
-    color: #FFF;
+    @include icon;
 }
 
 .logo {
     display: flex;
-    width: 32rem;
-    padding-left: 2.5rem;
-    color: #FFF;
+    width: min(75vh, 133vw);
+    max-width: 500px;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .logoAnimation:focus {

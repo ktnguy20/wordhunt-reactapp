@@ -16,7 +16,7 @@
   top: 0px;
   bottom: 0px;
   border-radius: 50%;
-  
+  font-weight: 650;
 }
 
 .animation {
@@ -44,33 +44,33 @@
   background-color: white !important;
 }
 .darkValid {
-  background-color: green !important;
+  background-color: #50C878 !important;
 }
 
 .darkDuplicate {
-  background-color: yellow !important;
+  background-color: #f6e866 !important;
 }
 
 .darkInvalid {
-  background-color: aliceblue !important;
+  background-color: #a9b7c4 !important;
 }
 
 .lightLogo {
-  background-color: grey !important;
+  background-color: #D1F0DE !important;
 }
 
 .lightUnvisited {
-  background-color: white !important;
+  background-color: #fdfaf9ed !important;
+}
+
+.lightDuplicate {
+  background-color: #f6e866 !important;;
 }
 
 .lightValid {
-  background-color: green !important;
+  background-color: #82f4a8 !important;
 }
 
 .lightInvalid {
-  background-color: aqua !important;
-}
-
-.lightUnvisited {
-  background-color: white !important;
+  background-color: #b37f6eed!important;
 }

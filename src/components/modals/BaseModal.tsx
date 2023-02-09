@@ -12,9 +12,10 @@ type BaseModalProps = {
   isOpen: boolean;
   handleClose?: () => void;
   children: React.ReactNode;
+  darkMode: boolean;
 }
 
-function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
+function BaseModal({isOpen, handleClose, children, darkMode}: BaseModalProps) {
   return (
     <div>
       <Modal
@@ -27,7 +28,9 @@ function BaseModal({isOpen, handleClose, children}: BaseModalProps) {
         }}
       >
         <Fade in={isOpen}>
-          <Box className = {styles.modalBody}>
+          <Box className =
+            {`${styles.modalBody} ${styles[darkMode ? 'dark' : 'light']}`}
+          >
             {handleClose &&
               <HighlightOffIcon
                 className = {styles.closeIcon}
