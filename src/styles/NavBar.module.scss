@@ -18,8 +18,7 @@
     min-width: 40px;
 }
 
-.barWrapper {
-    background-color: #000000;
+@mixin barWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -27,6 +26,16 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     margin-bottom: 2rem;
+}
+
+.barWrapper_dark {
+    @include barWrapper;
+    background-color: rgb(6, 6, 6);
+}
+
+.barWrapper_light {
+    @include barWrapper;
+    background-color: #67827e;
 }
 
 .githubContainer {

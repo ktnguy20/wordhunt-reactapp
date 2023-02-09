@@ -177,7 +177,7 @@ const SettingsModal = memo(
                     return (
                       <ToggleButton
                         sx ={MaterialUIButtonStyle}
-                        value={x} key={x}
+                        value={x} key={null}
                         disableFocusRipple disableRipple>
                         {x}x{x}
                       </ToggleButton>);
@@ -209,7 +209,7 @@ const SettingsModal = memo(
                     return (
                       <ToggleButton
                         sx ={MaterialUIButtonStyle}
-                        value={x} key={x}
+                        value={x} key={null}
                         disableFocusRipple disableRipple
                       >
                         {x}

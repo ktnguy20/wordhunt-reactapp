@@ -40,7 +40,7 @@ const Tile = memo(
           else if (tileStatus === 'duplicate') settileColor(styles.lightDuplicate);
           else if (tileStatus === 'valid') settileColor(styles.lightValid);
         }
-      }, [tileStatus]);
+      }, [tileStatus, darkMode]);
 
       const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
         if (tileStatus) {
@@ -72,7 +72,7 @@ const Tile = memo(
               className = {styles.tileWrapper}
               onPointerEnter= {pointerEnterHandler}
             >
-              <div>
+              <div style={{zIndex: 2}}>
                 {tileValue}
               </div>
             </Box>

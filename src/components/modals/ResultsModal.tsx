@@ -89,7 +89,7 @@ function ResultsModal({
     >
       {
       !isRevealed ?
-        <div>
+        <div style = {{width: '100%', textAlign: 'center'}}>
           <h1 style = {{marginTop: '0'}} ref = {headerRef}> Results </h1>
           <hr style={{width: '80%'}}/>
         </div>:
@@ -100,6 +100,7 @@ function ResultsModal({
         style={{
           width: '100%',
           display: 'flex',
+          marginBottom: '0.5rem',
         }}
       >
         <div
@@ -112,14 +113,24 @@ function ResultsModal({
         >
           <h2
             style = {{
-              fontSize: '120%',
+              fontSize: '150%',
+              textAlign: isRevealed ? 'left': 'center',
+              width: '70%',
+              marginTop: '0',
             }}
           >
+            <a
+              style = {{
+                fontWeight: 'lighter',
+                fontSize: '55%',
+              }}>
+              {`Words`}
+            </a>
+            <br/>
             {
-              'Words: ' +
               `${isRevealed ?
-                Object.keys(validWords).length:
-                wordHistory.size}`
+              Object.keys(validWords).length:
+              wordHistory.size}`
             }
           </h2>
           {
@@ -127,7 +138,8 @@ function ResultsModal({
                 (word: string, idx: number) => {
                   return (
                     <strong
-                      key='idx'
+                      key={word}
+                      className = {styles.wordEntry}
                       onClick={() => {
                         setSelectedWord(word);
                         setIsPathModalOpen(true);
@@ -147,14 +159,32 @@ function ResultsModal({
         >
           <h2
             style = {{
-              fontSize: '120%',
+              fontSize: '150%',
+              textAlign: isRevealed ? 'right': 'center',
+              width: '70%',
+              marginTop: '0',
             }}
-          > Score: {isRevealed ? possibleScore: score} </h2>
+          >
+            <a
+              style = {{
+                fontWeight: 'lighter',
+                fontSize: '55%',
+              }}>
+              {`Score`}
+            </a>
+            <br/>
+            {`${isRevealed ? possibleScore: score}`}
+          </h2>
           {
             (isRevealed ? allScores: scores).map(
                 (score: number, idx: number) => {
                   return (
-                    <strong key='idx'> {score} </strong>
+                    <strong
+                      key={idx}
+                      className = {styles.scoreEntry}
+                    >
+                      {score}
+                    </strong>
                   );
                 })
           }

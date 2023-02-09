@@ -18,7 +18,7 @@ const NavBar = memo(
       darkMode,
     }: NavBarProps) {
       return (
-        <div className={styles.barWrapper}>
+        <div className={styles[`barWrapper_${darkMode? 'dark': 'light'}`]}>
           <div className = {styles.githubContainer}>
             <GitHubIcon
               className={styles.github}

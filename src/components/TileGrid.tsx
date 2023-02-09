@@ -1,4 +1,5 @@
-import React, {memo} from 'react';
+/* eslint-disable max-len */
+import React, {memo, useEffect} from 'react';
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import Tile from './Tile';
 import Grid from '@mui/material/Grid';
@@ -15,6 +16,7 @@ type TileGridProps = {
     path: number[];
     showDirection: boolean;
     tileStatus: TileStatus;
+    isInfo?: boolean;
 }
 
 
@@ -28,6 +30,7 @@ const TileGrid = memo(
       path,
       showDirection,
       tileStatus,
+      isInfo,
     }: TileGridProps) {
       return (
         <Box
@@ -49,7 +52,7 @@ const TileGrid = memo(
                   return (
                     <Grid item key = {id} xs={1}>
                       <Tile
-                        tileId = {id}
+                        tileId = {isInfo ? 500+id: id}
                         tileValue = {letter}
                         onTileDown = {onTileDown}
                         onTileEnter = {onTileEnter}
@@ -66,12 +69,22 @@ const TileGrid = memo(
                 if (idx == path.length-1) return;
                 return (<Xarrow
                   key = {idx}
-                  start={`${value}`}
-                  end = {`${path[idx+1]}`}
-                  showHead={showDirection}
+                  start={`${value+(isInfo ? 500: 0)}`}
+                  end = {`${path[idx+1]+(isInfo ? 500: 0)}`}
                   path={'straight'}
-                  startAnchor={'middle'}
+                  startAnchor= {'middle'}
                   endAnchor = {'middle'}
+                  color = {
+                    showDirection ?
+                      darkMode ? 'rgba(255,255,255,0.40)': 'rgba(0,0,0,0.40)':
+                      darkMode ? 'rgba(0,0,0,0.70)': 'rgba(0,0,0,0.70)'
+                  }
+                  headColor = {
+                    darkMode ? 'rgba(255,255,255,0.70)': 'rgba(0,0,0,0.60)'
+                  }
+                  animateDrawing={showDirection}
+                  headSize = {showDirection ? 3: 0}
+                  strokeWidth={5}
                 />);
               })}
             </Xwrapper>

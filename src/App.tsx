@@ -16,33 +16,37 @@ import ResultsModal from './components/modals/ResultsModal';
 
 
 function App() {
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+
   const [isStart, setIsStart] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
+
   const [gridArr, setGridArr] = useState<string[][]>([]);
-  const [currWord, setWord] = useState<string>('');
+  const [size, setSize] = useState<number>(4);
+  const [timeLimit, setTimeLimit] = useState<number>(60);
+
+  const [currWord, setCurrWord] = useState<string>('');
+  const [currPath, setCurrPath] = useState<number[]>([]);
   const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
-  const [path, setPath] = useState<number[]>([]);
+
   const [tileStatus, setTileStatus] = useState<TileStatus>(TileStatus.invalid);
   const [prevTileStatus, setPrevTileStatus] = useState<
     TileStatus>(TileStatus.invalid);
 
+  const [prevScore, setPrevScore] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
 
+  const [wordHistory, setWordHistory] = useState<Set<string>>(new Set());
   const [validWords, setValidWords] = useState<
     {[key: string]: {value: number, path: {row: number, col: number}[]}}>({});
 
   const [isInfoModalOpen, setIsInfoModalOpen] =
     useState<boolean>(true);
-
   const [isSettingsModalOpen, setIsSettingsModalOpen] =
     useState<boolean>(false);
-  const [timeLimit, setTimeLimit] = useState<number>(5);
-  const [size, setSize] = useState<number>(4);
-  const [darkMode, setDarkMode] = useState<boolean>(true);
-
   const [isResultsModalOpen, setIsResultsModalOpen] =
     useState<boolean>(false);
-  const [wordHistory, setWordHistory] = useState<Set<string>>(new Set());
+
 
   const onTimeout = (): void => {
     setIsActive(false);
@@ -96,9 +100,9 @@ function App() {
     }
     const newGrid = generateGrid(size);
     setWordHistory(new Set());
-    setPath([]);
+    setCurrPath([]);
     setScore(0);
-    setWord('');
+    setCurrWord('');
     setGridArr(newGrid);
     setValidWords(getValidWords(size, newGrid));
     setIsActive(true);
@@ -129,8 +133,9 @@ function App() {
   ): void => {
     setIsPointerDown((isPointerDown) => !isPointerDown);
     setTileStatus(TileStatus.invalid);
-    setWord(tileLetter);
-    setPath([tileId]);
+    setCurrWord(tileLetter);
+    setPrevScore(0);
+    setCurrPath([tileId]);
   }, []);
 
   const onTileEnter = useCallback((
@@ -139,11 +144,14 @@ function App() {
   ): void => {
     if (isPointerDown &&
       (
-        (path.length === 0) ||
-        ((!path.includes(tileId)) && (isAdjacent(path[path.length-1], tileId)))
+        (currPath.length === 0) ||
+        (
+          (!currPath.includes(tileId)) &&
+          (isAdjacent(currPath[currPath.length-1], tileId))
+        )
       )
     ) {
-      setWord((word) => {
+      setCurrWord((word) => {
         const newWord = word + tileLetter;
         if (newWord.length < 3) {
           setTileStatus(TileStatus.invalid);
@@ -156,9 +164,9 @@ function App() {
         }
         return newWord;
       });
-      setPath((path) => path.concat([tileId]));
+      setCurrPath((currPath) => currPath.concat([tileId]));
     }
-  }, [path]);
+  }, [currPath]);
 
   const pointerUpHandler = (event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -168,13 +176,15 @@ function App() {
         console.log(currWord);
         setWordHistory((wordHistory) => wordHistory.add(currWord));
         setScore((score) => score + validWords[currWord].value);
-        validWords[currWord].path = path.map((tileId: number) => {
+        validWords[currWord].path = currPath.map((tileId: number) => {
           return {row: Math.floor(tileId/size), col: tileId%size};
         });
       }
-      setPath([]);
+      setCurrPath([]);
       setTileStatus(TileStatus.invalid);
       setPrevTileStatus(tileStatus);
+      setPrevScore(wordHistory.has(currWord) ?
+        0: validWords[currWord]?.value | 0);
     }
   };
 
@@ -207,7 +217,11 @@ function App() {
             currentWord = {currWord}
             prevTileStatus = {prevTileStatus}
             tileStatus = {tileStatus}
-            score = {validWords[currWord]?.value | 0}
+            prevScore = {prevScore}
+            score = {
+              wordHistory.has(currWord) ? 0:
+              validWords[currWord]?.value | 0
+            }
             isPointerDown = {isPointerDown}
             darkMode = {darkMode}
           />
@@ -218,7 +232,7 @@ function App() {
               size = {size}
               onTileDown = {onTileDown}
               onTileEnter = {onTileEnter}
-              path = {path}
+              path = {currPath}
               showDirection = {false}
               tileStatus = {tileStatus}
             />

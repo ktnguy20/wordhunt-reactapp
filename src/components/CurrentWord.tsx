@@ -6,6 +6,7 @@ type CurrentWordProps = {
   currentWord: string,
   tileStatus: string,
   prevTileStatus: string,
+  prevScore: number,
   score?: number,
   isPointerDown: boolean,
   darkMode: boolean,
@@ -15,6 +16,7 @@ const CurrentWord = memo(
       currentWord,
       prevTileStatus,
       tileStatus,
+      prevScore,
       score,
       isPointerDown,
       darkMode,
@@ -34,7 +36,11 @@ const CurrentWord = memo(
             {
               currentWord.length !== 0 &&
                 <div className = {styles.textWrapper}>
-                  {currentWord + (score !== 0 ? ` (+${score})` : '')}
+                  {currentWord +
+                    (isPointerDown ?
+                      (score !== 0 ? ` (+${score})` : ''):
+                      (prevScore !== 0 ? ` (+${prevScore})` : ''))
+                  }
                 </div>
             }
           </Paper>

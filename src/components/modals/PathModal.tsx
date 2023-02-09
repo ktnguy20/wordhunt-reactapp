@@ -20,7 +20,6 @@ function PathModal({
   size,
   path,
 }: PathModalProps) {
-  console.log(path);
   return (
     <BaseModal
       isOpen = {isOpen}
@@ -33,7 +32,7 @@ function PathModal({
         onTileDown = {() => null}
         onTileEnter = {() => null}
         path = {path?.map((x) => (x.row*size)+x.col)}
-        showDirection
+        showDirection = {true}
         tileStatus = {TileStatus.valid}
         darkMode = {darkMode}
       />

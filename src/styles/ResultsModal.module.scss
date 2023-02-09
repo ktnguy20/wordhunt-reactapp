@@ -1,3 +1,13 @@
+.wordEntry, .scoreEntry {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.wordEntry:hover {
+  color: #50C878;
+  cursor: pointer;
+}
+
 .replayButton {
   appearance: none;
   background-color: #79f1a1;
@@ -21,7 +31,7 @@
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .replayButton:hover {
