@@ -15,14 +15,14 @@
   margin-bottom: 0.10rem;
 }
 
-.animationValid {
+.animation_valid {
   animation: expand ease-out;
   animation-duration: 0.75s;
   animation-fill-mode: forwards;
   cursor: grabbing;
 }
 
-.animationInvalid {
+.animation_invalid, .animation_duplicate {
   animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
@@ -66,27 +66,27 @@
 
 //colors
 
-.darkInvalid {
+.dark_invalid {
   background-color: aliceblue !important;
 }
 
-.darkDuplicate {
+.dark_duplicate {
   background-color: yellow !important;
 }
 
-.darkValid {
+.dark_valid {
   background-color: green !important;
 }
 
 
-.lightInvalid {
+.light_invalid {
   background-color: aliceblue !important;
 }
 
-.lightDuplicate {
+.light_duplicate {
   background-color: yellow !important;
 }
 
-.lightValid {
+.light_valid {
   background-color: green !important;
 }

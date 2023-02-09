@@ -1,51 +1,46 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Paper} from '@mui/material';
 import styles from '../styles/CurrentWord.module.scss';
 
 type CurrentWordProps = {
   currentWord: string,
   tileStatus: string,
+  prevTileStatus: string,
   score?: number,
-  animation?: string,
+  isPointerDown: boolean,
   darkMode: boolean,
 }
-function CurrentWord({
-  currentWord,
-  tileStatus,
-  score,
-  animation,
-  darkMode,
-}: CurrentWordProps) {
-  let containerColor;
-  if (darkMode) {
-    if (tileStatus === 'invalid') containerColor = styles.darkInvalid;
-    else if (tileStatus === 'duplicate') containerColor = styles.darkDuplicate;
-    else if (tileStatus === 'valid') containerColor = styles.darkValid;
-  } else {
-    if (tileStatus === 'invalid') containerColor = styles.lightInvalid;
-    else if (tileStatus === 'duplicate') containerColor = styles.lightDuplicate;
-    else if (tileStatus === 'valid') containerColor = styles.lightValid;
-  }
-
-  return (
-    <div className = {styles.wordContainer}>
-      <Paper
-        square
-        elevation = {12}
-        className = {
-          // eslint-disable-next-line max-len
-          `${styles.wordWrapper} ${containerColor} ${animation ? styles[animation] : ''}`
-        }
-      >
-        {
-          currentWord.length !== 0 &&
-            <div className = {styles.textWrapper}>
-              {currentWord + (score !== 0 ? ` (+${score})` : '')}
-            </div>
-        }
-      </Paper>
-    </div>
-  );
-}
+const CurrentWord = memo(
+    function CurrentWord({
+      currentWord,
+      prevTileStatus,
+      tileStatus,
+      score,
+      isPointerDown,
+      darkMode,
+    }: CurrentWordProps) {
+      return (
+        <div className = {styles.wordContainer}>
+          <Paper
+            square
+            elevation = {12}
+            className = {
+              `${styles.wordWrapper} ` +
+              // eslint-disable-next-line max-len
+              `${styles[`${darkMode ? `dark`: `light`}_${isPointerDown ? tileStatus: prevTileStatus}`]} ` +
+              `${!isPointerDown ? styles[`animation_${prevTileStatus}`]: ''}`
+            }
+          >
+            {
+              currentWord.length !== 0 &&
+                <div className = {styles.textWrapper}>
+                  {currentWord + (score !== 0 ? ` (+${score})` : '')}
+                </div>
+            }
+          </Paper>
+        </div>
+      );
+    },
+);
 
 export default CurrentWord;
