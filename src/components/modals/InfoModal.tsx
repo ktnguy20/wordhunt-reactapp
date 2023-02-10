@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from '../../styles/InfoModal.module.scss';
 import TileGrid from '../TileGrid';
 import BaseModal from './BaseModal';
@@ -28,6 +28,10 @@ function InfoModal({
   isStart,
   darkMode,
 }: InfoModalProps) {
+  useEffect(() => {
+    console.log('info modal render');
+  });
+
   return (
     <BaseModal
       isOpen = {isOpen}

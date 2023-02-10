@@ -81,7 +81,7 @@ const SettingsModal = memo(
     }: SettingsModalProps) {
       const [newSize, setNewSize] = useState<number>(size);
       const [newTimeLimit, setNewTimeLimit] = useState<number>(timeLimit);
-      console.log('render');
+
       const MaterialUIButtonGroupStyle = {
         '&& .MuiToggleButtonGroup-grouped:not(:first-of-type)': {
           borderLeftColor: darkMode ? 'inherit': 'rgba(0, 0, 0, 0.12)',
