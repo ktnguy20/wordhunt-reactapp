@@ -173,7 +173,6 @@ function App() {
     if (isPointerDown) {
       setIsPointerDown(false);
       if (tileStatus === 'valid') {
-        console.log(currWord);
         setWordHistory((wordHistory) => wordHistory.add(currWord));
         setScore((score) => score + validWords[currWord].value);
         validWords[currWord].path = currPath.map((tileId: number) => {
