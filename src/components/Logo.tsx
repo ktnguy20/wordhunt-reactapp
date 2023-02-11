@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Tile from './Tile';
 import Box from '@mui/material/Box';
 import styles from '../styles/NavBar.module.scss';
+import TileStatus from '../data/TileStatus';
 
 type LogoProps = {
   darkMode: boolean;
@@ -25,6 +26,7 @@ function Logo({
                 onTileDown = {() => null}
                 onTileEnter = {() => null}
                 darkMode = {darkMode}
+                tileStatus = {TileStatus.logo}
               />
             </Grid>
           );
