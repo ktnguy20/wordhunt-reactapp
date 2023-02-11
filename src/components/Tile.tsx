@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, {memo, PointerEvent, useEffect, useState} from 'react';
 import styles from '../styles/Tile.module.scss';
 import Paper from '@mui/material/Paper';
@@ -23,25 +22,6 @@ const Tile = memo(
       tileStatus,
       darkMode,
     }: TileProps) {
-      const [tileColor, settileColor] = useState<String | undefined>(undefined);
-
-      useEffect(() => {
-        if (darkMode) {
-          if (!tileStatus) {
-            settileColor(styles.darkLogo);
-          } else if (tileStatus === 'unvisited') settileColor(styles.darkUnvisited);
-          else if (tileStatus === 'invalid') settileColor(styles.darkInvalid);
-          else if (tileStatus === 'duplicate') settileColor(styles.darkDuplicate);
-          else if (tileStatus === 'valid') settileColor(styles.darkValid);
-        } else {
-          if (!tileStatus) settileColor(styles.lightLogo);
-          else if (tileStatus === 'unvisited') settileColor(styles.lightUnvisited);
-          else if (tileStatus === 'invalid') settileColor(styles.lightInvalid);
-          else if (tileStatus === 'duplicate') settileColor(styles.lightDuplicate);
-          else if (tileStatus === 'valid') settileColor(styles.lightValid);
-        }
-      }, [tileStatus, darkMode]);
-
       const pointerDownHandler = (event: PointerEvent<HTMLDivElement>) => {
         if (tileStatus) {
           event.preventDefault();
@@ -65,7 +45,10 @@ const Tile = memo(
           onPointerDown = {pointerDownHandler}
         >
           <Paper
-            className = {`${styles.tileContainer} ${tileColor}`}
+            className = {
+              `${styles.tileContainer} `+
+              `${styles[`${darkMode ? `dark`: `light`}_${tileStatus}`]}`
+            }
             elevation = {12}
           >
             <Box

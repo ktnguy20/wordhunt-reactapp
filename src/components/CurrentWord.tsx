@@ -28,8 +28,9 @@ const CurrentWord = memo(
             elevation = {12}
             className = {
               `${styles.wordWrapper} ` +
-              // eslint-disable-next-line max-len
-              `${styles[`${darkMode ? `dark`: `light`}_${isPointerDown ? tileStatus: prevTileStatus}`]} ` +
+              `${styles[
+                  `${darkMode ? `dark`: `light`}_` +
+                  `${isPointerDown ? tileStatus: prevTileStatus}`]} ` +
               `${!isPointerDown ? styles[`animation_${prevTileStatus}`]: ''}`
             }
           >

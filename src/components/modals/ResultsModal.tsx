@@ -34,7 +34,6 @@ function ResultsModal({
   const wordsRef = useRef<HTMLDivElement>(null);
 
   const sumPossibleScore = (validWords: ResultsModalProps['validWords']) => {
-    console.log('computing');
     return Object.values(validWords).reduce(
         (acc, x) => acc + x.value,
         0,

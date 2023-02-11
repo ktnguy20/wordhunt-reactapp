@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from '../../styles/InfoModal.module.scss';
 import TileGrid from '../TileGrid';
 import BaseModal from './BaseModal';

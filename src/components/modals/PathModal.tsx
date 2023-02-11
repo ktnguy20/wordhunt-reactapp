@@ -35,6 +35,7 @@ function PathModal({
         showDirection = {true}
         tileStatus = {TileStatus.valid}
         darkMode = {darkMode}
+        isInfo
       />
     </BaseModal>
   );
