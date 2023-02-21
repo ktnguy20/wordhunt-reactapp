@@ -88,118 +88,71 @@ function ResultsModal({
     >
       {
       !isRevealed ?
-        <div style = {{width: '100%', textAlign: 'center'}}>
-          <h1 style = {{marginTop: '0'}} ref = {headerRef}> Results </h1>
-          <hr style={{width: '80%'}}/>
-        </div>:
-        ''
+        <div className = {styles.header} ref = {headerRef}>
+          Results
+          <hr/>
+        </div> : ''
       }
       <div
         ref = {wordsRef}
-        style={{
-          width: '100%',
-          display: 'flex',
-          marginBottom: '0.5rem',
-        }}
+        className = {styles.resultsContainer}
       >
-        <div
-          style={{
-            width: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
-          <h2
-            style = {{
-              fontSize: '150%',
-              textAlign: isRevealed ? 'left': 'center',
-              width: '70%',
-              marginTop: '0',
-            }}
+        <div className = {styles.wordsColumn}>
+          <h2 className = {styles.wordsSubheader}
+            style = {{textAlign: isRevealed ? 'left' : 'center'}}
           >
-            <a
-              style = {{
-                fontWeight: 'lighter',
-                fontSize: '55%',
-              }}>
-              {`Words`}
-            </a>
+            <a className = {styles.wordsLabel}> Words </a>
             <br/>
             {
-              `${isRevealed ?
-              Object.keys(validWords).length:
-              wordHistory.size}`
+              isRevealed ?
+                (Object.keys(validWords).length) :
+                (wordHistory.size)
             }
           </h2>
           {
             (isRevealed ? allWords: words).map(
                 (word: string, idx: number) => {
                   return (
-                    <strong
-                      key={word}
-                      className = {styles.wordEntry}
+                    <strong key={word} className = {styles.wordEntry}
                       onClick={() => {
                         setSelectedWord(word);
                         setIsPathModalOpen(true);
                       }}
-                    > {word} </strong>
+                    >
+                      {word}
+                    </strong>
                   );
-                })
+                },
+            )
           }
         </div>
-        <div
-          style={{
-            width: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
-          <h2
-            style = {{
-              fontSize: '150%',
-              textAlign: isRevealed ? 'right': 'center',
-              width: '70%',
-              marginTop: '0',
-            }}
+        <div className = {styles.scoreColumn}>
+          <h2 className = {styles.scoreSubheader}
+            style = {{textAlign: isRevealed ? 'right': 'center'}}
           >
-            <a
-              style = {{
-                fontWeight: 'lighter',
-                fontSize: '55%',
-              }}>
-              {`Score`}
-            </a>
+            <a className = {styles.scoreLabel}> Score </a>
             <br/>
-            {`${isRevealed ? possibleScore: score}`}
+            {isRevealed ? possibleScore: score}
           </h2>
           {
             (isRevealed ? allScores: scores).map(
                 (score: number, idx: number) => {
                   return (
-                    <strong
-                      key={idx}
-                      className = {styles.scoreEntry}
-                    >
+                    <strong key={idx} className = {styles.scoreEntry}>
                       {score}
                     </strong>
                   );
-                })
+                },
+            )
           }
         </div>
       </div>
-
-      <div style = {{width: '80%'}}>
-      </div>
-      <button
-        className = {styles.replayButton}
+      <button className = {!isRevealed ? styles.revealButton: styles.resultsButton}
         onClick = {() => {
           setIsRevealed((isRevealed) => {
             return !isRevealed;
           });
         }}
-        style = {{backgroundColor: isRevealed ? '': 'indianred'}}
       >
         {!isRevealed ? 'Reveal All': 'Show Your Results'}
       </button>

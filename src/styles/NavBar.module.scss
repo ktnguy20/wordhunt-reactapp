@@ -18,28 +18,28 @@
     min-width: 40px;
 }
 
-@mixin barWrapper {
+.barWrapper {
     display: flex;
+    width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
     margin-bottom: 2rem;
-}
 
-.barWrapper_dark {
-    @include barWrapper;
-    background-color: rgb(6, 6, 6);
-}
+    &Dark {
+        @extend .barWrapper;
+        background-color: rgb(6, 6, 6);
+    }
 
-.barWrapper_light {
-    @include barWrapper;
-    background-color: #67827e;
+    &Light {
+        @extend .barWrapper;
+        background-color: #67827e;
+    }
 }
 
 .githubContainer {
     @include icon-container;
+    padding-left: 0.5rem;
 }
 
 .github {
@@ -48,6 +48,7 @@
 
 .infoSettingsContainer {
     @include icon-container;
+    padding-right: 0.5rem;
 }
 
 .info {
@@ -58,7 +59,7 @@
     @include icon;
 }
 
-.logo {
+.logoWrapper {
     display: flex;
     width: min(75vh, 133vw);
     max-width: 500px;
@@ -66,16 +67,19 @@
     margin-left: 0.5rem;
 }
 
-.logoAnimation:focus {
-    animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
+.logoAnimation {
+    &:active {
+        animation: none;
+    }
+    &:not(:active){
+        animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
 }
 
-.logoAnimation:active {
-    animation: none;
-}
+
 @keyframes shake {
     10%, 90% {
       transform: translate3d(-2px, 0, 0);

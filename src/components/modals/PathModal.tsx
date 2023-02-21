@@ -2,6 +2,7 @@ import React from 'react';
 import BaseModal from './BaseModal';
 import TileGrid from '../TileGrid';
 import TileStatus from '../../data/TileStatus';
+import styles from '../../styles/PathModal.module.scss';
 
 type PathModalProps = {
   isOpen: boolean;
@@ -26,17 +27,19 @@ function PathModal({
       handleClose = {handleClose}
       darkMode = {darkMode}
     >
-      <TileGrid
-        gridArr = {gridArr}
-        size = {size}
-        onTileDown = {() => null}
-        onTileEnter = {() => null}
-        path = {path?.map((x) => (x.row*size)+x.col)}
-        showDirection = {true}
-        tileStatus = {TileStatus.valid}
-        darkMode = {darkMode}
-        isInfo
-      />
+      <div className = {styles.gridWrapper}>
+        <TileGrid
+          gridArr = {gridArr}
+          size = {size}
+          onTileDown = {() => null}
+          onTileEnter = {() => null}
+          path = {path?.map((x) => (x.row*size)+x.col)}
+          showDirection = {true}
+          tileStatus = {TileStatus.valid}
+          darkMode = {darkMode}
+          isInfo
+        />
+      </div>
     </BaseModal>
   );
 }

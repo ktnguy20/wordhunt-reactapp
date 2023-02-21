@@ -16,11 +16,11 @@ function BaseModal({isOpen, handleClose, children, darkMode}: BaseModalProps) {
   return (
     <div>
       <Modal
-        open= {isOpen}
-        onClose= {handleClose}
+        open = {isOpen}
+        onClose = {handleClose}
         closeAfterTransition
       >
-        <Fade in={isOpen}>
+        <Fade in = {isOpen}>
           <Box className =
             {`${styles.modalBody} ${styles[darkMode ? 'dark' : 'light']}`}
           >

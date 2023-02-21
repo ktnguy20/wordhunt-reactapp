@@ -36,42 +36,46 @@
 }
 
 //colors
-.dark_logo {
-  background-color: #50C878 !important;
+.dark {
+  &_logo {
+    background-color: #50C878 !important;
+  }
+
+  &_unvisited {
+    background-color: white !important;
+  }
+
+  &_valid {
+    background-color: #50C878 !important;
+  }
+
+  &_duplicate {
+    background-color: #f6e866 !important;
+  }
+
+  &_invalid {
+    background-color: #a9b7c4 !important;
+  }
 }
 
-.dark_unvisited {
-  background-color: white !important;
-}
+.light {
+  &_logo {
+    background-color: #D1F0DE !important;
+  }
 
-.dark_valid {
-  background-color: #50C878 !important;
-}
+  &_unvisited {
+    background-color: #fdfaf9ed !important;
+  }
 
-.dark_duplicate {
-  background-color: #f6e866 !important;
-}
+  &_duplicate {
+    background-color: #f6e866 !important;;
+  }
 
-.dark_invalid {
-  background-color: #a9b7c4 !important;
-}
+  &_valid {
+    background-color: #82f4a8 !important;
+  }
 
-.light_logo {
-  background-color: #D1F0DE !important;
-}
-
-.light_unvisited {
-  background-color: #fdfaf9ed !important;
-}
-
-.light_duplicate {
-  background-color: #f6e866 !important;;
-}
-
-.light_valid {
-  background-color: #82f4a8 !important;
-}
-
-.light_invalid {
-  background-color: #b37f6eed!important;
+  &_invalid {
+    background-color: #b37f6eed!important;
+  }
 }

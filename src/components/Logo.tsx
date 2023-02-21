@@ -15,7 +15,7 @@ function Logo({
   const logo: string[] = 'WORD HUNT'.split('');
 
   return (
-    <Box className = {styles.logoAnimation} tabIndex = {0} width = {'100%'}>
+    <Box className = {styles.logoAnimation} width = {'100%'}>
       <Grid container columns = {9} width = {'100%'}>
         {logo.map((letter: string, idx: number) => {
           return (

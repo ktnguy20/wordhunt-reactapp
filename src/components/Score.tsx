@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import styles from '../styles/Score.module.scss';
-import {Box, Paper} from '@mui/material';
 
 type ScoreProps = {
   score: number;
@@ -12,9 +11,7 @@ const Score = memo(
       darkMode,
     }: ScoreProps) {
       return (
-        <div
-          className = {styles.scoreContainer}
-        >
+        <div className = {styles.scoreWrapper}>
           {`Score: ${score}`}
         </div>
       );

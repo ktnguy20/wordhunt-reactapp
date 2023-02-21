@@ -22,6 +22,7 @@ const MaterialUISwitch = styled(Switch)(({theme}) => ({
   'width': 62,
   'height': 34,
   'padding': 7,
+  'margin': 8,
   '& .MuiSwitch-switchBase': {
     'margin': 1,
     'padding': 0,
@@ -30,6 +31,7 @@ const MaterialUISwitch = styled(Switch)(({theme}) => ({
       'color': '#fff',
       'transform': 'translateX(22px)',
       '& .MuiSwitch-thumb:before': {
+        // eslint-disable-next-line max-len
         'backgroundImage': `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
             '#fff',
         // eslint-disable-next-line max-len
@@ -54,6 +56,7 @@ const MaterialUISwitch = styled(Switch)(({theme}) => ({
       top: 0,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
+      // eslint-disable-next-line max-len
       backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
           '#fff',
       // eslint-disable-next-line max-len
@@ -143,26 +146,18 @@ const SettingsModal = memo(
           darkMode = {darkMode}
         >
           <h3> Settings </h3>
-          <div style={{width: '100%'}}>
-            <div style = {{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-              <h4 style ={{marginRight: '0.5rem'}}> Dark Mode </h4>
-              <MaterialUISwitch
-                sx={{m: 1}} defaultChecked onChange = {toggleDarkMode}/>
+          <div className = {styles.settingsWrapper}>
+            <div className = {styles.settingContainer}>
+              <h4 className = {styles.settingLabel}> Dark Mode </h4>
+              <MaterialUISwitch defaultChecked onChange = {toggleDarkMode}/>
             </div>
             <hr/>
-            <div style = {{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-              <h4 style ={{marginRight: '0.5rem'}}> Board Size </h4>
+            <div className = {styles.settingContainer}>
+              <h4 className = {styles.settingLabel}> Board Size </h4>
               <ToggleButtonGroup
                 sx = {MaterialUIButtonGroupStyle}
                 value={newSize}
+                exclusive
                 onChange={
                   (_: MouseEvent<HTMLElement>, selectedSize: number) => {
                     if (selectedSize) {
@@ -170,7 +165,6 @@ const SettingsModal = memo(
                     }
                   }
                 }
-                exclusive
               >
                 {
                   [4, 5].map((x) => {
@@ -186,15 +180,12 @@ const SettingsModal = memo(
               </ToggleButtonGroup>
             </div>
             <hr/>
-            <div style = {{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-              <h4 style ={{marginRight: '0.5rem'}}> Time Limit </h4>
+            <div className = {styles.settingContainer}>
+              <h4 className = {styles.settingLabel}> Time Limit </h4>
               <ToggleButtonGroup
                 sx = {MaterialUIButtonGroupStyle}
                 value = {newTimeLimit}
+                exclusive
                 onChange = {
                   (_: MouseEvent<HTMLElement>, selectedTimeLimit: number) => {
                     if (selectedTimeLimit) {
@@ -202,7 +193,6 @@ const SettingsModal = memo(
                     }
                   }
                 }
-                exclusive
               >
                 {
                   [30, 45, 60, 90].map((x) => {
