@@ -1,4 +1,4 @@
-import React, {memo, PointerEvent, useEffect, useState} from 'react';
+import React, {memo, PointerEvent} from 'react';
 import styles from '../styles/Tile.module.scss';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -55,7 +55,7 @@ const Tile = memo(
               className = {styles.tileWrapper}
               onPointerEnter= {pointerEnterHandler}
             >
-              <div style={{zIndex: 2}}>
+              <div>
                 {tileValue}
               </div>
             </Box>

@@ -1,7 +1,6 @@
 .grid {
     touch-action: none;
-    width: calc(min(105vh, 150vw)*0.5);
-    max-width: min(30rem,80%);
+    width: 100%;
     display: flex;
     justify-content: top;
     flex-direction: column;

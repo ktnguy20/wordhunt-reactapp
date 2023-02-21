@@ -24,5 +24,6 @@ module.exports = {
       ['error', process.platform === 'win32'? 'windows': 'unix'],
     'require-jsdoc': 0,
     'no-unused-vars': 0,
+    'max-len': ['error', 100, 2],
   },
 };

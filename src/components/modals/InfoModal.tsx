@@ -35,19 +35,14 @@ function InfoModal({
       darkMode = {darkMode}
     >
       <h3> How to Play: </h3>
-      <div style = {{
-        textAlign: 'center',
-        color: darkMode ? '#79f1a1': '#67827e',
-        marginBottom: '2rem',
-        fontWeight: darkMode ? 'lighter': 'normal',
-      }}>
+      <div className = {styles['instructionsWrapper'+ (darkMode ? 'Dark': 'Light')]}>
         <a>Create as many words are you can before time runs out!</a>
         <br/>
         <a> On a computer, use a mouse to connect the tiles. </a>
         <br/>
         <a> On mobile devices, drag between tiles with your finger.</a>
       </div>
-      <>
+      <div className = {styles.gridWrapper}>
         <TileGrid
           darkMode = {darkMode}
           gridArr = {infoTileGridArray}
@@ -59,15 +54,17 @@ function InfoModal({
           tileStatus = {TileStatus.valid}
           isInfo
         />
-      </>
-      {isStart ?
-        <button className = {styles.playButton} onClick = {() => {
-          handleStart();
-          handleClose();
-        }}>
-          {'Start Game'}
-        </button> :
-        null
+      </div>
+      {
+        isStart ?
+          <button className = {styles.playButton}
+            onClick = {() => {
+              handleStart();
+              handleClose();
+            }}
+          >
+            Start Game
+          </button> : null
       }
     </BaseModal>
   );

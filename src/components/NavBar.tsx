@@ -18,21 +18,22 @@ const NavBar = memo(
       darkMode,
     }: NavBarProps) {
       return (
-        <div className={styles[`barWrapper_${darkMode? 'dark': 'light'}`]}>
+        <div className={styles[`barWrapper${darkMode? 'Dark': 'Light'}`]}>
           <div className = {styles.githubContainer}>
             <GitHubIcon
               className={styles.github}
               onClick={() => {
                 window.open('https://github.com/ktnguy20/wordhunt-reactapp');
               }}/>
+            {/* hidden icon for symmetry.. can be replaced with another icon */}
             <GitHubIcon
-              style={{visibility: 'hidden'}}
+              style = {{visibility: 'hidden'}}
               className={styles.github}
               onClick={() => {
                 window.open('https://github.com/ktnguy20/wordhunt-reactapp');
               }}/>
           </div>
-          <div className={styles.logo}>
+          <div className={styles.logoWrapper}>
             <Logo darkMode = {darkMode}/>
           </div>
           <div className = {styles.infoSettingsContainer}>

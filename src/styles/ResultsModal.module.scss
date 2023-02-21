@@ -1,3 +1,43 @@
+@import '/src/styles/BasicButton.scss';
+
+.header {
+  width: 100%;
+  text-align: center;
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+
+  hr {
+    width: 80%;
+  }
+}
+
+.resultsContainer {
+  width: 100%;
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.wordsColumn, .scoreColumn {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.wordsSubheader, .scoreSubheader {
+  font-size: 150%;
+  width: 70%;
+  margin-top: 0;
+}
+
+.wordsLabel, .scoreLabel {
+  font-weight: lighter;
+  font-size: 55%;
+}
+
+
+
 .wordEntry, .scoreEntry {
   cursor: pointer;
   font-weight: 500;
@@ -9,36 +49,24 @@
 }
 
 .replayButton {
-  appearance: none;
-  background-color: #79f1a1;
-  border: 1px solid rgba(27, 31, 35, .15);
-  border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
-  box-sizing: border-box;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  padding: 6px 12px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-  white-space: nowrap;
+  @include button;
   margin-top: 0.5rem;
 }
 
-.replayButton:hover {
-  background-color: #72e097;
+.revealButton {
+  @include button;
+  background-color: indianred;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: rgb(190, 91, 91);
+  }
+
+  &:active {
+    background-color: rgb(167, 76, 76);
+  }
 }
 
-.replayButton:active {
-  background-color: #50C878;
-  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+.resultsButton {
+  @include button;
 }
