@@ -30,9 +30,7 @@ const useCountdown = (
     let effectInitialTimeStamp: number;
     let handle: number;
     const step = (timestampMs: number) => {
-      if (effectInitialTimeStamp === undefined) {
-        effectInitialTimeStamp = timestampMs;
-      }
+      effectInitialTimeStamp = effectInitialTimeStamp ?? timestampMs;
       const elapsed = timestampMs - effectInitialTimeStamp;
       milisecond.current = effectInitialMs - elapsed;
       if (milisecond.current <= 0) {
